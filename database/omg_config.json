@@ -1,0 +1,16 @@
+{
+"RECORDS":[
+{
+"id":1,
+"name":"omg_version",
+"value":"0.9.2beta",
+"status":1
+},
+{
+"id":2,
+"name":"editor_version",
+"value":"0.7",
+"status":1
+}
+]
+}
