@@ -28,7 +28,7 @@ async function getJSON(url){
 
 }
 
-var apiData = [];
+var apiData = {};
 
 (async function(){
 	
@@ -48,7 +48,8 @@ var apiData = [];
 	apiData.field = field.RECORDS
 	apiData.modules = modules.RECORDS
 	
-	document.write(apiData);
+	console.log(apiData);
+	document.write("mycallback("+JSON.stringify(apiData)+")");
 
 
 })()
