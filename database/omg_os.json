@@ -10,14 +10,14 @@
 {
 "id":2,
 "name":"Darwin",
-"user_path":"/Users/<USERNAME>/Library/Arduino/",
+"user_path":"\/Users\/<USERNAME>\/Library\/Arduino\/",
 "arduino_path":null,
 "arduino_name":"adruino"
 },
 {
 "id":3,
 "name":"Linux",
-"user_path":"~/.arduino<USERNAME>/",
+"user_path":"~\/.arduino<USERNAME>\/",
 "arduino_path":null,
 "arduino_name":"adruino"
 }
