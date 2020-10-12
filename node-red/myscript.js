@@ -1,8 +1,52 @@
- 
 
  setTimeout(function(){ 
 
-  document.querySelector("html").insertAdjacentHTML("afterbegin", '<button onclick="apphome()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 1000; padding: 10px;border-radius: 50%; position: fixed;bottom: 0;right: 0;"> <ui-icon style="color:white" icon="home"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg> </ui-icon></span> </button>');
+  $("html").append('<button onclick="apphome()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 1000; padding: 10px;border-radius: 50%; position: fixed;bottom: 0;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>');
+  myAdminHtml = '<div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 80px;z-index: 9999; ">';
+  myAdminHtml += '<button id="btn-mobile-edit" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>EDIT</b></button>';
+  myAdminHtml += '<button id="btn-mobile-nodelist" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><b>NODE LIST</b></button>';
+  myAdminHtml += '<button id="btn-mobile-righlist" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;  "><b>INFO</b></button>';
+  
+  myAdminHtml += '</div>';
+  $("html").append(myAdminHtml);
+  
+  
+
+  
+  $("#btn-mobile-edit").click(function(){
+	
+	// var press = jQuery.Event("keypress");
+	// press.ctrlKey = false;
+	// press.which = 13;
+	// $(".red-ui-flow-node-selected").keypress(function(){
+    // }).trigger(press);
+	
+	// $('.red-ui-flow-node-selected').trigger(jQuery.Event('keypress', {which: 13}));
+	
+       // $(".red-ui-flow-node-selected").find(".red-ui-flow-node").trigger ( {
+            // type: 'keypress', keyCode: 13, which: 13, charCode: 13
+        // });	
+		// $(".red-ui-flow-node-selected").click();	
+       // $(".red-ui-flow-node-selected").dblclick();	
+	   
+	   $("#red-ui-editor-stack").find(".ui-draggable").css("right","0px")
+
+
+  })
+  
+  $("#btn-mobile-nodelist").click(function(){
+	
+	$(".red-ui-sidebar-control-left").click();	
+
+  })  
+  
+   $("#btn-mobile-righlist").click(function(){
+	
+	$(".red-ui-sidebar-control-right").click();	
+
+  })  
+  
+  
 
 
 }, 2000);  
