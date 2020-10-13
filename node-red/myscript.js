@@ -8,7 +8,7 @@ var checkExist = setInterval(function () {
     myAdminHtml += '<button id="btn-mobile-edit" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>EDIT</b></button>';
     myAdminHtml += '<button id="btn-mobile-nodelist" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><b>+NODE</b></button>';
     myAdminHtml += '<button id="btn-mobile-righlist" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;  "><b>INFO</b></button>';
-    myAdminHtml += '<button id="btn-mobile-refresh" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec; " ><b>F5</b></button>';
+    myAdminHtml += '<button id="btn-mobile-refresh" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>F5</b></button>';
 
 
     myAdminHtml += '</div>';
@@ -141,7 +141,6 @@ function apphome() {
 }
 
 function loginAdmin(username, password) {
-  jQuery("html").prepend("<h3>PLEASE WAIT 3S FOR AUTOMATICALLY LOGIN TO PROCEED</h3>")
   var username = username;
   var password = password;
   setTimeout(function () {
