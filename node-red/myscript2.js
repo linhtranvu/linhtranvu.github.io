@@ -1,13 +1,15 @@
 var checkExist = setInterval(function () {
   if ($('#red-ui-editor').length) {
 
-    myAdminHtml = '<button onclick="apphome()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: red; z-index: 1000; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>';
+    myAdminHtml = '<button onclick="apphome()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 1000; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>';
 
     //Bottom menu		
     myAdminHtml += '<div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 9999; ">';
     myAdminHtml += '<button id="btn-mobile-edit" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>EDIT</b></button>';
     myAdminHtml += '<button id="btn-mobile-nodelist" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><b>+NODE</b></button>';
     myAdminHtml += '<button id="btn-mobile-righlist" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;  "><b>INFO</b></button>';
+    myAdminHtml += '<button id="btn-mobile-refresh" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>F5</b></button>';
+
 
     myAdminHtml += '</div>';
     $("html").append(myAdminHtml);
@@ -82,6 +84,12 @@ var checkExist = setInterval(function () {
       $(".mobile-more-menu").toggle();
 
     })
+    $("#btn-mobile-refresh").click(function () {
+
+      window.location.reload(true)
+
+    })
+
 
 
 
@@ -110,7 +118,7 @@ var checkExist = setInterval(function () {
 
   if ($('#nr-dashboard').length) {
 
-    $("html").append('<button onclick="apphome()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: green; z-index: 1000; padding: 10px;border-radius: 50%; position: fixed;bottom: 0;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>');
+    $("html").append('<button onclick="apphome()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 1000; padding: 10px;border-radius: 50%; position: fixed;bottom: 0;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>');
 
     clearInterval(checkExist);
   }
@@ -133,7 +141,6 @@ function apphome() {
 }
 
 function loginAdmin(username, password) {
-  jQuery("html").prepend("<h3>PLEASE WAIT 3S FOR AUTOMATICALLY LOGIN TO PROCEED</h3>")
   var username = username;
   var password = password;
   setTimeout(function () {
