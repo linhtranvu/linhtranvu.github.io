@@ -1,11 +1,11 @@
 var checkExist = setInterval(function () {
     if ($('#red-ui-editor').length) {
 
-      myAdminHtml = '<button onclick="apphome()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 1000; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>';
+      myAdminHtml = '<button onclick="mobile_admin_home()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 1000; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>';
 
       //Bottom menu		
       myAdminHtml += '<div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 9999; ">';
-      myAdminHtml += '<button id="btn-mobile-edit" onclick="mobile_edit()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>EDIT</b></button>';
+      myAdminHtml += '<button id="btn-mobile-edit" onclick="mobile_edit()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i></button>';
       myAdminHtml += '<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><b>+NODE</b></button>';
       myAdminHtml += '<button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;  "><b>INFO</b></button>';
       myAdminHtml += '<button id="btn-mobile-refresh"  onclick="mobile_refresh()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>F5</b></button>';
@@ -16,28 +16,59 @@ var checkExist = setInterval(function () {
 
       //Top menu
       myAdminHtml = '<div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 0px; left: 0px;z-index: 9999; ">';
-      myAdminHtml += '<button id="btn-mobile-more"  onclick="mobile_more()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"><b>MORE</b></button>';
-      myAdminHtml += '<button id="btn-mobile-undo"  onclick="mobile_undo()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><b>UNDO</b></button>';
+      myAdminHtml += '<button id="btn-mobile-more"  onclick="mobile_more()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"><b>MORE</b></button>'
+      myAdminHtml += '<button id="btn-mobile-undo"  onclick="mobile_undo()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><i class="fa fa-undo"></i></button>';
+      myAdminHtml += '<button id="btn-mobile-redo" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>';
+
 
       myAdminHtml += '</div>';
       $("html").append(myAdminHtml);
 
-      //more menu
+      //More menu
       myAdminHtml = '<div class="mobile-more-menu controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 40px; left: 0px;z-index: 9999;display:none ">';
-      myAdminHtml += '<button id="btn-mobile-delete" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: red;margin-right:25px"  onclick="mobile_delete()" ><b>DELETE</b></button>';
-      myAdminHtml += '<button id="btn-mobile-cut" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="mobile_cut()" ><b>CUT</b></button>';
-      myAdminHtml += '<button id="btn-mobile-copy" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;"  onclick="mobile_copy()" ><b>COPY</b></button>';
-      myAdminHtml += '<button id="btn-mobile-paste" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_paste()" ><b>PASTE</b></button>';
-      myAdminHtml += '<button id="btn-mobile-redo" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><b>REDO</b></button>';
+      myAdminHtml += '<button id="btn-mobile-delete" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: red;margin-right:25px;border-radius:5px""  onclick="mobile_delete()" ><i class="fa fa-trash" style="font-size:30px"></i></button>';
+      myAdminHtml += '<button id="btn-mobile-cut" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_cut()" ><i class="fa fa-cut" style="font-size:30px"></i></button>';
+      myAdminHtml += '<button id="btn-mobile-copy" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;;border-radius:5px"  onclick="mobile_copy()" ><i class="fa fa-copy" style="font-size:30px"></i></button>';
+      myAdminHtml += '<button id="btn-mobile-paste" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;;border-radius:5px"  onclick="mobile_paste()" ><i class="fa fa-paste" style="font-size:30px"></i></button>';
 
 
       myAdminHtml += '</div>';
       $("html").append(myAdminHtml);
+
+
+      //Admin context app menu
+      contextAppHtml = '<div class="mobile_context_app" style="background-color: black;position: fixed;top: 0px; left: 0px;width:3000px;height:500px;display:none;z-index:500;opacity: 0.5; "></div>';
+
+      contextAppHtml += '<button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color: red;border-radius:5px;fixed;top: 60px; left: 10px;display:none;z-index:9999"  onclick="apphome()" ><b>QUIT</b></button>';
+      contextAppHtml += '<div class="mobile_context_app controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 160px; left: 10px;z-index: 9999;display:none ">';
+      contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_mqtt()" >MQTT</button>';
+      contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;border-radius:5px"  onclick="mobile_location_guide()" >LOCATION</button>';
+      contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;border-radius:5px"  onclick="mobile_voice()" >VOICE</button>';
+
+      $("html").append(contextAppHtml);
+
+      //Geolocation layout
+      myAdminHtml = `<div id="dialog" title="Location Tracking" style="display:none">
+      <p > To use location tracking, you need to do these steps:</p> 
+      <ul>
+        <li>Turn on Location setting on Phone</li>
+        <li >Create Nodes to receive location data. Below button create a default flow "HTTP IN >> MQTT OUT", App will call HTTP IN node to send location data, and update to MQTT for later use</li>
+        <li>Use "Send location" to check if data sent in Debug node</li>
+      </ul>
+       <button class = "ui-button ui-widget ui-corner-all"
+       style = "color:white;background-color: #1976d2;border-radius:5px"
+       onclick = "mobile_create_location_node()" > CREATE "LOCATION NODES" </button> 
+       <button class = "ui-button ui-widget ui-corner-all"
+       style = "color:white;background-color:orange;border-radius:5px"
+       onclick = "mobile_send_location()" > SEND LOCATION </button>        
+      </div>`;
+      $("html").append(myAdminHtml);
+
+
 
       // RED.user.logout();
       // RED.touch.radialMenu.active();
       // console.log(RED.view.selection());
-
       // console.log(RED);
 
 
@@ -57,7 +88,7 @@ var checkExist = setInterval(function () {
 
 
 
-
+// Post message
 
 webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify({
   hello: "work here"
@@ -69,6 +100,26 @@ function apphome() {
     home: "home"
   }));
 
+}
+
+//FUNCTION LIST FOR ADMIN
+
+function mobile_location_guide() {
+  $("#dialog").dialog();
+  $(".mobile_context_app").toggle();
+}
+
+function mobile_create_location_node() {
+
+}
+
+function mobile_send_location() {
+
+}
+
+
+function mobile_admin_home() {
+  $(".mobile_context_app").toggle();
 }
 
 function mobile_edit() {
@@ -107,7 +158,6 @@ function mobile_refresh() {
 
 
 
-
 function mobile_redo() {
 
 
@@ -127,7 +177,7 @@ function mobile_copy() {
   RED.actions.invoke("core:copy-selection-to-internal-clipboard")
 }
 
-function mobile_redo() {
+function mobile_paste() {
   RED.actions.invoke("core:paste-from-internal-clipboard")
 }
 
