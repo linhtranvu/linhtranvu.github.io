@@ -1,11 +1,25 @@
 var checkExist = setInterval(function () {
     if ($('#red-ui-editor').length) {
 
+      cssHtml = `<style>
+        .ui-dialog .ui-dialog-titlebar {
+          background: #1c1a1a;
+          color: white;
+        }
+        .red-ui-search {
+          width: ${screen.width-50}px;
+          left: 70%
+        }
+      </style>`
+      $("html").append(cssHtml);
+
       myAdminHtml = '<button onclick="mobile_admin_home()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 1000; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>';
 
       //Bottom menu		
       myAdminHtml += '<div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 9999; ">';
       myAdminHtml += '<button id="btn-mobile-edit" onclick="mobile_edit()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i></button>';
+      myAdminHtml += '<button onclick="mobile_search_node()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-search"></i></button>';
+
       myAdminHtml += '<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><b>+NODE</b></button>';
       myAdminHtml += '<button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;  "><b>INFO</b></button>';
       myAdminHtml += '<button id="btn-mobile-refresh"  onclick="mobile_refresh()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>F5</b></button>';
@@ -39,7 +53,7 @@ var checkExist = setInterval(function () {
       //Admin context app menu
       contextAppHtml = '<div class="mobile_context_app" style="background-color: black;position: fixed;top: 0px; left: 0px;width:3000px;height:500px;display:none;z-index:500;opacity: 0.5; "></div>';
 
-      contextAppHtml += '<button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color: red;border-radius:5px;fixed;top: 60px; left: 10px;display:none;z-index:9999"  onclick="apphome()" ><b>QUIT</b></button>';
+      contextAppHtml += '<button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color: red;border-radius:5px;position: fixed;top: 0px; right: 0px;display:none;z-index:9999"  onclick="apphome()" >QUIT APP</button>';
       contextAppHtml += '<div class="mobile_context_app controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 160px; left: 10px;z-index: 9999;display:none ">';
       contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_mqtt()" >MQTT</button>';
       contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;border-radius:5px"  onclick="mobile_location_guide()" >LOCATION</button>';
@@ -48,16 +62,18 @@ var checkExist = setInterval(function () {
       $("html").append(contextAppHtml);
 
       //Geolocation layout
-      myAdminHtml = `<div id="dialog" title="Location Tracking" style="display:none">
-      <p > To use location tracking, you need to do these steps:</p> 
+      myAdminHtml = `     
+      <div id="dialog" title="Location Tracking" style="display:none">
+      <p > <b>To use location tracking, you need to do these steps:</b></p> 
       <ul>
         <li>Turn on Location setting on Phone</li>
-        <li >Create Nodes to receive location data. Below button create a default flow "HTTP IN >> MQTT OUT", App will call HTTP IN node to send location data, and update to MQTT for later use</li>
+        <li >Create Nodes to receive location data. Below button create a default flows, APp call "HTTP IN" to send location data, then update to MQTT</li>
         <li>Use "Send location" to check if data sent in Debug node</li>
       </ul>
+      <p>App use background location tracking, try to send location data even when running in background. However, there is no guarantee for this feature to work perfectly because of "app killing mechanism". <a href="https://dontkillmyapp.com/">Visit here to learn more</a></p>
        <button class = "ui-button ui-widget ui-corner-all"
        style = "color:white;background-color: #1976d2;border-radius:5px"
-       onclick = "mobile_create_location_node()" > CREATE "LOCATION NODES" </button> 
+       onclick = "mobile_create_location_node()" >CREATE LOCATION NODES</button> 
        <button class = "ui-button ui-widget ui-corner-all"
        style = "color:white;background-color:orange;border-radius:5px"
        onclick = "mobile_send_location()" > SEND LOCATION </button>        
@@ -105,11 +121,21 @@ function apphome() {
 //FUNCTION LIST FOR ADMIN
 
 function mobile_location_guide() {
-  $("#dialog").dialog();
+  $("#dialog").dialog({
+    width: screen.width
+  });
   $(".mobile_context_app").toggle();
 }
 
 function mobile_create_location_node() {
+
+  RED.actions.invoke("core:show-import-dialog");
+  $("#red-ui-clipboard-dialog-import-text").val(`[{"id":"b3d47392.90a89","type":"ip","z":"b18b632d.3d3d7","name":"ip","https":false,"timeout":"5000","internalIPv4":false,"internalIPv6":false,"publicIPv4":true,"publicIPv6":false,"x":330,"y":100,"wires":[["d1cea111.5ffa2","d420f642.a1f178"]]},{"id":"75d3a8f5.175928","type":"inject","z":"b18b632d.3d3d7","name":"","topic":"","payload":"","payloadType":"date","repeat":"600","crontab":"","once":true,"onceDelay":"0.1","x":110,"y":100,"wires":[["b3d47392.90a89"]]}]`);
+
+  $("#red-ui-clipboard-dialog-ok").removeClass("ui-button-disabled ui-button-disabled ui-state-disabled");
+  $("#red-ui-clipboard-dialog-ok").prop("disabled", false);
+  $("#red-ui-clipboard-dialog-ok").click();
+  $("#dialog").dialog('close');
 
 }
 
@@ -125,6 +151,11 @@ function mobile_admin_home() {
 function mobile_edit() {
   RED.actions.invoke("core:edit-selected-node")
 }
+
+function mobile_search_node() {
+  RED.actions.invoke("core:search")
+}
+
 
 function mobile_nodelist() {
 
