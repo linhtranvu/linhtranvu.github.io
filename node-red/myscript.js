@@ -361,9 +361,9 @@ function mobile_paste() {
 
 var admin_url = "";
 
-function loginAdmin(username, password, params_admin_url, params_dashboard) {
+function loginAdmin(username, password, params_admin_url, params_dashb) {
 
-  params_dashboard = params_dashboard;
+  params_dashboard = params_dashb;
   admin_url = params_admin_url;
   var username = username;
   var password = password;
