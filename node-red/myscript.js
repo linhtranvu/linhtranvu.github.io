@@ -156,6 +156,7 @@ function addIframeHtml() {
   if ($("#iframe_dahsboard").length) {
 
   } else {
+    alert(params_dashboard.url);
     myAdminHtml = `
       <iframe id = "iframe_dahsboard"
       src = "${params_dashboard.url}/?username=${params_dashboard.username}&token=${params_dashboard.password}"
