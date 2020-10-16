@@ -1,6 +1,13 @@
 // Important API
 // RED.search.search("8f364e30.2b8a3") 
 // RED.editor.edit(a[0].node)
+//  src = "${params_dashboard.url}/?username=${params_dashboard.username}&token=${params_dashboard.password}"
+
+var params_dashboard = {
+  url: 'http://localhost:1880/ui',
+  username: 'user',
+  password: '123456'
+}
 
 var checkExist = setInterval(function () {
 
@@ -9,13 +16,14 @@ var checkExist = setInterval(function () {
     if ($('#red-ui-editor').length) {
 
       myAdminHtml = `
-      <iframe id="iframe_dahsboard" src="http://localhost:1880/ui/?username=user&token=123456" style="z-index:1200;position: fixed;top: 40px;left: 0;" width="100%" height="100%"></iframe>
+      <iframe id = "iframe_dahsboard"
+      src = "${params_dashboard.url}/?username=${params_dashboard.username}&token=${params_dashboard.password}"
+      style = "z-index:1200;position: fixed;top: 40px;left: 0;"
+      width = "100%"
+      height = "100%" > No iframe support </iframe>
       <button onclick="$('#iframe_dahsboard').toggle()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;position: fixed;top: 0px; left: 300px;z-index: 1050; "><i class="fa fa-window-close"></i></button>
       `
       $("html").append(myAdminHtml);
-
-
-
 
       //Process CSS to get a Clean UI for Mobile
 
@@ -84,7 +92,7 @@ var checkExist = setInterval(function () {
       //Admin context app menu
       contextAppHtml = '<div class="mobile_context_app" style="background-color: black;position: fixed;top: 0px; left: 0px;width:3000px;height:5000px;display:none;z-index:1010;opacity: 0.8; "></div>';
 
-      contextAppHtml += '<button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color:red;position: fixed;top: 0px; right: 0px;display:none;z-index:1020;font-size:15px"  onclick="apphome()" ><i class="fa fa-power-off"></i>&nbsp;&nbsp;QUIT APP</button>';
+      contextAppHtml += '<button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color:red;position: fixed;top: 0px; right: 0px;display:none;z-index:1020;font-size:15px"  onclick="apphome()" ><i class="fa fa-power-off"></i>&nbsp;&nbsp;QUIT ADMIN</button>';
       contextAppHtml += '<div class="mobile_context_app controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 160px; left: 10px;z-index: 1020;display:none ">';
       contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_mqtt()" >MQTT</button>';
       contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;border-radius:5px"  onclick="mobile_location_guide()" >LOCATION</button>';
@@ -163,7 +171,10 @@ function loadDashboarIframe(interval) {
       console.log('find dashboard')
 
       //ADMIN UI FOUND
-      if ($("#iframe_dahsboard").contents().find('#nr-dashboard').length) {
+      if ($("#iframe_dahsboard").contents().find('md-content').length) {
+        clearInterval(checkExist);
+
+        console.log('found!')
 
         $("#iframe_dahsboard").contents().find("md-card").css("border", "2px solid #120f4a").click(function (event) {
 
@@ -194,7 +205,7 @@ function loadDashboarIframe(interval) {
 
         $("#iframe_dahsboard").contents().find("ui-card-panel").css("border", "1px solid red")
 
-        clearInterval(checkExist);
+
       } //end if check existed
 
     },
@@ -241,8 +252,6 @@ function mobile_edit() {
 
 function setEditPanelLayout(deploy) {
 
-
-  console.log(deploy);
   setTimeout(function () {
     $("#red-ui-editor-stack").css("z-index", "9999")
     $("#node-input-method").css("width", "50%")
@@ -252,15 +261,30 @@ function setEditPanelLayout(deploy) {
     $("#red-ui-editor-stack").find("input:text").css("width", "50%")
     $("#red-ui-editor-stack").find("#node-input-format-editor").css("width", "80%")
 
-    if (deploy == 1) {
+    if (deploy == 1) { //Nếu cho deploy sau khi bấm Lưu
+
+      let count = 0;
       $("#node-dialog-ok").click(function () {
 
-        RED.actions.invoke("core:deploy-flows");
-        loadDashboarIframe(2000)
+        count++;
+        var checkExist = setInterval(function () {
+
+            if (count == 6) {
+              clearInterval(checkExist);
+            }
+
+            if (!$("#red-ui-header-button-deploy").hasClass("disabled")) {
+              clearInterval(checkExist);
+              RED.actions.invoke("core:deploy-flows");
+              loadDashboarIframe(2000)
+            }
+
+          },
+          500); // check every 500ms
 
       })
     }
-  }, 1000)
+  }, 1000) //End settimeout, chờ 1s sau khi mở edit panel
 
 }
 
@@ -326,7 +350,9 @@ function mobile_paste() {
 
 var admin_url = "";
 
-function loginAdmin(username, password, params_admin_url) {
+function loginAdmin(username, password, params_admin_url, params_dashboard) {
+
+  params_dashboard = params_dashboard;
   admin_url = params_admin_url;
   var username = username;
   var password = password;
@@ -341,7 +367,6 @@ function loginAdmin(username, password, params_admin_url) {
     }
 
   }, 2000);
-
 
 
 }
