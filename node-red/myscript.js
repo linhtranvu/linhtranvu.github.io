@@ -15,16 +15,6 @@ var checkExist = setInterval(function () {
     //ADMIN UI FOUND
     if ($('#red-ui-editor').length) {
 
-      myAdminHtml = `
-      <iframe id = "iframe_dahsboard"
-      src = "${params_dashboard.url}/?username=${params_dashboard.username}&token=${params_dashboard.password}"
-      style = "z-index:1200;position: fixed;top: 40px;left: 0;"
-      width = "100%"
-      height = "100%" > No iframe support </iframe>
-      <button onclick="$('#iframe_dahsboard').toggle()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;position: fixed;top: 0px; left: 300px;z-index: 1050; "><i class="fa fa-window-close"></i></button>
-      `
-      $("html").append(myAdminHtml);
-
       //Process CSS to get a Clean UI for Mobile
 
       $("#red-ui-header-button-user").parent().hide();
@@ -72,6 +62,7 @@ var checkExist = setInterval(function () {
       myAdminHtml += '<button id="btn-mobile-more"  onclick="mobile_more()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"><b>MORE</b></button>'
       myAdminHtml += '<button id="btn-mobile-undo"  onclick="mobile_undo()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><i class="fa fa-undo"></i></button>';
       myAdminHtml += '<button id="btn-mobile-redo" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>';
+      myAdminHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="addIframeHtml()" ><i class="fa fa-window-maximize"></i></button>';
 
 
       myAdminHtml += '</div>';
@@ -120,12 +111,6 @@ var checkExist = setInterval(function () {
       </div>`;
       $("html").append(myAdminHtml);
 
-      $('#iframe_dahsboard').on('load', function () {
-        loadDashboarIframe(2000);
-      });
-
-
-
       // RED.user.logout();
       // RED.touch.radialMenu.active();
       // console.log(RED.view.selection());
@@ -163,6 +148,31 @@ function apphome() {
 }
 
 //FUNCTION LIST FOR ADMIN
+
+
+//Add HTML for iframe Dashboard
+function addIframeHtml() {
+
+  if ($("#iframe_dahsboard").length) {
+
+  } else {
+    myAdminHtml = `
+      <iframe id = "iframe_dahsboard"
+      src = "${params_dashboard.url}/?username=${params_dashboard.username}&token=${params_dashboard.password}"
+      style = "z-index:1200;position: fixed;top: 40px;left: 0;"
+      width = "100%"
+      height = "100%" > No iframe support </iframe>
+      <button onclick="$('#iframe_dahsboard').toggle()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;position: fixed;top: 0px; left: 300px;z-index: 1050; "><i class="fa fa-window-close"></i></button>
+      `
+    $("html").append(myAdminHtml);
+    $('#iframe_dahsboard').on('load', function () {
+      loadDashboarIframe(2000);
+    });
+  }
+
+
+
+}
 
 function loadDashboarIframe(interval) {
 
