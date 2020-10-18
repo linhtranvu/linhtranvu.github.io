@@ -1,8 +1,3 @@
-// Important API
-// RED.search.search("8f364e30.2b8a3") 
-// RED.editor.edit(a[0].node)
-//  src = "${params_dashboard.url}/?username=${params_dashboard.username}&token=${params_dashboard.password}"
-
 var params_dashboard = {
   url: 'http://localhost:1880/ui',
   username: 'user',
@@ -42,7 +37,9 @@ var checkExist = setInterval(function () {
 
 
       //Admin home button
-      myAdminHtml = '<button onclick="mobile_admin_home()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 9999; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>';
+      myAdminHtml = `
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <button onclick="mobile_admin_home()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 9999; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>`;
 
       //Bottom menu		
       myAdminHtml += '<div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 1000; ">';
@@ -88,18 +85,19 @@ var checkExist = setInterval(function () {
       contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_mqtt()" >MQTT</button>';
       contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;border-radius:5px"  onclick="mobile_location_guide()" >LOCATION</button>';
       contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;border-radius:5px"  onclick="mobile_voice()" >VOICE</button>';
+      // contextAppHtml += '</div>';
 
       $("html").append(contextAppHtml);
 
-      //Geolocation layout
-      myAdminHtml = `     
+      //Geolocation layout (Dialog popup) 
+      myAdminHtml = /*html*/ `     
       <div id="dialog" title="Location Tracking" style="display:none">
       <p > <b>To use location tracking, you need to do these steps:</b></p> 
       <ul>
-        <li>Turn on Location setting on Phone</li>
+        <li>Turn on Location setting on Phone, allow app permission</li>
         <li>Create Nodes to receive location data.Below button create a
-        default flows, App will call <span style="color:blue"> "${admin_url}location/lat=lat_data&lon=lon_data"</span> to send location data, then update to MQTT</li>
-        <li>Use "Send location" to check if data sent in Debug node</li>
+        default flows, App will call <b><span style="color:blue"> "${admin_url}/location/?lat=lat_data&lon=lon_data"</span></b> to send location data, then update to MQTT. Test this URL to make sure it run on browser.</li>
+        <li>Use "Send location", data sent to Debug. If no data found: Check above URL, Restart app may help to solve permission denied</li>
       </ul>
       <p>App use background location tracking, try to send location data even when running in background. However, there is no guarantee for this feature to work perfectly because of "app killing mechanism". <a href="https://dontkillmyapp.com/">Visit here to learn more</a></p>
        <button class = "ui-button ui-widget ui-corner-all"
@@ -118,16 +116,16 @@ var checkExist = setInterval(function () {
 
 
       clearInterval(checkExist);
-    } //end if check existed
+    } //end if check Admin existed
 
-    //Check for dashboard
+    //IF DASHBOARD FOUND, INJECT UI
 
     if ($('#nr-dashboard').length) {
 
       $("html").append('<button onclick="apphome()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 1000; padding: 10px;border-radius: 50%; position: fixed;bottom: 0;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>');
 
       clearInterval(checkExist);
-    }
+    } //end if check Dashboard existed
   },
   500); // check every 500ms
 
@@ -156,14 +154,16 @@ function addIframeHtml() {
   if ($("#iframe_dahsboard").length) {
 
   } else {
-    alert(params_dashboard.url);
-    myAdminHtml = `
+    // alert(params_dashboard.url);
+    myAdminHtml = /*html*/ `
       <iframe id = "iframe_dahsboard"
       src = "${params_dashboard.url}/?username=${params_dashboard.username}&token=${params_dashboard.password}"
       style = "z-index:1200;position: fixed;top: 40px;left: 0;"
       width = "100%"
       height = "100%" > No iframe support </iframe>
-      <button onclick="$('#iframe_dahsboard').toggle()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;position: fixed;top: 0px; left: 300px;z-index: 1050; "><i class="fa fa-window-close"></i></button>
+      <button onclick="$('#iframe_dahsboard').toggle()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;position: fixed;top: 0px; left: 300px;z-index: 1050; ">
+        <i class="fa fa-window-close"></i>
+      </button>
       `
     $("html").append(myAdminHtml);
     $('#iframe_dahsboard').on('load', function () {
@@ -171,21 +171,16 @@ function addIframeHtml() {
     });
   }
 
-
-
 }
 
 function loadDashboarIframe(interval) {
 
   var checkExist = setInterval(function () {
 
-      console.log('find dashboard')
-
       //ADMIN UI FOUND
       if ($("#iframe_dahsboard").contents().find('md-content').length) {
         clearInterval(checkExist);
 
-        console.log('found!')
 
         $("#iframe_dahsboard").contents().find("md-card").css("border", "2px solid #120f4a").click(function (event) {
 
@@ -213,6 +208,10 @@ function loadDashboarIframe(interval) {
           setEditPanelLayout(1);
 
         }) //End handle click on UI node
+
+        $("#iframe_dahsboard").contents().find("md-card").resizable({
+          grid: 48
+        });
 
         $("#iframe_dahsboard").contents().find("ui-card-panel").css("border", "1px solid red")
 
@@ -265,6 +264,7 @@ function setEditPanelLayout(deploy) {
 
   setTimeout(function () {
     $("#red-ui-editor-stack").css("z-index", "9999")
+
     $("#node-input-method").css("width", "50%")
     $(".red-ui-typedInput-container").css("width", "37%")
     $(".red-ui-tab-link-buttons,#node-input-lookup-group").css("right", "70px")
@@ -272,7 +272,19 @@ function setEditPanelLayout(deploy) {
     $("#red-ui-editor-stack").find("input:text").css("width", "50%")
     $("#red-ui-editor-stack").find("#node-input-format-editor").css("width", "80%")
 
-    if (deploy == 1) { //Nếu cho deploy sau khi bấm Lưu
+
+    $("#node-input-size").click(function () {
+
+      setTimeout(function () {
+
+        $('a:contains("auto")').parent().parent().css("z-index", "9999");
+
+      }, 100) //End settimeout, wait 0.1s after open panel
+
+    })
+
+
+    if (deploy == 1) { //If allow deploy after saved (editor mode)
 
       let count = 0;
       $("#node-dialog-ok").click(function () {
@@ -295,7 +307,7 @@ function setEditPanelLayout(deploy) {
 
       })
     }
-  }, 1000) //End settimeout, chờ 1s sau khi mở edit panel
+  }, 1000) //End settimeout, wait 1 min after open panel
 
 }
 
@@ -367,6 +379,7 @@ function loginAdmin(username, password, params_admin_url, params_dashb) {
   admin_url = params_admin_url;
   var username = username;
   var password = password;
+  console.log(username);
   setTimeout(function () {
     var myEle = document.getElementById("node-dialog-login-submit");
     if (myEle) {
