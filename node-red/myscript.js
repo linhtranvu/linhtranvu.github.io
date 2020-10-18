@@ -56,10 +56,10 @@ var checkExist = setInterval(function () {
 
       //Top menu
       myAdminHtml = '<div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 0px; left: 0px;z-index: 1000; ">';
-      myAdminHtml += '<button id="btn-mobile-more"  onclick="mobile_more()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"><b>MORE</b></button>'
+      myAdminHtml += '<button id="btn-mobile-more"  onclick="mobile_more()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>MORE</b></button>'
       myAdminHtml += '<button id="btn-mobile-undo"  onclick="mobile_undo()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><i class="fa fa-undo"></i></button>';
       myAdminHtml += '<button id="btn-mobile-redo" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>';
-      myAdminHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="addIframeHtml()" ><i class="fa fa-window-maximize"></i></button>';
+      myAdminHtml += '<button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>';
 
 
       myAdminHtml += '</div>';
@@ -152,7 +152,7 @@ function apphome() {
 function addIframeHtml() {
 
   if ($("#iframe_dahsboard").length) {
-
+    $('#iframe_dahsboard').toggle()
   } else {
     // alert(params_dashboard.url);
     myAdminHtml = /*html*/ `
@@ -161,10 +161,8 @@ function addIframeHtml() {
       style = "z-index:1200;position: fixed;top: 40px;left: 0;"
       width = "100%"
       height = "100%" > No iframe support </iframe>
-      <button onclick="$('#iframe_dahsboard').toggle()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;position: fixed;top: 0px; left: 300px;z-index: 1050; ">
-        <i class="fa fa-window-close"></i>
-      </button>
       `
+    $("#btn-editor").html("ON/OFF");
     $("html").append(myAdminHtml);
     $('#iframe_dahsboard').on('load', function () {
       loadDashboarIframe(2000);
@@ -264,6 +262,7 @@ function setEditPanelLayout(deploy) {
 
   setTimeout(function () {
     $("#red-ui-editor-stack").css("z-index", "9999")
+    // $("#red-ui-editor-stack").css("width", screen.width)
 
     $("#node-input-method").css("width", "50%")
     $(".red-ui-typedInput-container").css("width", "37%")
@@ -373,13 +372,18 @@ function mobile_paste() {
 
 var admin_url = "";
 
-function loginAdmin(username, password, params_admin_url, params_dashb) {
+function loginAdmin(username, password, params_admin_url, dashboard_url, dashboar_username, dashboard_password) {
 
-  params_dashboard = params_dashb;
+  params_dashboard = {
+    url: dashboard_url,
+    username: dashboar_username,
+    password: dashboard_password
+  }
+  console.log(params_dashboard);
+
   admin_url = params_admin_url;
   var username = username;
   var password = password;
-  console.log(username);
   setTimeout(function () {
     var myEle = document.getElementById("node-dialog-login-submit");
     if (myEle) {
