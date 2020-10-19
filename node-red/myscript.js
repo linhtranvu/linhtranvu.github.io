@@ -195,6 +195,8 @@ function loadDashboarIframe(interval) {
 
         $("#iframe_dahsboard").contents().find("md-card").css("border", "3px solid green").click(function (event) {
 
+          alert(111)
+
           /*
           let labelName = $(this).find("label").html();
           console.log(labelName);
