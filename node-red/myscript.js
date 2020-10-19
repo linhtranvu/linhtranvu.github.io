@@ -164,7 +164,7 @@ function addIframeHtml() {
     myAdminHtml = /*html*/ `
       <iframe id = "iframe_dahsboard"
       src = "${params_dashboard.url}/?username=${params_dashboard.username}&token=${params_dashboard.password}"
-      style = "z-index:1200;position: fixed;top: 40px;left: 0;"
+      style = "z-index:1200;position: fixed;top: 40px;left: 0;background-color: white"
       width = "100%"
       height = "100%" > No iframe support </iframe>
       `
