@@ -189,7 +189,7 @@ function loadDashboarIframe(interval) {
 
       //DASHBOARD UI FOUND
       if ($("#iframe_dahsboard").contents().find('md-content').length) {
-        alert('To use this feature. Node-RED 1.1.3 above is required. For dashboard: Need to pull latest `node-red-dashboard` source code and copy the content of pull folder to replace code in module node-red-dashboard (mean `dist` replace `dist` and other files). @dceejay are working to implement some features for editor and not yet in NPM ')
+        alert('To use this feature. Node-RED 1.1.3 above required. For dashboard: Need to pull latest `node-red-dashboard` source code and copy the content of pull folder to replace code in module node-red-dashboard (mean `dist` replace `dist` and other files). @dceejay are working to implement some features for editor and not yet in NPM ')
         clearInterval(checkExist);
 
 
