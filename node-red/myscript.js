@@ -41,13 +41,15 @@ var checkExist = setInterval(function () {
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
       <button onclick="mobile_admin_home()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 9999; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>`;
 
+      $("#red-ui-sidebar-separator").html(`<button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec; right:30px;top:150px;z-index:90 "><b> + </b></button>`)
+
       //Bottom menu		
       myAdminHtml += '<div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 1000; ">';
       myAdminHtml += '<button id="btn-mobile-edit" onclick="mobile_edit()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i></button>';
       myAdminHtml += '<button onclick="mobile_search_node()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-search"></i></button>';
 
       myAdminHtml += '<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><b>+NODE</b></button>';
-      myAdminHtml += '<button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;  "><b>INFO</b></button>';
+      myAdminHtml += '';
       myAdminHtml += '<button id="btn-mobile-refresh"  onclick="mobile_refresh()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>F5</b></button>';
 
 
@@ -56,10 +58,12 @@ var checkExist = setInterval(function () {
 
       //Top menu
       myAdminHtml = '<div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 0px; left: 0px;z-index: 1000; ">';
-      myAdminHtml += '<button id="btn-mobile-more"  onclick="mobile_more()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>MORE</b></button>'
-      myAdminHtml += '<button id="btn-mobile-undo"  onclick="mobile_undo()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><i class="fa fa-undo"></i></button>';
-      myAdminHtml += '<button id="btn-mobile-redo" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>';
-      myAdminHtml += '<button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>';
+      myAdminHtml += '<button onclick="mobile_more()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>MORE</b></button>'
+      myAdminHtml += '<button onclick="mobile_undo()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><i class="fa fa-undo"></i></button>';
+      myAdminHtml += '<button class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>';
+      myAdminHtml += '<button id="btn-editor" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>';
+      myAdminHtml += '<button id="btn-editor-reload" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="loadDashboarIframe()" ><b>RELOAD</b></button>';
+
 
 
       myAdminHtml += '</div>';
@@ -153,6 +157,8 @@ function addIframeHtml() {
 
   if ($("#iframe_dahsboard").length) {
     $('#iframe_dahsboard').toggle()
+    $('.editor-mode').hide();
+    $('.no-editor').show();
   } else {
     // alert(params_dashboard.url);
     myAdminHtml = /*html*/ `
@@ -163,6 +169,8 @@ function addIframeHtml() {
       height = "100%" > No iframe support </iframe>
       `
     $("#btn-editor").html("ON/OFF");
+    $('.editor-mode').show();
+    $('.no-editor').hide();
     $("html").append(myAdminHtml);
     $('#iframe_dahsboard').on('load', function () {
       loadDashboarIframe(2000);
@@ -175,12 +183,13 @@ function loadDashboarIframe(interval) {
 
   var checkExist = setInterval(function () {
 
-      //ADMIN UI FOUND
+      //DASHBOARD UI FOUND
       if ($("#iframe_dahsboard").contents().find('md-content').length) {
+        alert('To use this feature, you need to pull latest `node-red-dashboard` source code and copy the content of pull folder to replace code in module node-red-dashboard (mean `dist` replace `dist` and other files). @dceejay are working to implement some features for editor and not yet in NPM ')
         clearInterval(checkExist);
 
 
-        $("#iframe_dahsboard").contents().find("md-card").css("border", "2px solid #120f4a").click(function (event) {
+        $("#iframe_dahsboard").contents().find("md-card").css("border", "3px solid green").click(function (event) {
 
           /*
           let labelName = $(this).find("label").html();
