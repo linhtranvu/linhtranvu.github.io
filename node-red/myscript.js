@@ -4,11 +4,15 @@ var params_dashboard = {
   password: '123456'
 }
 
+// $.getScript("https://cdn.jsdelivr.net/npm/sweetalert2@10", function () {});
+
 var checkExist = setInterval(function () {
 
 
     //ADMIN UI FOUND
     if ($('#red-ui-editor').length) {
+
+      // swal("1111");
 
       //Process CSS to get a Clean UI for Mobile
 
@@ -61,7 +65,7 @@ var checkExist = setInterval(function () {
       myAdminHtml += '<button onclick="mobile_more()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>MORE</b></button>'
       myAdminHtml += '<button onclick="mobile_undo()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><i class="fa fa-undo"></i></button>';
       myAdminHtml += '<button class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>';
-      myAdminHtml += '<button id="btn-editor" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>';
+      myAdminHtml += '<button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>';
       myAdminHtml += '<button id="btn-editor-reload" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="loadDashboarIframe()" ><b>RELOAD</b></button>';
 
 
@@ -185,11 +189,13 @@ function loadDashboarIframe(interval) {
 
       //DASHBOARD UI FOUND
       if ($("#iframe_dahsboard").contents().find('md-content').length) {
-        alert('To use this feature, you need to pull latest `node-red-dashboard` source code and copy the content of pull folder to replace code in module node-red-dashboard (mean `dist` replace `dist` and other files). @dceejay are working to implement some features for editor and not yet in NPM ')
+        alert('To use this feature. Node-RED 1.1.3 above is required. For dashboard: Need to pull latest `node-red-dashboard` source code and copy the content of pull folder to replace code in module node-red-dashboard (mean `dist` replace `dist` and other files). @dceejay are working to implement some features for editor and not yet in NPM ')
         clearInterval(checkExist);
 
 
         $("#iframe_dahsboard").contents().find("md-card").css("border", "3px solid green").click(function (event) {
+
+          alert(111)
 
           /*
           let labelName = $(this).find("label").html();
