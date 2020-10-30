@@ -252,7 +252,7 @@ function loginAdmin(username, password, params_admin_url, dashboard_url, dashboa
         username: dashboar_username,
         password: dashboard_password
     }
-    console.log(params_dashboard);
+    console.log(call_url);
 
     location_url = call_url; //Variable location_url is global to use in other function
     var username = username;
