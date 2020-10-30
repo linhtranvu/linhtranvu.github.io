@@ -6,7 +6,7 @@ function apphome() {
 
 }
 
-login('http://dashboard.com:1880/ui', 'user', '123456')
+// login('http://dashboard.com:1880/ui', 'user', '123456')
 
 function login(url, username, password) {
 
