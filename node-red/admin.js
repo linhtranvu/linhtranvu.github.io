@@ -65,12 +65,12 @@ var checkExist = setInterval(function () {
         <button onclick="mobile_more()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>MORE</b></button>
         <button onclick="mobile_undo()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><i class="fa fa-undo"></i></button>
         <button class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>
-
+<!--
         <button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>
         <button id="btn-editor-reload" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="loadDashboarIframe()" ><b>RELOAD</b></button>
         <button class=" ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45"  onclick="document.getElementById('iframe_dahsboard').contentWindow.location.reload()" ><b>F5</b></button>
         <div class='container_btn_save_layout'></div>
-
+!-->
       </div>`
             $("html").append(myAdminHtml);
 
