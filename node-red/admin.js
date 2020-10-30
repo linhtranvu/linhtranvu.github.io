@@ -4,14 +4,7 @@ var params_dashboard = {
     password: '123456'
 }
 
-var location_url = "http://admin.com:1880"; // Dont allow to comment out
-
-
-// var params_dashboard = {
-//   url: 'http://linhtranvu.mooo.com:1880/ui',
-//   username: 'admin',
-//   password: 'gaumiangu'
-// }
+var location_url = "http://admin.com:1880"; // Dont allow to comment out.Global variable
 
 // $.getScript("https://cdn.jsdelivr.net/npm/sweetalert2@10", function () {});
 
