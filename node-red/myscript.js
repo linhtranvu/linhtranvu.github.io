@@ -4,6 +4,12 @@ var params_dashboard = {
   password: '123456'
 }
 
+// var params_dashboard = {
+//   url: 'http://linhtranvu.mooo.com:1880/ui',
+//   username: 'admin',
+//   password: 'gaumiangu'
+// }
+
 // $.getScript("https://cdn.jsdelivr.net/npm/sweetalert2@10", function () {});
 
 var checkExist = setInterval(function () {
@@ -39,61 +45,59 @@ var checkExist = setInterval(function () {
       </style>`
       $("html").append(cssHtml);
 
+      //Sidebar button
+      $("#red-ui-sidebar-separator").html( /*html*/ `<button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec; right:30px;top:calc(50% - 26px);z-index:90 "><b> + </b></button>`)
+      $("#red-ui-palette").append( /*html*/ `<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;top:calc(50% - 26px);position:absolute;left:calc(100%)  "><b>+</b></button>`)
 
       //Admin home button
-      myAdminHtml = `
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      myAdminHtml = /*html*/ `
       <button onclick="mobile_admin_home()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 9999; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>`;
 
-      $("#red-ui-sidebar-separator").html(`<button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec; right:30px;top:150px;z-index:90 "><b> + </b></button>`)
-
       //Bottom menu		
-      myAdminHtml += '<div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 1000; ">';
-      myAdminHtml += '<button id="btn-mobile-edit" onclick="mobile_edit()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i></button>';
-      myAdminHtml += '<button onclick="mobile_search_node()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-search"></i></button>';
+      myAdminHtml += /*html*/ `
+      <div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 1000; ">
+        <button id="btn-mobile-edit" onclick="mobile_edit()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i></button>      
+        <button onclick="mobile_search_node()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-search"></i></button>
+        <button id="btn-mobile-refresh"  onclick="mobile_refresh()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>F5</b></button>
+      </div>`;
 
-      myAdminHtml += '<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><b>+NODE</b></button>';
-      myAdminHtml += '';
-      myAdminHtml += '<button id="btn-mobile-refresh"  onclick="mobile_refresh()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>F5</b></button>';
-
-
-      myAdminHtml += '</div>';
       $("html").append(myAdminHtml);
 
       //Top menu
-      myAdminHtml = '<div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 0px; left: 0px;z-index: 1000; ">';
-      myAdminHtml += '<button onclick="mobile_more()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>MORE</b></button>'
-      myAdminHtml += '<button onclick="mobile_undo()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><i class="fa fa-undo"></i></button>';
-      myAdminHtml += '<button class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>';
-      myAdminHtml += '<button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>';
-      myAdminHtml += '<button id="btn-editor-reload" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="loadDashboarIframe()" ><b>RELOAD</b></button>';
+      myAdminHtml = /*html*/ `
+      <div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 0px; left: 0px;z-index: 1000; ">
+        <button onclick="mobile_more()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>MORE</b></button>
+        <button onclick="mobile_undo()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><i class="fa fa-undo"></i></button>
+        <button class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>
+        <button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>
+        <button id="btn-editor-reload" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="loadDashboarIframe()" ><b>RELOAD</b></button>
+        <button class=" ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45"  onclick="document.getElementById('iframe_dahsboard').contentWindow.location.reload()" ><b>F5</b></button>
+        <div class='container_btn_save_layout'></div>
 
-
-
-      myAdminHtml += '</div>';
+      </div>`
       $("html").append(myAdminHtml);
 
       //More menu
-      myAdminHtml = '<div class="mobile-more-menu controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 40px; left: 0px;z-index: 1000;display:none ">';
-      myAdminHtml += '<button id="btn-mobile-delete" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: red;margin-right:25px;border-radius:5px""  onclick="mobile_delete()" ><i class="fa fa-trash" style="font-size:30px"></i></button>';
-      myAdminHtml += '<button id="btn-mobile-cut" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_cut()" ><i class="fa fa-cut" style="font-size:30px"></i></button>';
-      myAdminHtml += '<button id="btn-mobile-copy" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;;border-radius:5px"  onclick="mobile_copy()" ><i class="fa fa-copy" style="font-size:30px"></i></button>';
-      myAdminHtml += '<button id="btn-mobile-paste" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;;border-radius:5px"  onclick="mobile_paste()" ><i class="fa fa-paste" style="font-size:30px"></i></button>';
-
-
-      myAdminHtml += '</div>';
+      myAdminHtml = /*html*/ `
+      <div class="mobile-more-menu controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 40px; left: 0px;z-index: 1000;display:none ">
+        <button id="btn-mobile-delete" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: red;margin-right:25px;border-radius:5px""  onclick="mobile_delete()" ><i class="fa fa-trash" style="font-size:30px"></i></button>
+        <button id="btn-mobile-cut" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_cut()" ><i class="fa fa-cut" style="font-size:30px"></i></button>
+        <button id="btn-mobile-copy" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;;border-radius:5px"  onclick="mobile_copy()" ><i class="fa fa-copy" style="font-size:30px"></i></button>
+        <button id="btn-mobile-paste" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;;border-radius:5px"  onclick="mobile_paste()" ><i class="fa fa-paste" style="font-size:30px"></i></button>
+      </div>`;
       $("html").append(myAdminHtml);
 
 
       //Admin context app menu
-      contextAppHtml = '<div class="mobile_context_app" style="background-color: black;position: fixed;top: 0px; left: 0px;width:3000px;height:5000px;display:none;z-index:1010;opacity: 0.8; "></div>';
+      contextAppHtml = /*html*/ `
+      <div class="mobile_context_app" style="background-color: black;position: fixed;top: 0px; left: 0px;width:3000px;height:5000px;display:none;z-index:1010;opacity: 0.8; "></div>
+      <button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color:red;position: fixed;top: 0px; right: 0px;display:none;z-index:1020;font-size:15px"  onclick="apphome()" ><i class="fa fa-power-off"></i>&nbsp;&nbsp;QUIT ADMIN</button>
 
-      contextAppHtml += '<button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color:red;position: fixed;top: 0px; right: 0px;display:none;z-index:1020;font-size:15px"  onclick="apphome()" ><i class="fa fa-power-off"></i>&nbsp;&nbsp;QUIT ADMIN</button>';
-      contextAppHtml += '<div class="mobile_context_app controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 160px; left: 10px;z-index: 1020;display:none ">';
-      contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_mqtt()" >MQTT</button>';
-      contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;border-radius:5px"  onclick="mobile_location_guide()" >LOCATION</button>';
-      contextAppHtml += '<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;border-radius:5px"  onclick="mobile_voice()" >VOICE</button>';
-      // contextAppHtml += '</div>';
+      <div class="mobile_context_app controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 160px; left: 10px;z-index: 1020;display:none ">
+        <button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_mqtt()" >MQTT</button>
+        <button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;border-radius:5px"  onclick="mobile_location_guide()" >LOCATION</button>
+        <button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;border-radius:5px"  onclick="mobile_voice()" >VOICE</button>
+      </div>`
 
       $("html").append(contextAppHtml);
 
@@ -187,14 +191,119 @@ function loadDashboarIframe(interval) {
 
   var checkExist = setInterval(function () {
 
+      var iframe = $("#iframe_dahsboard").contents()
+      var attr = iframe.find('md-card').attr('ui-card-position');
       //DASHBOARD UI FOUND
-      if ($("#iframe_dahsboard").contents().find('md-content').length) {
-        alert('To use this feature. Node-RED 1.1.3 above required. For dashboard: Need to pull latest `node-red-dashboard` source code and copy the content of pull folder to replace code in module node-red-dashboard (mean `dist` replace `dist` and other files). @dceejay are working to implement some features for editor and not yet in NPM ')
+      if (iframe.find('md-card').length && (typeof attr !== typeof undefined && attr !== false)) {
+
+        // alert('To use this feature. Node-RED 1.1.3 above required. For dashboard: Need to pull latest `node-red-dashboard` source code and copy the content of pull folder to replace code in module node-red-dashboard (mean `dist` replace `dist` and other files). @dceejay are working to implement some features for editor and not yet in NPM ')
         clearInterval(checkExist);
 
 
-        $("#iframe_dahsboard").contents().find("md-card").css("border", "3px solid green").click(function (event) {
+        iframe.find("body").removeAttr("ng-app")
+        $("#iframe_dahsboard").contents().find("head").append($('<link rel="stylesheet" type="text/css" />').attr('href', 'http://localhost/learn/gridstack064/gridstack.min.css'));
+        $("#iframe_dahsboard").contents().find("head").append($('<link rel="stylesheet" type="text/css" />').attr('href', 'http://localhost/learn/gridstack064/gridstack-extra.min.css'));
+        $("#iframe_dahsboard").contents().find("head").append($('<link rel="stylesheet" type="text/css" />').attr('href', 'http://localhost/learn/gridstack.css'));
 
+        //Add Save button
+        let node_id = iframe.find('.select-tab').attr('node-id').split('.')
+        $('.container_btn_save_layout').html( /*html*/ `<button class="btn-save-layout ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45" onclick='layout_save()' node-id='${node_id[0]}-${node_id[1]}' ><b>Save</b></button>`)
+
+
+        //Change Button to DIV to prevent click action
+
+        iframe.find('ui-card-panel').find("button").each(function () {
+          let node_id = $(this).closest('md-card').attr('node-id')
+          // let btn_style = $(this).attr('style')
+          $(this).parent().append(`<div class='md-button' style='${$(this).attr('style')}' node-id=${node_id}></div>`)
+          $(this).children().appendTo($(this).parent().find(`div[node-id='${node_id}']`))
+          $(this).remove()
+        });
+
+        //Processing md-card
+
+        $("#iframe_dahsboard").contents().find("md-card").each(function () {
+
+          $(this).addClass("grid-stack-item")
+          $(this).children().addClass("grid-stack-item-content").css('inset', 0)
+
+          $(this).find('input').attr('disabled', 'disabled')
+
+          //Calculate Width and Height
+          let ui_size = $(this).attr("ui-card-size").split("x");
+          $(this).attr("data-gs-width", ui_size[0])
+          $(this).attr("data-gs-height", ui_size[1])
+
+          //Calculate X and Y
+          let blockWidth = 54;
+
+          // let xPostion = parseInt($(this).css('left'), 10) / blockWidth
+          // let yPosition = parseInt($(this).css('top'), 10) / blockWidth
+          // $(this).attr("data-gs-x", xPostion)
+          // $(this).attr("data-gs-y", yPosition)
+
+          // console.log($(this).css('top'))
+
+          let ui_position = $(this).attr("ui-card-position").split("x");
+          $(this).attr("data-gs-x", ui_position[0] / blockWidth)
+          $(this).attr("data-gs-y", ui_position[1] / blockWidth)
+
+
+
+
+          //These two line in bottom of md-card processing, nothing is allowed below
+
+
+          if ($(this).children().length == 0) { //Remove empty md-card
+            $(this).remove();
+          }
+
+        }) //end processing md-card
+
+        //* Move all md-card to new DIV under ui-card-panel. Must be done after processing md-card and element
+        $("#iframe_dahsboard").contents().find("ui-card-panel").append(
+          /*html*/
+          `
+          <div div id="grid0" class="grid-stack grid-stack-6" 
+              style="width: 324px; background-size: 16.6667% 54px;">
+          </div>        
+        `)
+
+        setTimeout(() => {
+          $("#iframe_dahsboard").contents().find("ui-card-panel").each(function () {
+            $(this).find('md-card').appendTo($(this).find('.grid-stack'))
+            setTimeout(() => {
+              //These processing MUST be here to force remove all style of md-card
+              $("#iframe_dahsboard").contents().find('.nr-dashboard-cardcontainer').remove()
+              $("#iframe_dahsboard").contents().find('md-card').removeAttr('style').css({
+                margin: '0px',
+                border: '3px solid green'
+              })
+            }, 100); //Wait 0.1s for to remove old container             
+          })
+        }, 100); //Wait 0.1s for grid-stack initialize  
+
+
+        //Apply Grid Event
+
+        setTimeout(() => {
+          iframe.find('.grid-stack').gridstack({
+            cellHeight: 54,
+            verticalMargin: 1,
+            float: true,
+            alwaysShowResizeHandle: true,
+            disableOneColumnMode: true,
+            acceptWidgets: true
+          })
+        }, 300);
+
+
+
+        //FINISH GRID STACK INITIALIZE
+
+
+        $("#iframe_dahsboard").contents().find("md-card").click(function (event) {
+          event.preventDefault()
           /*
           let labelName = $(this).find("label").html();
           console.log(labelName);
@@ -214,15 +323,12 @@ function loadDashboarIframe(interval) {
           $(".red-ui-searchBox-form").submit();
           */
 
-          let searchNode = RED.search.search($(this).attr("node-id"));
-          RED.editor.edit(searchNode[0].node);
-          setEditPanelLayout(1);
+          // let searchNode = RED.search.search($(this).attr("node-id"));
+          // RED.editor.edit(searchNode[0].node);
+          // setEditPanelLayout(1);
 
         }) //End handle click on UI node
 
-        $("#iframe_dahsboard").contents().find("md-card").resizable({
-          grid: 48
-        });
 
         $("#iframe_dahsboard").contents().find("ui-card-panel").css("border", "1px solid red")
 
@@ -230,7 +336,52 @@ function loadDashboarIframe(interval) {
       } //end if check existed
 
     },
-    500); // check every 500ms	  
+    500); // check every 500ms	   editor-button-afd9c0f1-b47828
+}
+
+
+function layout_save() {
+
+  var node_id = $('.btn-save-layout').attr('node-id')
+  $('.editor-button-' + node_id).click()
+
+  var checkExist = setInterval(function () {
+
+      if ($(".grid-stack").length) {
+        clearInterval(checkExist);
+
+
+        $("#iframe_dahsboard").contents().find("md-card").each(function () {
+
+          let currentItem = $(".grid-stack-item[data-gs-id='" + $(this).attr('node-id') + "']")
+
+          let currentItemNodeData = currentItem.data('_gridstack_node');
+
+          currentItemNodeData.width = $(this).attr('data-gs-width')
+          currentItemNodeData.height = $(this).attr('data-gs-height')
+          currentItemNodeData.x = $(this).attr('data-gs-x')
+          currentItemNodeData.y = $(this).attr('data-gs-y')
+
+          console.log(currentItemNodeData)
+
+
+          currentItem.attr('data-gs-width', $(this).attr('data-gs-width'))
+          currentItem.attr('data-gs-height', $(this).attr('data-gs-height'))
+          currentItem.attr('data-gs-x', $(this).attr('data-gs-x'))
+          currentItem.attr('data-gs-y', $(this).attr('data-gs-y'))
+
+        })
+
+      } //end if check existed
+
+    },
+    500); // check every 500ms	   editor-button-afd9c0f1-b47828
+
+
+
+
+
+
 }
 
 function mobile_location_guide() {
