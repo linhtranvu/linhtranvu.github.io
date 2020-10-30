@@ -41,9 +41,9 @@ var checkExist = setInterval(function () {
       </style>`
             $("html").append(cssHtml);
 
-            //Sidebar button
-            $("#red-ui-sidebar-separator").html( /*html*/ `<button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec; right:30px;top:calc(50% - 26px);z-index:90 "><b> + </b></button>`)
-            $("#red-ui-palette").append( /*html*/ `<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;top:calc(50% - 26px);position:absolute;left:calc(100%);z-index:90  "><b>+</b></button>`)
+            //Sidebar button 
+            $("#red-ui-sidebar-separator").html( /*html*/ `<button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec; right:30px;top:calc(50% - 26px);z-index:90 "><b> + <br> + </b></button>`)
+            $("#red-ui-palette").append( /*html*/ `<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;top:calc(50% - 26px);position:absolute;left:calc(100%);z-index:90  "><b> + <br> + </b></button>`)
 
             //Admin home button
             myAdminHtml = /*html*/ `
