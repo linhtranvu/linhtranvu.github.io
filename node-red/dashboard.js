@@ -6,17 +6,17 @@ function apphome() {
 
 }
 
+
 // login('http://dashboard.com:1880/ui', 'user', '123456')
 
 function login(url, username, password) {
 
 
+    
 
-
-    var element = document.getElementsByTagName('nr-dashboard');
+    var element = document.getElementById('nr-dashboard');
 
     if (typeof (element) != 'undefined' && element != null) { //If already login
-
 
         var checkExist = setInterval(function () {
 
@@ -51,8 +51,9 @@ function login(url, username, password) {
             req.send(null); //here you can pass extra parameters through
 
             //setiFrame's SRC attribute
-            var iFrameWin = document.getElementById(iframeID);
-            iFrameWin.src = iframeURL + "?extraParameters=true";
+            // var iFrameWin = document.getElementById(iframeID);
+            // iFrameWin.src = iframeURL + "?extraParameters=true";
+             location.reload(); 
         }
 
         //onload, call loadIframe() function

@@ -42,8 +42,9 @@ var checkExist = setInterval(function () {
             $("html").append(cssHtml);
 
             //Sidebar button 
-            $("#red-ui-sidebar-separator").html( /*html*/ `<button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec; right:30px;top:calc(50% - 26px);z-index:200 "><b> + <br> + </b></button>`)
             $("#red-ui-palette").append( /*html*/ `<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;top:calc(50% - 26px);position:absolute;left:calc(100%);z-index:90  "><b> + <br> + </b></button>`)
+
+
 
             //Admin home button
             myAdminHtml = /*html*/ `
@@ -52,7 +53,8 @@ var checkExist = setInterval(function () {
             //Bottom menu		
             myAdminHtml += /*html*/ `
       <div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 1000; ">
-        <button id="btn-mobile-edit" onclick="mobile_edit()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i></button>      
+        <button id="btn-mobile-edit" onclick="mobile_edit()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i> Edit</button>   
+        <button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;">Info</button>           
         <button onclick="mobile_search_node()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-search"></i></button>
         <button id="btn-mobile-refresh"  onclick="mobile_refresh()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>F5</b></button>
       </div>`;
@@ -192,6 +194,7 @@ function mobile_nodelist() {
 function mobile_righlist() {
 
     RED.actions.invoke("core:toggle-sidebar")
+    // $('.red-ui-sidebar-control-right').click()
 
 }
 
