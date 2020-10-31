@@ -13,7 +13,7 @@ function login(url, username, password) {
 
 
 
-    var element = document.getElementsByTagName('head');
+    var element = document.getElementsByTagName('nr-dashboard');
 
     if (typeof (element) != 'undefined' && element != null) { //If already login
 
