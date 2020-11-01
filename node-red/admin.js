@@ -169,6 +169,7 @@ function mobile_create_location_node() {
 
 function mobile_send_location() {
   $('.btn-create-location, #dialog_content').hide()
+  $('#dialog_content_test_loc').html('If created location nodes, show Debug to see data')
   $('#dialog_content_test_loc').show()
   $('.ui-dialog').css({
     width: 0.6*screen.width,
