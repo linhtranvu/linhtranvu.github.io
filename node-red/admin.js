@@ -105,6 +105,7 @@ var checkExist = setInterval(function () {
           //Geolocation layout (Dialog popup) 
           myAdminHtml = /*html*/ `     
           <div id="dialog" title="Location Tracking" style="display:none">
+          <div id='dialog_content_test_loc'>If created location nodes, show Debug to see data</div>
           <div id='dialog_content'>
             <p > <b>To use location tracking, you need to do these steps:</b></p> 
             <ul>
@@ -149,6 +150,8 @@ function mobile_location_guide() {
         width: 0.95*screen.width,
         height: screen.height - 200,
     });
+    $('.btn-create-location, #dialog_content').show()
+    $('#dialog_content_test_loc').hide()
     $(".mobile_context_app").toggle();
 }
 
@@ -165,8 +168,8 @@ function mobile_create_location_node() {
 }
 
 function mobile_send_location() {
-  $('.btn-create-location').hide()
-   $('#dialog_content').html('If created Nodes, show Debug to see data<br>')
+  $('.btn-create-location, #dialog_content').hide()
+  $('#dialog_content_test_loc').show()
   $('.ui-dialog').css({
     width: 0.6*screen.width,
     height: '200px'
