@@ -24,7 +24,7 @@ var checkExist = setInterval(function () {
 
             cssHtml = `<style>
         .ui-dialog .ui-dialog-titlebar {
-          background: #1c1a1a;
+          background: #1976d2;
           color: white;
         }
         .red-ui-search {
@@ -87,40 +87,42 @@ var checkExist = setInterval(function () {
             $("html").append(myAdminHtml);
 
 
-            //Admin context app menu
-            contextAppHtml = /*html*/ `
-      <div class="mobile_context_app" style="background-color: black;position: fixed;top: 0px; left: 0px;width:3000px;height:5000px;display:none;z-index:1010;opacity: 0.8; "></div>
-      <button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color:red;position: fixed;top: 0px; right: 0px;display:none;z-index:1020;font-size:15px"  onclick="apphome()" ><i class="fa fa-power-off"></i>&nbsp;&nbsp;QUIT ADMIN</button>
-      <div class="mobile_context_app controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 160px; left: 10px;z-index: 1020;display:none ">
-        <!--<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_mqtt()" >MQTT</button>-->
-        <button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;border-radius:5px"  onclick="mobile_location_guide()" >
-            <i style='font-size:45px' class="fa fa-map-marker"></i><br><br>
-            <b>LOCATION</b>
-        </button>
-        <!--<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;border-radius:5px"  onclick="mobile_voice()" >VOICE</button>-->
-      </div>`
+          //Admin context app menu
+          contextAppHtml = /*html*/ `
+          <div class="mobile_context_app" style="background-color: black;position: fixed;top: 0px; left: 0px;width:3000px;height:5000px;display:none;z-index:1010;opacity: 0.8; "></div>
+          <button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color:red;position: fixed;top: 0px; right: 0px;display:none;z-index:1020;font-size:15px"  onclick="apphome()" ><i class="fa fa-power-off"></i>&nbsp;&nbsp;QUIT ADMIN</button>
+          <div class="mobile_context_app controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 160px; left: 10px;z-index: 1020;display:none ">
+            <!--<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_mqtt()" >MQTT</button>-->
+            <button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;border-radius:5px"  onclick="mobile_location_guide()" >
+                <i style='font-size:45px' class="fa fa-map-marker"></i><br><br>
+                <b>LOCATION</b>
+            </button>
+            <!--<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;border-radius:5px"  onclick="mobile_voice()" >VOICE</button>-->
+          </div>`
 
-            $("html").append(contextAppHtml);
+          $("html").append(contextAppHtml);
 
-            //Geolocation layout (Dialog popup) 
-            myAdminHtml = /*html*/ `     
-      <div id="dialog" title="Location Tracking" style="display:none">
-      <p > <b>To use location tracking, you need to do these steps:</b></p> 
-      <ul>
-        <li>Turn on, allow Location setting</li>
-        <li>Create Nodes to receive location data.Below button create a
-        default flows, App will call POST <b> <span style = "color:blue" > "${location_url}?lat=lat_data&lon=lon_data" </span></b > to send location data, then update to MQTT.Test this URL to make sure it run on browser. </li>
-        <li>Use "Test location" to Debug. App will send location data and alert message</li>
-      </ul>
-      <p>No guarantee for background tracking work perfectly because of <a href="https://dontkillmyapp.com/">App killing mechanism</a></p>
-       <button class = "ui-button ui-widget ui-corner-all"
-       style = "color:white;background-color: #1976d2;border-radius:5px"
-       onclick = "mobile_create_location_node()" >CREATE LOCATION NODES</button> 
-       <button class = "ui-button ui-widget ui-corner-all"
-       style = "color:white;background-color:orange;border-radius:5px"
-       onclick = "mobile_send_location()" > TEST LOCATION </button>        
-      </div>`;
-            $("html").append(myAdminHtml);
+          //Geolocation layout (Dialog popup) 
+          myAdminHtml = /*html*/ `     
+          <div id="dialog" title="Location Tracking" style="display:none">
+          <div id='dialog_content'>
+            <p > <b>To use location tracking, you need to do these steps:</b></p> 
+            <ul>
+                <li>Turn on, allow Location setting</li>
+                <li>Create Nodes to receive location data.Below button create a
+                default flows, App will call POST <b> <span style = "color:blue" > "${location_url}?lat=lat_data&lon=lon_data" </span></b > to send location data, then update to MQTT.Test this URL to make sure it run on browser. </li>
+                <li>Use "Test location" to Debug. App will send location data and alert message</li>
+            </ul>
+            <p>No guarantee for background tracking work perfectly because of <a href="https://dontkillmyapp.com/">App killing mechanism</a></p>
+          </div>
+          <button class = "btn-create-location ui-button ui-widget ui-corner-all"
+          style = "color:white;background-color: #1976d2;border-radius:5px"
+          onclick = "mobile_create_location_node()" >CREATE LOCATION NODES</button> 
+          <button class = "ui-button ui-widget ui-corner-all"
+          style = "color:white;background-color:orange;border-radius:5px"
+          onclick = "mobile_send_location()" > TEST LOCATION </button>        
+          </div>`;
+          $("html").append(myAdminHtml);
 
 
             clearInterval(checkExist);
@@ -144,7 +146,7 @@ function apphome() {
 
 function mobile_location_guide() {
     $("#dialog").dialog({
-        width: screen.width,
+        width: 0.95*screen.width,
         height: screen.height - 200,
     });
     $(".mobile_context_app").toggle();
@@ -163,9 +165,16 @@ function mobile_create_location_node() {
 }
 
 function mobile_send_location() {
-    webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify({
-        location: "location"
-    }));
+  $('.btn-create-location').hide()
+   $('#dialog_content').html('If created Nodes, show Debug to see data<br>')
+  $('.ui-dialog').css({
+    width: 0.6*screen.width,
+    height: '200px'
+  })
+  webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify({
+      location: "location"
+  }));
+
 }
 
 
