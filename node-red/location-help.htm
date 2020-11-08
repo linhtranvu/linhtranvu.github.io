@@ -1,3 +1,122 @@
-- Turn on location<br>
-- Accept location always<br>
-- Check your server URL, Test send to make sure URL run<br>
+﻿<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="alert alert-primary" role="alert">
+Location tracking is a complex features. Understand how this work is important.
+</div>
+<div class="card" style="left: 0px; top: 0px">
+  <div class="card-body">
+    <span class="h4">URL for data posting<br>
+	<br>
+	</span>
+	<ul>
+	<li>URL for POST data: Because each of us use different URL, by default, app 
+	use admin_url/location to post data. For example you have a http-in node 
+	with POST method in Node-RED</li>
+	<li><img alt="" src="images/1.JPG" width="506" height="337"></li>
+	<li>However, you can also set up your own location URL in Location setting</li>
+	<li>App use &#39;username&#39; and &#39;password&#39; of Dashboard for authentication this 
+	URL (httpNodeAuth)</li>
+	<li>App post data
+	<ul>
+		<li>lat: Latitude</li>
+		<li>lon: Longitude</li>
+		<li>name: Name of device, unique for track line and map display</li>
+		<li>icon: Icon on map display. Using font awesome (eg: fa-user-circle) 
+		or and url of image (http://mydomain/image.png)</li>
+		<li>iconColor: color of icon, could be text (eg: green, red) or #rrggbb 
+		(eg: #FF0000)</li>
+	</ul>
+	</li>
+</ul>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+    <span class="h4">Setting of App<br>
+	<br>
+	</span><img alt="" src="images/2.JPG" width="502" height="630"><br>
+	<ul>
+	<li><strong>Track on app start: </strong>Very <strong>IMPORTANT</strong>, if 
+	false, location tracking will not run when app start and you need to do it 
+	manually</li>
+	<li><strong>Location URL:</strong> Explain aboved</li>
+	<li><strong>Security:</strong> For authentication, app use &#39;username&#39; and &#39;password&#39; of Dashboard for authentication this 
+	URL (httpNodeAuth)</li>
+	<li><strong>Location Provider: </strong>
+	<a target="_blank" href="https://github.com/mauron85/cordova-plugin-background-geolocation/blob/HEAD/PROVIDERS.md">
+	Read here if you are interested</a> and want to change</li>
+	<li><strong>Desire Accuracy: </strong>The more accuracy, battery consumed.</li>
+	<li><strong>Stationary Radius:</strong> Stationary radius in meters. When 
+	stopped, the minimum distance the device must move beyond the stationary 
+	location for aggressive background-tracking to engage. </li>
+	<li><strong>Distance Filter:</strong>&nbsp; The minimum distance (measured 
+	in meters) a device must move horizontally before an update event is 
+	generated </li>
+	<li><strong>Stop on terminate:</strong> Enable this in order to force a stop 
+	when the application terminated (e.g. on iOS, double-tap home button, swipe 
+	away the app). </li>
+	<li><strong>startOnBoot</strong> (Android only): Start background service on 
+	device boot. </li>
+	<li><strong>Icon and Icon color:</strong> Explained above</li>
+</ul>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+    <span class="h4">Flows for Node-RED</span><br>
+	<br>
+	To display data on map, it is recommended to install
+	<a target="_blank" href="https://flows.nodered.org/node/node-red-contrib-web-worldmap">
+	node-red-contrib-web-worldmap </a>. This node create a map and easily to 
+	hook location data to display, drawing track. A disadvantage is: This node does 
+	not have time updated data.&nbsp; Below is flows to receive data and display 
+	on map. You need to edit worldmap node to choose the right layout for 
+	Dashboard UI<br>
+	<img alt="" src="images/3.PNG" width="995" height="594"><br>
+	<br>
+	
+	<div class="card">
+  <div class="card-body">
+    [{&quot;id&quot;:&quot;daf21f1.bb4216&quot;,&quot;type&quot;:&quot;http in&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;Get 
+	Location&quot;,&quot;url&quot;:&quot;/location&quot;,&quot;method&quot;:&quot;post&quot;,&quot;upload&quot;:false,&quot;swaggerDoc&quot;:&quot;&quot;,&quot;x&quot;:850,&quot;y&quot;:280,&quot;wires&quot;:[[&quot;864b8ed5.23895&quot;,&quot;b821bdc5.79e3b8&quot;,&quot;3ea4a01c.95db1&quot;,&quot;1171c34e.bf7a5d&quot;,&quot;a629b170.04075&quot;,&quot;a97d3011.97edc&quot;]]},{&quot;id&quot;:&quot;b821bdc5.79e3b8&quot;,&quot;type&quot;:&quot;debug&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;Debug 
+	Location&quot;,&quot;active&quot;:true,&quot;tosidebar&quot;:true,&quot;console&quot;:false,&quot;tostatus&quot;:false,&quot;complete&quot;:&quot;payload&quot;,&quot;targetType&quot;:&quot;msg&quot;,&quot;statusVal&quot;:&quot;&quot;,&quot;statusType&quot;:&quot;auto&quot;,&quot;x&quot;:1440,&quot;y&quot;:220,&quot;wires&quot;:[]},{&quot;id&quot;:&quot;864b8ed5.23895&quot;,&quot;type&quot;:&quot;http 
+	response&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;&quot;,&quot;statusCode&quot;:&quot;&quot;,&quot;headers&quot;:{&quot;content-type&quot;:&quot;text/html&quot;},&quot;x&quot;:1050,&quot;y&quot;:380,&quot;wires&quot;:[]},{&quot;id&quot;:&quot;ae1febbf.8be69&quot;,&quot;type&quot;:&quot;ui_ui_control&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;When 
+	connect&quot;,&quot;events&quot;:&quot;connect&quot;,&quot;x&quot;:1060,&quot;y&quot;:460,&quot;wires&quot;:[[&quot;b821bdc5.79e3b8&quot;,&quot;4de4747f.f005c4&quot;]]},{&quot;id&quot;:&quot;4de4747f.f005c4&quot;,&quot;type&quot;:&quot;switch&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;=true&quot;,&quot;property&quot;:&quot;payload&quot;,&quot;propertyType&quot;:&quot;msg&quot;,&quot;rules&quot;:[{&quot;t&quot;:&quot;eq&quot;,&quot;v&quot;:&quot;connect&quot;,&quot;vt&quot;:&quot;str&quot;}],&quot;checkall&quot;:&quot;true&quot;,&quot;repair&quot;:false,&quot;outputs&quot;:1,&quot;x&quot;:1170,&quot;y&quot;:500,&quot;wires&quot;:[[&quot;bb80be63.25387&quot;]]},{&quot;id&quot;:&quot;39b220f6.aa27c8&quot;,&quot;type&quot;:&quot;json&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;&quot;,&quot;property&quot;:&quot;payload&quot;,&quot;action&quot;:&quot;&quot;,&quot;pretty&quot;:false,&quot;x&quot;:1250,&quot;y&quot;:140,&quot;wires&quot;:[[&quot;1171c34e.bf7a5d&quot;,&quot;a629b170.04075&quot;]]},{&quot;id&quot;:&quot;3ea4a01c.95db1&quot;,&quot;type&quot;:&quot;function&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;Save 
+	Latest Location&quot;,&quot;func&quot;:&quot;//global.set(&#39;pos&#39;,[])\nvar currentLoc = global.get(&#39;pos&#39;) 
+	|| [];\n\n//Save Location history, for other usage\nvar locHistory = 
+	global.get(&#39;locHistory&#39;) || [];\nlocHistory.push(msg.payload[0])\nif(locHistory.length 
+	&gt; 500){ //Maxium location saved\n locHistory.shift();\n}\n\n//Search array 
+	for current Device location, update\nfor (var i in currentLoc) {\n if (currentLoc[i].name 
+	== msg.payload[0].name) {\n currentLoc[i].lat = msg.payload[0].lat;\n 
+	currentLoc[i].lon = msg.payload[0].lon;\n currentLoc[i].icon = msg.payload[0].icon;\n 
+	currentLoc[i].iconColor = msg.payload[0].iconColor;\n currentLoc[i].time = 
+	msg.payload[0].time;\n global.set(&#39;pos&#39;,currentLoc);\n return msg;\n 
+	}\n}\n//If no existed device saved\ncurrentLoc.push(msg.payload[0])\nglobal.set(&#39;pos&#39;,currentLoc);\nreturn 
+	msg;&quot;,&quot;outputs&quot;:1,&quot;noerr&quot;:0,&quot;initialize&quot;:&quot;&quot;,&quot;finalize&quot;:&quot;&quot;,&quot;x&quot;:1140,&quot;y&quot;:80,&quot;wires&quot;:[[]]},{&quot;id&quot;:&quot;bb80be63.25387&quot;,&quot;type&quot;:&quot;function&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;Get 
+	Latest Location&quot;,&quot;func&quot;:&quot;//global.set(&#39;pos&#39;,[])\nmsg.payload = global.get(&#39;pos&#39;);\nreturn 
+	msg;&quot;,&quot;outputs&quot;:1,&quot;noerr&quot;:0,&quot;initialize&quot;:&quot;&quot;,&quot;finalize&quot;:&quot;&quot;,&quot;x&quot;:1320,&quot;y&quot;:440,&quot;wires&quot;:[[&quot;b821bdc5.79e3b8&quot;,&quot;6a8bacf8.cc9b5c&quot;]]},{&quot;id&quot;:&quot;1171c34e.bf7a5d&quot;,&quot;type&quot;:&quot;ui_worldmap&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;group&quot;:&quot;e1937c58.f4abc&quot;,&quot;order&quot;:1,&quot;width&quot;:0,&quot;height&quot;:0,&quot;name&quot;:&quot;&quot;,&quot;lat&quot;:&quot;16.072&quot;,&quot;lon&quot;:&quot;108.250&quot;,&quot;zoom&quot;:&quot;14&quot;,&quot;layer&quot;:&quot;OSM&quot;,&quot;cluster&quot;:&quot;&quot;,&quot;maxage&quot;:&quot;&quot;,&quot;usermenu&quot;:&quot;hide&quot;,&quot;layers&quot;:&quot;hide&quot;,&quot;panit&quot;:&quot;false&quot;,&quot;panlock&quot;:&quot;false&quot;,&quot;zoomlock&quot;:&quot;false&quot;,&quot;hiderightclick&quot;:&quot;true&quot;,&quot;coords&quot;:&quot;none&quot;,&quot;showgrid&quot;:&quot;false&quot;,&quot;path&quot;:&quot;/worldmap&quot;,&quot;x&quot;:1660,&quot;y&quot;:120,&quot;wires&quot;:[]},{&quot;id&quot;:&quot;6a8bacf8.cc9b5c&quot;,&quot;type&quot;:&quot;delay&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;&quot;,&quot;pauseType&quot;:&quot;delay&quot;,&quot;timeout&quot;:&quot;7&quot;,&quot;timeoutUnits&quot;:&quot;seconds&quot;,&quot;rate&quot;:&quot;1&quot;,&quot;nbRateUnits&quot;:&quot;1&quot;,&quot;rateUnits&quot;:&quot;second&quot;,&quot;randomFirst&quot;:&quot;1&quot;,&quot;randomLast&quot;:&quot;5&quot;,&quot;randomUnits&quot;:&quot;seconds&quot;,&quot;drop&quot;:false,&quot;x&quot;:1260,&quot;y&quot;:380,&quot;wires&quot;:[[&quot;1171c34e.bf7a5d&quot;,&quot;a629b170.04075&quot;]]},{&quot;id&quot;:&quot;a629b170.04075&quot;,&quot;type&quot;:&quot;worldmap-tracks&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;&quot;,&quot;depth&quot;:20,&quot;layer&quot;:&quot;combined&quot;,&quot;x&quot;:1510,&quot;y&quot;:60,&quot;wires&quot;:[[&quot;1171c34e.bf7a5d&quot;]]},{&quot;id&quot;:&quot;a97d3011.97edc&quot;,&quot;type&quot;:&quot;mqtt 
+	out&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;&quot;,&quot;topic&quot;:&quot;phone/location&quot;,&quot;qos&quot;:&quot;&quot;,&quot;retain&quot;:&quot;&quot;,&quot;broker&quot;:&quot;b5997a7e.f2121&quot;,&quot;x&quot;:1070,&quot;y&quot;:340,&quot;wires&quot;:[]},{&quot;id&quot;:&quot;14855d88.49e1ba&quot;,&quot;type&quot;:&quot;mqtt 
+	in&quot;,&quot;z&quot;:&quot;b18b632d.3d3d7&quot;,&quot;name&quot;:&quot;&quot;,&quot;topic&quot;:&quot;phone/location&quot;,&quot;qos&quot;:&quot;2&quot;,&quot;datatype&quot;:&quot;auto&quot;,&quot;broker&quot;:&quot;b5997a7e.f2121&quot;,&quot;x&quot;:1080,&quot;y&quot;:180,&quot;wires&quot;:[[&quot;39b220f6.aa27c8&quot;]]},{&quot;id&quot;:&quot;e1937c58.f4abc&quot;,&quot;type&quot;:&quot;ui_group&quot;,&quot;z&quot;:&quot;&quot;,&quot;name&quot;:&quot;Camera 
+	Street&quot;,&quot;tab&quot;:&quot;b1c6e79c.31e678&quot;,&quot;order&quot;:1,&quot;disp&quot;:false,&quot;width&quot;:&quot;8&quot;,&quot;collapse&quot;:false},{&quot;id&quot;:&quot;b5997a7e.f2121&quot;,&quot;type&quot;:&quot;mqtt-broker&quot;,&quot;z&quot;:&quot;&quot;,&quot;name&quot;:&quot;MQTT 
+	Server&quot;,&quot;broker&quot;:&quot;localhost&quot;,&quot;port&quot;:&quot;1883&quot;,&quot;clientid&quot;:&quot;&quot;,&quot;usetls&quot;:false,&quot;compatmode&quot;:false,&quot;keepalive&quot;:&quot;60&quot;,&quot;cleansession&quot;:true,&quot;birthTopic&quot;:&quot;&quot;,&quot;birthQos&quot;:&quot;0&quot;,&quot;birthPayload&quot;:&quot;&quot;,&quot;closeTopic&quot;:&quot;&quot;,&quot;closeQos&quot;:&quot;0&quot;,&quot;closePayload&quot;:&quot;&quot;,&quot;willTopic&quot;:&quot;&quot;,&quot;willQos&quot;:&quot;0&quot;,&quot;willPayload&quot;:&quot;&quot;},{&quot;id&quot;:&quot;b1c6e79c.31e678&quot;,&quot;type&quot;:&quot;ui_tab&quot;,&quot;z&quot;:&quot;&quot;,&quot;name&quot;:&quot;Tầng 
+	1&quot;,&quot;icon&quot;:&quot;dashboard&quot;,&quot;order&quot;:1,&quot;disabled&quot;:false,&quot;hidden&quot;:false}]</div>
+</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <span class="h4">Testing&nbsp; and debugging<br>
+	</span><br>
+	<strong>Test</strong> feature allow you to test data sent from phone, 
+	display on map. You can also change lat and lon to manipulate moving for 
+	testing location tracking and draw tracking line on map.<br>
+	<img alt="" src="images/4.PNG" width="505" height="708"><br>
+  </div>
+</div>
+
+</body>
