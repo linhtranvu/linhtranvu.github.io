@@ -109,19 +109,19 @@ var checkExist = setInterval(function () {
           <div id='dialog_content'>
             <p > <b>To use location tracking, you need to do these steps:</b></p> 
             <ul>
-                <li>Turn on, allow Location setting</li>
+                <li>Save Location Setting</li>
                 <li>Create Nodes to receive location data.Below button create a
-                default flows, App will call POST <b> <span style = "color:blue" > "${location_url}?lat=lat_data&lon=lon_data" </span></b > to send location data, then update to MQTT.Test this URL to make sure it run on browser. </li>
-                <li>Use "Test location" to Debug. App will send location data and alert message</li>
+                default flows, App will POST location data to <b> <span style = "color:blue" > "${location_url}?lat=lat_data&lon=lon_data" </span></b > and update to map</li>
+                <li>Use "Test" in Location Setting to debug.</li>
             </ul>
             <p>No guarantee for background tracking work perfectly because of <a href="https://dontkillmyapp.com/">App killing mechanism</a></p>
           </div>
           <button class = "btn-create-location ui-button ui-widget ui-corner-all"
           style = "color:white;background-color: #1976d2;border-radius:5px"
           onclick = "mobile_create_location_node()" >CREATE LOCATION NODES</button> 
-          <button class = "ui-button ui-widget ui-corner-all"
+          <!--<button class = "ui-button ui-widget ui-corner-all"
           style = "color:white;background-color:orange;border-radius:5px"
-          onclick = "mobile_send_location()" > TEST LOCATION </button>        
+          onclick = "mobile_send_location()" > TEST LOCATION </button> -->
           </div>`;
           $("html").append(myAdminHtml);
 
@@ -158,7 +158,223 @@ function mobile_location_guide() {
 function mobile_create_location_node() {
 
     RED.actions.invoke("core:show-import-dialog");
-    $("#red-ui-clipboard-dialog-import-text").val(`[{"id":"daf21f1.bb4216","type":"http in","z":"b18b632d.3d3d7","name":"Post Location","url":"/location","method":"post","upload":false,"swaggerDoc":"","x":810,"y":260,"wires":[["b668cfa6.11cc2","b821bdc5.79e3b8","864b8ed5.23895"]]},{"id":"864b8ed5.23895","type":"http response","z":"b18b632d.3d3d7","name":"","statusCode":"","headers":{"content-type":"text/html"},"x":1010,"y":240,"wires":[]},{"id":"b668cfa6.11cc2","type":"mqtt out","z":"b18b632d.3d3d7","name":"","topic":"phone/location","qos":"","retain":"","broker":"b5997a7e.f2121","x":1020,"y":320,"wires":[]},{"id":"b821bdc5.79e3b8","type":"debug","z":"b18b632d.3d3d7","name":"Debug Location","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","x":990,"y":380,"wires":[]},{"id":"b5997a7e.f2121","type":"mqtt-broker","z":"","name":"MQTT Server","broker":"localhost","port":"1883","clientid":"","usetls":false,"compatmode":false,"keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthPayload":"","closeTopic":"","closeQos":"0","closePayload":"","willTopic":"","willQos":"0","willPayload":""}]`);
+    $("#red-ui-clipboard-dialog-import-text").val(`
+[
+    {
+        "id": "aea403fb.fe3e38",
+        "type": "http in",
+        "z": "a7b82102.9b8d38",
+        "name": "POST Location",
+        "url": "/location",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 680,
+        "wires": [
+            [
+                "dea7069f.fe6408",
+                "8ee57422.db181",
+                "718d2eb8.af3c6",
+                "aa317b6c.ce7fe8",
+                "907686df.c5f198"
+            ]
+        ]
+    },
+    {
+        "id": "8ee57422.db181",
+        "type": "debug",
+        "z": "a7b82102.9b8d38",
+        "name": "Debug Location",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 280,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "dea7069f.fe6408",
+        "type": "http response",
+        "z": "a7b82102.9b8d38",
+        "name": "",
+        "statusCode": "",
+        "headers": {
+            "content-type": "text/html"
+        },
+        "x": 350,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "408a907d.418de8",
+        "type": "ui_ui_control",
+        "z": "a7b82102.9b8d38",
+        "name": "When connect",
+        "events": "connect",
+        "x": 320,
+        "y": 840,
+        "wires": [
+            [
+                "9276f3da.e84988"
+            ]
+        ]
+    },
+    {
+        "id": "9276f3da.e84988",
+        "type": "switch",
+        "z": "a7b82102.9b8d38",
+        "name": "=true",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "connect",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 470,
+        "y": 840,
+        "wires": [
+            [
+                "73186778.3c4848"
+            ]
+        ]
+    },
+    {
+        "id": "718d2eb8.af3c6",
+        "type": "function",
+        "z": "a7b82102.9b8d38",
+        "name": "Save Latest Location",
+        "func": "//global.set('pos',[])\\nvar currentLoc = global.get('pos') || [];\\n\\n//Save Location history, for other usage\\nvar locHistory = global.get('locHistory') || [];\\nlocHistory.push(msg.payload[0])\\nif(locHistory.length > 500){ //Maxium location saved\\n    locHistory.shift();\\n}\\n\\n//Search array for current Device location, update\\nfor (var i in currentLoc) {\\n if (currentLoc[i].name == msg.payload[0].name) {\\n    currentLoc[i].lat = msg.payload[0].lat;\\n    currentLoc[i].lon = msg.payload[0].lon;\\n    currentLoc[i].icon = msg.payload[0].icon;\\n    currentLoc[i].iconColor = msg.payload[0].iconColor;\\n    currentLoc[i].time = msg.payload[0].time;\\n    global.set('pos',currentLoc);\\n    return msg;\\n }\\n}\\n//If no existed device saved\\ncurrentLoc.push(msg.payload[0])\\nglobal.set('pos',currentLoc);\\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 460,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "73186778.3c4848",
+        "type": "function",
+        "z": "a7b82102.9b8d38",
+        "name": "Get Latest Location",
+        "func": "//global.set('pos',[])\\nmsg.payload = global.get('pos');\\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 660,
+        "y": 840,
+        "wires": [
+            [
+                "8ee57422.db181",
+                "73bf9c7f.bd608c"
+            ]
+        ]
+    },
+    {
+        "id": "aa317b6c.ce7fe8",
+        "type": "ui_worldmap",
+        "z": "a7b82102.9b8d38",
+        "group": "f6cc6a.538f6398",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "lat": "16.072",
+        "lon": "108.250",
+        "zoom": "14",
+        "layer": "OSM",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "hide",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "true",
+        "coords": "none",
+        "showgrid": "false",
+        "path": "/worldmap",
+        "x": 980,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "73bf9c7f.bd608c",
+        "type": "delay",
+        "z": "a7b82102.9b8d38",
+        "name": "Delay for map load",
+        "pauseType": "delay",
+        "timeout": "7",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 650,
+        "y": 720,
+        "wires": [
+            [
+                "aa317b6c.ce7fe8",
+                "907686df.c5f198"
+            ]
+        ]
+    },
+    {
+        "id": "907686df.c5f198",
+        "type": "worldmap-tracks",
+        "z": "a7b82102.9b8d38",
+        "name": "",
+        "depth": 20,
+        "layer": "combined",
+        "x": 770,
+        "y": 440,
+        "wires": [
+            [
+                "aa317b6c.ce7fe8"
+            ]
+        ]
+    },
+    {
+        "id": "f6cc6a.538f6398",
+        "type": "ui_group",
+        "z": "",
+        "name": "map",
+        "tab": "afd9c0f1.b47828",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "afd9c0f1.b47828",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Test Tab 1",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]    
+    `);
 
     $("#red-ui-clipboard-dialog-ok").removeClass("ui-button-disabled ui-button-disabled ui-state-disabled");
     $("#red-ui-clipboard-dialog-ok").prop("disabled", false);
