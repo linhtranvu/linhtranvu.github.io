@@ -1,7 +1,7 @@
 var params_dashboard = {
     url: 'http://admin.com:1880/ui',
     username: 'user',
-    password: '123456'
+    password: '123456' 
 }
 
 var location_url = "http://admin.com:1880"; // Dont allow to comment out.Global variable
