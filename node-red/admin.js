@@ -4,7 +4,7 @@ var params_dashboard = {
     password: '123456'
 }
 
-var location_url = "http://admin.com:1880"; // Dont allow to comment out.Global variable
+var location_url = "http://admin.com:1880"; // Dont allow to comment out.Global variable, must keep
 
 // $.getScript("https://cdn.jsdelivr.net/npm/sweetalert2@10", function () {});
 
