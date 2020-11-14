@@ -3,6 +3,10 @@
         --nr-db-light-text: #eee;
         --nr-db-disabled-text: #999;
     }
+	.btn-editor {
+		color:white;
+		border:1px solid white;
+	}
     .nr-db-sb {
         position: absolute;
         top: 1px;
