@@ -6,7 +6,10 @@
 	.btn-editor {
 		color:white;
 		border:1px solid white;
-	}
+    }
+    .md-card-grid {
+        margin: 0px;
+    },
     .nr-db-sb {
         position: absolute;
         top: 1px;
