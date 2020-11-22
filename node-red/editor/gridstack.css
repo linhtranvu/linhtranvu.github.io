@@ -10,6 +10,18 @@
     .md-card-grid {
         margin: 0px;
     },
+    .md-card-ui-select{
+        position: absolute;
+        /* left: 5px;
+        right: 20px;
+        background-color: red; */
+        z-index: 70;
+        /* width: 35px;
+        height: 35px; */
+        color: black;
+        font-size: 30px;
+        opacity: 0.6;
+    }
     .nr-db-sb {
         position: absolute;
         top: 1px;
