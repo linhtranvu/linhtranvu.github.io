@@ -12,15 +12,16 @@
     }
     .md-card-ui-select{
         position: absolute;
-        /* left: 5px;
-        right: 20px;
-        background-color: red; */
+        left: 0px;
+        top: 0px;
+        /* background-color: red; */
         z-index: 70;
         /* width: 35px;
         height: 35px; */
         color: black;
-        font-size: 30px;
+        font-size: 20px;
         opacity: 0.6;
+        border: 0px;
     }
     .nr-db-sb {
         position: absolute;
