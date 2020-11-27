@@ -1,35 +1,44 @@
 var params_dashboard = {
-    url: 'http://admin.com:1880/ui',
-    username: 'user',
-    password: '123456' 
-}
+  url: "http://admin.com:1880/ui",
+  username: "user",
+  password: "123456",
+};
+
+var editor_host = "https://";
+// var editor_host = "http://192.168.1.100/";
 
 var location_url = "http://admin.com:1880"; // Dont allow to comment out.Global variable, must keep
 
 //Load external libraries
-// $.getScript("https://cdn.jsdelivr.net/npm/sweetalert2@10", function () {});
+$.getScript("https://cdn.jsdelivr.net/npm/sweetalert2@10", function () {});
+$.getScript(
+  "https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js",
+  function () {}
+);
+$.getScript(
+  editor_host + "linhtranvu.github.io/node-red/editor.js",
+  function () {}
+);
 
 var checkExist = setInterval(function () {
+  //ADMIN UI FOUND
+  if ($("#red-ui-editor").length) {
+    // swal("1111");
 
+    //Process CSS to get a Clean UI for Mobile
 
-        //ADMIN UI FOUND
-        if ($('#red-ui-editor').length) {
+    $("#red-ui-header-button-user").parent().hide();
+    $("#red-ui-header-button-deploy-icon").hide();
+    $(".red-ui-header-logo").hide();
+    $("#red-ui-notifications").css("z-index", "1300");
 
-            // swal("1111");
-
-            //Process CSS to get a Clean UI for Mobile
-
-            $("#red-ui-header-button-user").parent().hide();
-            $("#red-ui-header-button-deploy-icon").hide();
-            $(".red-ui-header-logo").hide();
-
-            cssHtml = `<style>
+    cssHtml = `<style>
         .ui-dialog .ui-dialog-titlebar {
           background: #1976d2;
           color: white;
         }
         .red-ui-search {
-          width: ${screen.width-50}px;
+          width: ${screen.width - 50}px;
           left: 70%
         }
 
@@ -39,57 +48,55 @@ var checkExist = setInterval(function () {
         
 
         
-      </style>`
-            $("html").append(cssHtml);
+      </style>`;
+    $("html").append(cssHtml);
 
-            //Sidebar button 
-            $("#red-ui-palette").append( /*html*/ `<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;top:calc(50% - 26px);position:absolute;left:calc(100%);z-index:90  "><b> + <br> + </b></button>`)
+    //Sidebar button
+    $("#red-ui-palette").append(
+      /*html*/ `<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;top:calc(50% - 26px);position:absolute;left:calc(100%);z-index:90  "><b> + <br> + </b></button>`
+    );
 
-
-
-            //Admin home button
-            myAdminHtml = /*html*/ `
+    //Admin home button
+    myAdminHtml = /*html*/ `
       <button onclick="mobile_admin_home()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 9999; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>`;
 
-            //Bottom menu		
-            myAdminHtml += /*html*/ `
-      <div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 1000; ">
+    //Bottom menu normal
+    myAdminHtml += /*html*/ `
+      <div class="no-editor controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 1000; ">
         <button id="btn-mobile-edit" onclick="mobile_edit()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i> Edit</button>   
         <button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;">Info</button>           
         <button onclick="mobile_search_node()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-search"></i></button>
         <button id="btn-mobile-refresh"  onclick="mobile_refresh()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>F5</b></button>
       </div>`;
 
-            $("html").append(myAdminHtml);
+    $("html").append(myAdminHtml);
 
-            //Top menu
-            myAdminHtml = /*html*/ `
-      <div class="controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 0px; left: 0px;z-index: 1000; ">
+    //Top menu
+    myAdminHtml = /*html*/ `js_admin
+      <div class="top-menu controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 0px; left: 0px;z-index: 505; ">
         <button onclick="mobile_more()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>MORE</b></button>
-        <button onclick="mobile_undo()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;  "><i class="fa fa-undo"></i></button>
+        <button onclick="mobile_undo()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;  "><i class="fa fa-undo"></i></button>
         <button class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>
-<!--
-        <button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>
-        <button id="btn-editor-reload" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="loadDashboarIframe()" ><b>RELOAD</b></button>
-        <button class=" ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45"  onclick="document.getElementById('iframe_dahsboard').contentWindow.location.reload()" ><b>F5</b></button>
-        <div class='container_btn_save_layout'></div>
-!-->
-      </div>`
-            $("html").append(myAdminHtml);
 
-            //More menu
-            myAdminHtml = /*html*/ `
+        <button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>
+        <button id="btn-editor-reload" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="loadDashboardIframe()" >Edit</button>
+        <button class=" ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45"  onclick="document.getElementById('iframe_dashboard').contentWindow.location.reload()" >F5</button>
+
+      </div>`;
+    $("html").append(myAdminHtml);
+
+    //More menu
+    myAdminHtml = /*html*/ `
       <div class="mobile-more-menu controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 40px; left: 0px;z-index: 1000;display:none ">
         <button id="btn-mobile-delete" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: red;margin-right:25px;border-radius:5px""  onclick="mobile_delete()" ><i class="fa fa-trash" style="font-size:30px"></i></button>
         <button id="btn-mobile-cut" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_cut()" ><i class="fa fa-cut" style="font-size:30px"></i></button>
         <button id="btn-mobile-copy" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;;border-radius:5px"  onclick="mobile_copy()" ><i class="fa fa-copy" style="font-size:30px"></i></button>
         <button id="btn-mobile-paste" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;;border-radius:5px"  onclick="mobile_paste()" ><i class="fa fa-paste" style="font-size:30px"></i></button>
       </div>`;
-            $("html").append(myAdminHtml);
+    $("html").append(myAdminHtml);
 
-
-          //Admin context app menu
-          contextAppHtml = /*html*/ `
+    //Admin context app menu
+    contextAppHtml = /*html*/ `
           <div class="mobile_context_app" style="background-color: black;position: fixed;top: 0px; left: 0px;width:3000px;height:5000px;display:none;z-index:1010;opacity: 0.8; "></div>
           <button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color:red;position: fixed;top: 0px; right: 0px;display:none;z-index:1020;font-size:15px"  onclick="apphome()" ><i class="fa fa-power-off"></i>&nbsp;&nbsp;QUIT ADMIN</button>
           <div class="mobile_context_app controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 160px; left: 10px;z-index: 1020;display:none ">
@@ -99,12 +106,12 @@ var checkExist = setInterval(function () {
                 <b>LOCATION</b>
             </button>
             <!--<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;border-radius:5px"  onclick="mobile_voice()" >VOICE</button>-->
-          </div>`
+          </div>`;
 
-          $("html").append(contextAppHtml);
+    $("html").append(contextAppHtml);
 
-          //Geolocation layout (Dialog popup) 
-          myAdminHtml = /*html*/ `     
+    //Geolocation layout (Dialog popup)
+    myAdminHtml = /*html*/ `     
           <div id="dialog" title="Location Tracking" style="display:none">
           <div id='dialog_content_test_loc'>If created location nodes, show Debug to see data</div>
           <div id='dialog_content'>
@@ -124,42 +131,36 @@ var checkExist = setInterval(function () {
           style = "color:white;background-color:orange;border-radius:5px"
           onclick = "mobile_send_location()" > TEST LOCATION </button> -->
           </div>`;
-          $("html").append(myAdminHtml);
+    $("html").append(myAdminHtml);
 
-
-            clearInterval(checkExist);
-        } //end if check Admin existed
-
-    },
-    500); // check every 500ms
-
-
+    clearInterval(checkExist);
+  } //end if check Admin existed
+}, 500); // check every 500ms
 
 // Post message
 function apphome() {
-
-    webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify({
-        home: "home"
-    }));
-
+  webkit.messageHandlers.cordova_iab.postMessage(
+    JSON.stringify({
+      home: "home",
+    })
+  );
 }
 
 //FUNCTION LIST FOR ADMIN
 
 function mobile_location_guide() {
-    $("#dialog").dialog({
-        width: 0.95*screen.width,
-        height: screen.height - 200,
-    });
-    $('.btn-create-location, #dialog_content').show()
-    $('#dialog_content_test_loc').hide()
-    $(".mobile_context_app").toggle();
+  $("#dialog").dialog({
+    width: 0.95 * screen.width,
+    height: screen.height - 200,
+  });
+  $(".btn-create-location, #dialog_content").show();
+  $("#dialog_content_test_loc").hide();
+  $(".mobile_context_app").toggle();
 }
 
 function mobile_create_location_node() {
-
-    RED.actions.invoke("core:show-import-dialog");
-    $("#red-ui-clipboard-dialog-import-text").val(`
+  RED.actions.invoke("core:show-import-dialog");
+  $("#red-ui-clipboard-dialog-import-text").val(`
 [
     {
         "id": "aea403fb.fe3e38",
@@ -377,123 +378,110 @@ function mobile_create_location_node() {
 ]    
     `);
 
-    $("#red-ui-clipboard-dialog-ok").removeClass("ui-button-disabled ui-button-disabled ui-state-disabled");
-    $("#red-ui-clipboard-dialog-ok").prop("disabled", false);
-    $("#red-ui-clipboard-dialog-ok").click();
-    $("#dialog").dialog('close');
-
+  $("#red-ui-clipboard-dialog-ok").removeClass(
+    "ui-button-disabled ui-button-disabled ui-state-disabled"
+  );
+  $("#red-ui-clipboard-dialog-ok").prop("disabled", false);
+  $("#red-ui-clipboard-dialog-ok").click();
+  $("#dialog").dialog("close");
 }
 
 function mobile_send_location() {
-  $('.btn-create-location, #dialog_content').hide()
-  $('#dialog_content_test_loc').html('If created location nodes, show Debug to see data')
-  $('#dialog_content_test_loc').show()
-  $('.ui-dialog').css({
-    width: 0.6*screen.width,
-    height: '200px'
-  })
-  webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify({
-      location: "location"
-  }));
-
+  $(".btn-create-location, #dialog_content").hide();
+  $("#dialog_content_test_loc").html(
+    "If created location nodes, show Debug to see data"
+  );
+  $("#dialog_content_test_loc").show();
+  $(".ui-dialog").css({
+    width: 0.6 * screen.width,
+    height: "200px",
+  });
+  webkit.messageHandlers.cordova_iab.postMessage(
+    JSON.stringify({
+      location: "location",
+    })
+  );
 }
 
-
 function mobile_admin_home() {
-    $(".mobile_context_app").toggle();
+  $(".mobile_context_app").toggle();
 }
 
 function mobile_edit() {
-    RED.actions.invoke("core:edit-selected-node");
-    setEditPanelLayout(0)
-
+  RED.actions.invoke("core:edit-selected-node");
+  setEditPanelLayout(0);
 }
-
 
 function mobile_search_node() {
-    RED.actions.invoke("core:search")
+  RED.actions.invoke("core:search");
 }
 
-
 function mobile_nodelist() {
-
-    RED.actions.invoke("core:toggle-palette")
-
+  RED.actions.invoke("core:toggle-palette");
 }
 
 function mobile_righlist() {
-
-    RED.actions.invoke("core:toggle-sidebar")
-    // $('.red-ui-sidebar-control-right').click()
-
+  RED.actions.invoke("core:toggle-sidebar");
+  // $('.red-ui-sidebar-control-right').click()
 }
 
 function mobile_undo() {
-
-    RED.actions.invoke("core:undo")
-
+  RED.actions.invoke("core:undo");
 }
 
 function mobile_more() {
-
-    $(".mobile-more-menu").toggle();
-
+  $(".mobile-more-menu").toggle();
 }
 
 function mobile_refresh() {
-
-    window.location.reload(true)
-
+  window.location.reload(true);
 }
 
-
 function mobile_redo() {
-
-
-    RED.actions.invoke("core:redo")
+  RED.actions.invoke("core:redo");
 }
 
 function mobile_delete() {
-
-    RED.actions.invoke("core:delete-selection")
+  RED.actions.invoke("core:delete-selection");
 }
 
 function mobile_cut() {
-    RED.actions.invoke("core:cut-selection-to-internal-clipboard")
+  RED.actions.invoke("core:cut-selection-to-internal-clipboard");
 }
 
 function mobile_copy() {
-    RED.actions.invoke("core:copy-selection-to-internal-clipboard")
+  RED.actions.invoke("core:copy-selection-to-internal-clipboard");
 }
 
 function mobile_paste() {
-    RED.actions.invoke("core:paste-from-internal-clipboard")
+  RED.actions.invoke("core:paste-from-internal-clipboard");
 }
 
+function loginAdmin(
+  username,
+  password,
+  params_admin_url,
+  dashboard_url,
+  dashboar_username,
+  dashboard_password,
+  call_url
+) {
+  params_dashboard = {
+    url: dashboard_url,
+    username: dashboar_username,
+    password: dashboard_password,
+  };
+  console.log(call_url);
 
-function loginAdmin(username, password, params_admin_url, dashboard_url, dashboar_username, dashboard_password, call_url) {
-
-    params_dashboard = {
-        url: dashboard_url,
-        username: dashboar_username,
-        password: dashboard_password
+  location_url = call_url; //Variable location_url is global to use in other function
+  var username = username;
+  var password = password;
+  setTimeout(function () {
+    var myEle = document.getElementById("node-dialog-login-submit");
+    if (myEle) {
+      document.getElementById("node-dialog-login-username").value = username;
+      document.getElementById("node-dialog-login-password").value = password;
+      jQuery("#node-dialog-login-submit").click();
     }
-    console.log(call_url);
-
-    location_url = call_url; //Variable location_url is global to use in other function
-    var username = username;
-    var password = password;
-    setTimeout(function () {
-        var myEle = document.getElementById("node-dialog-login-submit");
-        if (myEle) {
-
-            document.getElementById("node-dialog-login-username").value = username;
-            document.getElementById("node-dialog-login-password").value = password;
-            jQuery("#node-dialog-login-submit").click();
-
-        }
-
-    }, 2000);
-
-
+  }, 2000);
 }

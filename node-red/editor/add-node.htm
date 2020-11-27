@@ -1,17 +1,5 @@
-<md-card ui-card-size="6x1" layout="row" layout-align="space-between center"
-    class="nr-dashboard-dropdown ng-scope _md layout-align-space-between-center layout-row visible grid-stack-item"
-    node-id="${newNodeId}"
-    style="left: 4px; top: 327px; width: 318px; height: 48px;">
-    <md-input-container flex="" layout="row" class="md-auto-horizontal-margin layout-row flex grid-stack-item-content">
-        <p class="label ng-binding ng-scope" ng-if="me.item.label" ng-bind-html="me.item.getLabel()">Dropdown</p>
-        <md-select ng-if="!me.item.multiple" ng-change="me.itemChanged()" ng-model="me.item.value"
-            placeholder="Select option" flex="100"
-            class="ng-pristine ng-valid md-auto-horizontal-margin ng-scope ng-empty flex-100 ng-touched" tabindex="0"
-            aria-label="{{ me.item.place }}" aria-disabled="false" role="button" aria-haspopup="listbox" id="select_53"
-            aria-invalid="false" aria-owns="select_listbox_55" style="">
-            <md-select-value class="md-select-value md-select-placeholder" id="select_value_label_52"
-                aria-hidden="true"><span>Select option</span><span class="md-select-icon" aria-hidden="true"></span>
-            </md-select-value>
-        </md-select>
-    </md-input-container>
+<md-card ui-template="me.item.format" ui-card-size="6x4" class="nr-dashboard-template ng-scope _md visible"
+    ng-class="{'nr-dashboard-disabled':me.item.disabled}" ng-show="true" node-id="11d3088.f3aff78" aria-hidden="false"
+    style="left: 4px; top: 1785px; width: 318px; height: 210px;">
+    <div ng-bind-html="msg.payload" class="ng-binding ng-scope"></div>
 </md-card>
