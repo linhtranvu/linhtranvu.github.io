@@ -8,7 +8,8 @@ img {
 }</style>
 </head>
 <body>
-<div class="alert alert-primary" role="alert"> <a href="index.htm" class="btn btn-primary">Back to Help home</a>
+<div class="alert alert-primary" role="alert"> <a href="index.htm"
+ class="btn btn-primary btn-back">Back to Help home</a>
 
 	Push allowed you to send message from Node-RED to app</div>
 <div class="card" style="left: 0px; top: 0px">
@@ -45,12 +46,20 @@ img {
 	&#39;key=AAAAZpLq_Bo:APA91bFMOTvQo1GyATp2_y5FEE1CNY4SJdWWGm_ZZpgVTBJGgcM-D0ZjBB5RWJm8hvfAkvL3b_-F8SoR_q8G66zuyiB0h11x4-PsuLHo1hTuCcbXKfC2AxrVUDw_l5JKIticSz23_jSP&#39;,\n 
 	&#39;Content-Type&#39;: &#39;application/json&#39;\n }\n \n msg.payload = \n {\n \&quot;to\&quot; : 
 	\&quot;YOUR DEVICE TOKEN\&quot;,\n \&quot;notification\&quot; : {\n \&quot;body\&quot; : \&quot;Body of Your 
-	Notification\&quot;,\n \&quot;title\&quot;: \&quot;Title of Your Notification\&quot;\n }\n}\n\nreturn 
-	msg&quot;,&quot;outputs&quot;:1,&quot;noerr&quot;:0,&quot;initialize&quot;:&quot;&quot;,&quot;finalize&quot;:&quot;&quot;,&quot;x&quot;:160,&quot;y&quot;:260,&quot;wires&quot;:[[&quot;543f2f3b.6ba0a&quot;]]},{&quot;id&quot;:&quot;543f2f3b.6ba0a&quot;,&quot;type&quot;:&quot;http 
+	Notification\&quot;,\n \&quot;title\&quot;: \&quot;Title of Your Notification\&quot;\n },\n \&quot;data\&quot;: 
+	{\n \&quot;notification_foreground\&quot;: \&quot;true\&quot;\n }\n}\n\nreturn msg&quot;,&quot;outputs&quot;:1,&quot;noerr&quot;:0,&quot;initialize&quot;:&quot;&quot;,&quot;finalize&quot;:&quot;&quot;,&quot;x&quot;:160,&quot;y&quot;:260,&quot;wires&quot;:[[&quot;543f2f3b.6ba0a&quot;]]},{&quot;id&quot;:&quot;543f2f3b.6ba0a&quot;,&quot;type&quot;:&quot;http 
 	request&quot;,&quot;z&quot;:&quot;a7b82102.9b8d38&quot;,&quot;name&quot;:&quot;&quot;,&quot;method&quot;:&quot;POST&quot;,&quot;ret&quot;:&quot;txt&quot;,&quot;paytoqs&quot;:&quot;ignore&quot;,&quot;url&quot;:&quot;https://fcm.googleapis.com/fcm/send&quot;,&quot;tls&quot;:&quot;&quot;,&quot;persist&quot;:false,&quot;proxy&quot;:&quot;&quot;,&quot;authType&quot;:&quot;&quot;,&quot;x&quot;:310,&quot;y&quot;:340,&quot;wires&quot;:[[&quot;d7a83959.bdf5b8&quot;]]},{&quot;id&quot;:&quot;d7a83959.bdf5b8&quot;,&quot;type&quot;:&quot;debug&quot;,&quot;z&quot;:&quot;a7b82102.9b8d38&quot;,&quot;name&quot;:&quot;&quot;,&quot;active&quot;:true,&quot;tosidebar&quot;:true,&quot;console&quot;:false,&quot;tostatus&quot;:false,&quot;complete&quot;:&quot;true&quot;,&quot;targetType&quot;:&quot;full&quot;,&quot;statusVal&quot;:&quot;&quot;,&quot;statusType&quot;:&quot;auto&quot;,&quot;x&quot;:470,&quot;y&quot;:320,&quot;wires&quot;:[]}]</div>
 </div>
   </div>
 </div>
+<script>
+
+if (window!=window.top) {
+ /* I'm in a frame! */ 
+ $('.btn-back').hide()
+}
+
+</script>
 
 
 </body>
