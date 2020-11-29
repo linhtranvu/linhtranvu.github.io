@@ -19,7 +19,7 @@ jQuery.fn.outerHTML = function (s) {
 //Bottom menu Editor Mode
 myAdminHtml = /*html*/ `
   <div class="editor-mode controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 520;display:none ">
-      <button onclick="editDashboardNode()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i> Edit</button>   
+      <button onclick="editDashboardNode()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i> Node</button>   
     <!--<button onclick="addNewNode()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;">Add Node</button> -->          
     <!--<button onclick="mobile_search_node()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-search"></i></button> -->
     <button onclick="edit_theme()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>Layout</b></button>
