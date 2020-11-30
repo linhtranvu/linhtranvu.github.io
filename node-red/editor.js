@@ -5,6 +5,10 @@ var iframe = "";
 var currentSelectNode = "";
 var currentSelectNodeObject = null;
 var isLayoutOpen = false;
+var enableGridMove = false;
+var globalDashboardNode = "";
+
+
 
 jQuery.fn.outerHTML = function (s) {
   return s
@@ -12,17 +16,14 @@ jQuery.fn.outerHTML = function (s) {
     : jQuery("<p>").append(this.eq(0).clone()).html();
 };
 
-// params_dashboard.url = "http://localhost:1880/ui"
-// params_dashboard.username = "user";
-// params_dashboard.password = "123456";
 
 //Bottom menu Editor Mode
 myAdminHtml = /*html*/ `
   <div class="editor-mode controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 520;display:none ">
       <button onclick="editDashboardNode()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i> Node</button>   
     <!--<button onclick="addNewNode()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;">Add Node</button> -->          
-    <!--<button onclick="mobile_search_node()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-search"></i></button> -->
-    <button onclick="edit_theme()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>Layout</b></button>
+    <button onclick="toggleGridMove()"  class="btn-enable-grid ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-arrows-alt"></i> <span>Disabled!</span></button> 
+    <button onclick="edit_theme()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><i class="fa fa-cog"></i></button>
   </div>`;
 
 $("html").append(myAdminHtml);
@@ -40,14 +41,22 @@ function addIframeHtml() {
     $(".no-editor").show();
   }
 
+  if ($(".red-ui-deploy-button-group").is(":visible")) {
+    $(".red-ui-deploy-button-group").hide();
+  } else {
+    $(".red-ui-deploy-button-group").show();
+  }
+  
+  
+
   // $(".editor-mode").toggle();
   // $(".no-editor").toggle();
   if ($("#iframe_dashboard").length) {
     $("#iframe_dashboard").toggle();
   } else {
     Swal.fire(
-      "You need to install ",
-      "This Select tab and press Edit to begin. "
+      "WYSIWYG Editor for Dashboard",
+      "Dashboard 2.24.1 (released on 27 Nov) required. Only default node of dashboard supported. If you need a custom node supported, drop me email or create an issue on github. To start, select a tab and press Edit"
     );
     // alert(params_dashboard.url);
     myAdminHtml = /*html*/ `
@@ -115,13 +124,6 @@ function loginDashboardIframe() {
   } //end if
 }
 
-function make_base_auth(user, password) {
-  var tok = user + ":" + password;
-  var hash = btoa(tok);
-  console.log(hash);
-  return "Basic " + hash;
-}
-
 // Load CSS file
 
 function loadCss() {
@@ -163,9 +165,17 @@ function loadCss() {
     );
 }
 
+
 //Load iframeDashboard
 
 function loadDashboardIframe(interval) {
+
+  RED.nodes.eachConfig(function (n) {
+    if (n.type === "ui_base") {
+      globalDashboardNode = n;
+    }
+  });
+
   iframe = $("#iframe_dashboard").contents();
   if (iframe.find(".old-editor-group").length > 0) {
     return;
@@ -200,8 +210,10 @@ function loadDashboardIframe(interval) {
 
       $(".top-menu").find(".btn-tab").remove();
       $(".top-menu").append(/*html*/ `
-        <button class="btn-tab btn-save-layout btn-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;border: 1px solid" onclick='saveTheme()' node-id='${tabId}' >Save</button>
-        <button class="btn-tab btn-edit-layout btn-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;border: 1px solid" onclick='saveLayout(true)' node-id='${tabId}' >Column</button>        
+        <button class="btn-tab btn-save-layout btn-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;border: 1px solid" onclick='saveTheme()' node-id='${tabId}' ><i class="fa fa-save"></i></button>
+        <button class="btn-tab btn-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;border: 1px solid" onclick='expandWindow()' node-id='${tabId}' >Expand</button>
+
+        <!-- <button class="btn-tab btn-edit-layout btn-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;border: 1px solid" onclick='saveLayout(true)' node-id='${tabId}' >Column</button>  -->
         `);
 
       //Change Button to DIV to prevent click action
@@ -304,16 +316,17 @@ function loadDashboardIframe(interval) {
 
                   //Calculate X and Y
                   var blockX =
-                    Number($("#nr-db-field-sx").val()) +
-                    Number($("#nr-db-field-cx").val());
+                    globalDashboardNode.site.sizes.sx +
+                    globalDashboardNode.site.sizes.cx; 
                   var blockY =
-                    Number($("#nr-db-field-sy").val()) +
-                    Number($("#nr-db-field-cy").val());
+                    globalDashboardNode.site.sizes.sy +
+                    globalDashboardNode.site.sizes.cy; 
 
                   $(this).attr(
                     "data-gs-x",
                     parseInt($(this).css("left"), 10) / blockX
                   );
+                  console.log($(this).attr("node-id") + ':x:'+ parseInt($(this).css("left"), 10) / blockX)
                   $(this).attr(
                     "data-gs-y",
                     parseInt($(this).css("top"), 10) / blockY
@@ -355,26 +368,26 @@ function loadDashboardIframe(interval) {
             iframe.find(".grid-stack").each(function () {
               if (!$(this).hasClass("new-editor-group")) {
                 $(this).gridstack({
-                  cellHeight:
-                    Number($("#nr-db-field-sy").val()) +
-                    Number($("#nr-db-field-cy").val()) -
-                    7, //-7 = (3 top border + 3 bottom border + 1 space between widget)
+                  cellHeight: globalDashboardNode.site.sizes.sy + globalDashboardNode.site.sizes.cy - 7, //-7 = (3 top border + 3 bottom border + 1 space between widget)
                   verticalMargin: 1,
                   float: true,
                   alwaysShowResizeHandle: true,
                   disableOneColumnMode: true,
                   column: $(this).attr("column"),
+                  enableMove: false,
+                  enableResize: false,
                   // acceptWidgets: true,
                   // column: 6,
                 });
+                $(this).data("gridstack").disable();
               }
             });
           }, 300);
 
-          grid = $("#iframe_dashboard")
-            .contents()
-            .find(".grid-stack")
-            .data("gridstack");
+          // grid = $("#iframe_dashboard")
+          //   .contents()
+          //   .find(".grid-stack")
+          //   .data("gridstack");
 
           //FINISH GRID STACK INITIALIZE
           iframe
@@ -387,6 +400,30 @@ function loadDashboardIframe(interval) {
       }, 500); // check every 500ms
     } //end if dashboard found
   }, 500); // check every 500ms
+}
+
+function toggleGridMove() {
+  if (enableGridMove == true) {
+    iframe.find(".grid-stack").each(function () {
+      $(this).data("gridstack").disable();
+      $(".btn-enable-grid").find("span").text("Disable!");
+    });
+    enableGridMove = false;
+  } else {
+    iframe.find(".grid-stack").each(function () {
+      $(this).data("gridstack").enable();
+      $(".btn-enable-grid").find("span").text("Enable");
+    });
+    enableGridMove = true;
+  }
+}
+
+var heightExpand = 0;
+
+function expandWindow() {
+  heightExpand = heightExpand + 200;
+  height = iframe.find(".tab-content")[0].scrollHeight;
+  iframe.find(".tab-content").css("min-height", height + heightExpand);
 }
 
 function changeTab() {
@@ -545,10 +582,7 @@ function resetGroupAfterMove(groupId) {
   currentGroup.remove();
 
   iframe.find(".reset-group").gridstack({
-    cellHeight:
-      Number($("#nr-db-field-sy").val()) +
-      Number($("#nr-db-field-cy").val()) -
-      7, //-7 = (3 top border + 3 bottom border + 1 space between widget)
+    cellHeight: globalDashboardNode.site.sizes.sy + globalDashboardNode.site.sizes.cy - 7,//-7 = (3 top border + 3 bottom border + 1 space between widget)
     verticalMargin: 1,
     float: true,
     alwaysShowResizeHandle: true,
@@ -557,6 +591,10 @@ function resetGroupAfterMove(groupId) {
     acceptWidgets: true,
     // column: 6,
   });
+
+  if (enableGridMove == false) {
+    iframe.find(".reset-group").data("gridstack").disable();
+  }
 
   iframe.find(".reset-group").removeClass("reset-group");
 }
@@ -618,7 +656,7 @@ function editGroup(nodeId) {
       clearInterval(checkExist);
       $("#red-ui-editor-stack").css("z-index", 520);
       $(".leftButton").hide();
-      $("#node-input-size").hide();
+      // $("#node-input-size").hide();
       // $("#node-config-input-width").attr("type", "text");
       $(".red-ui-tray-toolbar").prepend(
         `<button class="ui-button ui-corner-all ui-widget btn-remove-group">Delete</button>`
@@ -628,6 +666,13 @@ function editGroup(nodeId) {
       if ($("#red-ui-sidebar").is(":visible") === true) {
         RED.actions.invoke("core:toggle-sidebar");
       }
+
+      // Show number block size group
+       $("#node-input-size").click(function () {
+         $("body > div:nth-child(12)").css('z-index',520)
+       })
+      
+
 
       // Save Group
       $("#node-config-dialog-ok").click(function () {
@@ -679,30 +724,50 @@ function editGroup(nodeId) {
 }
 
 function calGridStyle(grid_column) {
+  // let gridWidth =
+  //   Number($("#nr-db-field-px").val()) * 2 +
+  //   Number($("#nr-db-field-sx").val()) +
+  //   (Number($("#nr-db-field-sx").val()) + Number($("#nr-db-field-cx").val())) *
+  //     (Number(grid_column) - 1);
+  // return `width: ${gridWidth}px; background-size: ${
+  //   100 / Number(grid_column)
+  // }% ${
+  //   Number($("#nr-db-field-sx").val()) + Number($("#nr-db-field-px").val())
+  // }px`;
+
   let gridWidth =
-    Number($("#nr-db-field-px").val()) * 2 +
-    Number($("#nr-db-field-sx").val()) +
-    (Number($("#nr-db-field-sx").val()) + Number($("#nr-db-field-cx").val())) *
+    globalDashboardNode.site.sizes.px * 2 +
+    globalDashboardNode.site.sizes.sx +
+    (globalDashboardNode.site.sizes.sx + globalDashboardNode.site.sizes.cx) *
       (Number(grid_column) - 1);
   return `width: ${gridWidth}px; background-size: ${
     100 / Number(grid_column)
   }% ${
-    Number($("#nr-db-field-sx").val()) + Number($("#nr-db-field-px").val())
+    globalDashboardNode.site.sizes.sx + globalDashboardNode.site.sizes.px
   }px`;
+
 }
 
 function calGridWith(grid_column) {
+  // let gridWidth =
+  //   Number($("#nr-db-field-px").val()) * 2 +
+  //   Number($("#nr-db-field-sx").val()) +
+  //   (Number($("#nr-db-field-sx").val()) + Number($("#nr-db-field-cx").val())) *
+  //     (Number(grid_column) - 1);
+  // return `${gridWidth}px`;
+
   let gridWidth =
-    Number($("#nr-db-field-px").val()) * 2 +
-    Number($("#nr-db-field-sx").val()) +
-    (Number($("#nr-db-field-sx").val()) + Number($("#nr-db-field-cx").val())) *
+    globalDashboardNode.site.sizes.px * 2 +
+    globalDashboardNode.site.sizes.sx +
+    (globalDashboardNode.site.sizes.sx + globalDashboardNode.site.sizes.cx) *
       (Number(grid_column) - 1);
   return `${gridWidth}px`;
+
 }
 
 function calGridBackground(grid_column) {
   return `${100 / Number(grid_column)}% ${
-    Number($("#nr-db-field-sx").val()) + Number($("#nr-db-field-px").val())
+    globalDashboardNode.site.sizes.sx + globalDashboardNode.site.sizes.px
   }px`;
 }
 //Save layout
@@ -1149,6 +1214,12 @@ function addNode(groupId) {
           currentSelectNode = this.closest("md-card");
           prepareClickOnNodeDashboard();
         });
+      if (enableGridMove == false) {
+        iframe
+          .find(".grid-stack[node-id='" + groupId + "']")
+          .data("gridstack")
+          .disable();
+      }
     }); // End click function
   } else {
     $(".add-node-layout").show();
@@ -1185,10 +1256,7 @@ function addGroup(tabId) {
       `);
 
     iframe.find('.grid-stack[node-id*="' + groupId + '"]').gridstack({
-      cellHeight:
-        Number($("#nr-db-field-sy").val()) +
-        Number($("#nr-db-field-cy").val()) -
-        7,
+      cellHeight: globalDashboardNode.site.sizes.sy + globalDashboardNode.site.sizes.cy - 7, 
       verticalMargin: 1,
       float: true,
       alwaysShowResizeHandle: true,

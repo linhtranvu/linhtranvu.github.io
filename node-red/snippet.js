@@ -16,7 +16,7 @@ var checkExist = setInterval(function () {
     RED.actions.invoke("core:toggle-sidebar");
   }		
 		
-var grid = iframe.find(".grid-stack[node-id='" + groupId + "']").data("gridstack");
+var grid = iframe.find(".grid-stack[node-id='f6c209df.8c14c']").data("gridstack");
 grid.addWidget(html_code, 1, 1, 3, 1, true);
 iframe.find("md-card[node-id='" + newNodeId + "']").click(function () {
   currentSelectNode = this;
@@ -62,47 +62,3 @@ $(gridID+'.grid-stack').css("background-size", 100/columnNumber + (widget size +
  sortItems($('.nr-db-sb-tab-list > li:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > ol:nth-child(1) > li > .red-ui-editableList-item-content'))         
 
 
-		  function sortItems (items) {
-                                var historyEvents = [];
-                                items.each(function(i,el) {
-                                    var groupData = $(el).data('data');
-                                    var node = groupData.node;
-                                    var hev = {
-                                        t:'edit',
-                                        node:node,
-                                        changes:{
-                                            order:node.order,
-                                            tab:node.tab
-                                        },
-                                        dirty:node.dirty,
-                                        changed:node.changed
-                                    };
-                                    historyEvents.push(hev);
-                                    var changed = false;
-                                    if (node.order !== i+1) {
-                                        node.order = i+1;
-                                        changed = true;
-                                    }
-                                    if (changed) {
-                                        node.dirty = true;
-                                        node.changed = true;
-                                    }
-									/*
-                                    if (node.tab !== item.node.id) {
-                                        var oldTabNode = RED.nodes.node(node.tab);
-                                        if (oldTabNode) {
-                                            var index = oldTabNode.users.indexOf(node);
-                                            oldTabNode.users.splice(index,1);
-                                        }
-                                        node.tab = item.node.id;
-                                        item.node.users.push(node);
-                                        changed = true;
-                                    }*/
-                                })
-                                RED.history.push({
-                                    t:'multi',
-                                    events: historyEvents
-                                });
-                                RED.nodes.dirty(true);
-                                RED.view.redraw();
-                            }

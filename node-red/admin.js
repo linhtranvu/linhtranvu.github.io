@@ -4,15 +4,19 @@ var params_dashboard = {
   password: "123456",
 };
 
-var editor_host = "https://";
-// var editor_host = "http://192.168.1.100/";
+var editor_host = "https://"; // Production server
+// var editor_host = "http://192.168.1.100/"; // Dev sever setting Home
+// var editor_host = "http://10.212.20.67/"; // Dev sever setting Company
 
 var location_url = "http://admin.com:1880"; // Dont allow to comment out.Global variable, must keep
 
 //Load external libraries
-$.getScript("https://cdn.jsdelivr.net/npm/sweetalert2@10", function () {});
 $.getScript(
-  "https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js",
+  "https://linhtranvu.github.io/node-red/sweetalert2.js",
+  function () {}
+);
+$.getScript(
+  "https://linhtranvu.github.io/node-red/jquery.blockUI.min.js",
   function () {}
 );
 $.getScript(
@@ -80,7 +84,7 @@ var checkExist = setInterval(function () {
 
         <button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>
         <button id="btn-editor-reload" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="loadDashboardIframe()" >Edit</button>
-        <button class=" ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45"  onclick="document.getElementById('iframe_dashboard').contentWindow.location.reload()" >F5</button>
+        <button class="editor-mode  ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="document.getElementById('iframe_dashboard').contentWindow.location.reload()" >F5</button>
 
       </div>`;
     $("html").append(myAdminHtml);
