@@ -108,7 +108,7 @@ function loginDashboardIframe() {
 
     var req = new XMLHttpRequest();
     req.open(
-      "GET",
+      "POST",
       params_dashboard.url,
       false,
       params_dashboard.username,
