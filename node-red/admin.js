@@ -19,10 +19,10 @@ $.getScript(
   "https://linhtranvu.github.io/node-red/jquery.blockUI.min.js",
   function () {}
 );
-$.getScript(
-  editor_host + "linhtranvu.github.io/node-red/editor.js",
-  function () {}
-);
+// $.getScript(
+//   editor_host + "linhtranvu.github.io/node-red/editor.js",
+//   function () {}
+// );
 
 var checkExist = setInterval(function () {
   //ADMIN UI FOUND
@@ -70,7 +70,7 @@ var checkExist = setInterval(function () {
         <button id="btn-mobile-edit" onclick="mobile_edit()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i> Edit</button>   
         <button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;">Info</button>           
         <button onclick="mobile_search_node()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-search"></i></button>
-        <button id="btn-mobile-refresh"  onclick="mobile_refresh()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>F5</b></button>
+        <!-- <button id="btn-mobile-refresh"  onclick="mobile_refresh()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><b>F5</b></button> -->
       </div>`;
 
     $("html").append(myAdminHtml);
@@ -83,6 +83,7 @@ var checkExist = setInterval(function () {
         <button class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>
 
         <button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>
+        <button id="btn-editor-intro" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="editorIntro()" ><b>EDITOR</b></button>
         <button id="btn-editor-reload" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="loadDashboardIframe()" >Edit</button>
         <button class="editor-mode  ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="document.getElementById('iframe_dashboard').contentWindow.location.reload()" >F5</button>
 
@@ -468,14 +469,22 @@ function loginAdmin(
   dashboard_url,
   dashboar_username,
   dashboard_password,
-  call_url
+  call_url,
+  pro_version
 ) {
   params_dashboard = {
     url: dashboard_url,
     username: dashboar_username,
     password: dashboard_password,
   };
-  console.log(call_url);
+  console.log(pro_version)
+
+  // if(pro_version === 'YES'){
+  //   $("#btn-editor-intro").remove();
+  // }  
+  // if(pro_version === 'null'){
+  //   $("#btn-editor").remove();
+  // }
 
   location_url = call_url; //Variable location_url is global to use in other function
   var username = username;

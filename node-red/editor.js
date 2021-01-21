@@ -8,6 +8,7 @@ var isLayoutOpen = false;
 var enableGridMove = false;
 var globalDashboardNode = "";
 
+$("#btn-editor-intro").remove();
 
 
 jQuery.fn.outerHTML = function (s) {
@@ -56,12 +57,18 @@ function addIframeHtml() {
   } else {
     Swal.fire(
       "WYSIWYG Editor for Dashboard",
-      "Dashboard 2.24.1 (released on 27 Nov) required. Only default node of dashboard supported. If you need a custom node supported, drop me email or create an issue on github. To start, select a tab and press Edit"
+      "Dashboard 2.24.1 (released on 27 Nov) required. Default node of dashboard supported. If you need a custom node supported, drop me email. To start, select a tab and press Edit"
     );
     // alert(params_dashboard.url);
+      var nrdashUrl =
+        params_dashboard.url +
+        "/?username=" +
+        params_dashboard.username +
+        "&password=" +
+        params_dashboard.password;    
     myAdminHtml = /*html*/ `
       <iframe id = "iframe_dashboard"
-      src = "${params_dashboard.url}"
+      src = "${nrdashUrl}"
       style = "z-index:500;position: fixed;top: 40px;left: 0;background-color: white"
       width = "100%"
       height = "100%" > No iframe support </iframe>
