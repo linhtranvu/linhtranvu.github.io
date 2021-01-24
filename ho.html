@@ -1,0 +1,43 @@
+<!--
+Besides activating Deep Links in the application - you need to enable indexing for your web pages.
+For that you should add <link /> tags in the <head> section of the web pages that you specified in config.xml.
+Doing so, you declare that this page should be openned in the mobile application instead of the browser.
+
+Link tag is look like this:
+  <link rel="alternate" href="android-app://<package_name>/<scheme>/<host>/<path>" />
+
+More documentation could be found here:
+https://developer.android.com/training/app-indexing/enabling-app-indexing.html
+
+For convenience, plugin generates the list of <link /> tags based on what you specified in the config.xml.
+You can just copy-paste them in the <header> section of the appropriate pages of your website.
+
+-->
+
+<head>
+<script
+			  src="https://code.jquery.com/jquery-1.12.4.min.js"
+			  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+			  crossorigin="anonymous"></script>
+<link rel="alternate" href="android-app://org.nodered.linhtranvu.app/http/myvoice.com" />
+<a  href="android-app://org.nodered.linhtranvu.app/http/myvoice.com" onclick='alert(11)' />/http/myvoice.comk</a><br>
+<!-- Your other stuff from the head tag -->
+</head>
+<body>
+<a id='mytest1' href="mynodered://" />scheme mynodered</a><br>
+<script>
+$("#mytest1").click()
+function eventFire(el, etype){
+  if (el.fireEvent) {
+    el.fireEvent('on' + etype);
+  } else {
+    var evObj = document.createEvent('Events');
+    evObj.initEvent(etype, true, false);
+    el.dispatchEvent(evObj);
+  }
+}
+
+//eventFire(document.getElementById('mytest1'), 'click');
+</script>
+<!-- Your page content -->
+</body>
