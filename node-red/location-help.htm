@@ -16,13 +16,14 @@ Location tracking is a complex feature. Understand how this work is important.
 </div>
 <div class="card" style="left: 0px; top: 0px">
   <div class="card-body">
-    <span class="h4">URL for data posting<br>
+    <span class="h4">Sending location data to Node-RED</span>
 	<br>
+	<br>
+	After getting location data, app will send data to Node-RED though a 
+	http_node. By default, you should name URL in this node to &quot;/location&quot;, and 
+	app will send data to &quot;admin_url/location&quot;.
 	</span>
 	<ul>
-	<li>URL for POST data: Because each of us use different URL, by default, app 
-	use admin_url/location to post data. For example you have a http-in node 
-	with POST method in Node-RED</li>
 	<li><img alt="" src="images/1.JPG" width="506" height="337"></li>
 	<li>However, you can also set up your own location URL in Location setting</li>
 	<li>App use &#39;username&#39; and &#39;password&#39; of Dashboard for authentication this 
@@ -78,8 +79,7 @@ Location tracking is a complex feature. Understand how this work is important.
 	<br>
 	To display data on map, it is recommended to install
 	<a target="_blank" href="https://flows.nodered.org/node/node-red-contrib-web-worldmap">
-	node-red-contrib-web-worldmap </a>. This node create a map and easily to 
-	hook location data to display, drawing track. A disadvantage is: This node does 
+	node-red-contrib-web-worldmap </a>. This flow get data, create a map and drawing track. A disadvantage is: This node does 
 	not have time updated data.&nbsp; Below is flows to receive data and display 
 	on map. You need to edit worldmap node to choose the right layout for 
 	Dashboard UI<br>
