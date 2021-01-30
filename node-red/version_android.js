@@ -1,7 +1,7 @@
 jsonp_callback({
-  newest_version: "1.0.3",
+  newest_version: "1.0.7",
   newest_info:
-    "NEW: Voice command, MQTT, ZeroTier, UI fix.. Current features: WYSIWYG Editor, Push, Location tracking",
+    "Fix Voice command cannot send short message; More stable MQTT and better UI",
   script_version: "0.5.0",
   script_info: "Info about Editor",
 });
