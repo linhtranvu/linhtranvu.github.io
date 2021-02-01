@@ -4,10 +4,17 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+<script src="http://localhost/linhtranvu.github.io/node-red/images/button.js" ></script>
+
 <style>
 img {
   max-width: 100%;  height: auto;
-}</style>
+}
+.style1 {
+	border-style: solid;
+	border-width: 1px;
+}
+</style>
 </head>
 <body>
 <div class="alert alert-primary" role="alert"> <a href="index.htm"
@@ -20,7 +27,7 @@ img {
 	preventing using Admin and Dashboard the same time in both MacOS and iOS. You could <a target="_blank" href="https://github.com/node-red/node-red/issues/2842">read 
 	more here</a><br>
 	This issue also 
-	affect the exclusive WYSIWYT Editor in IOS (cannot save). To solve this, you 
+	affect the exclusive WYSIWYG Editor in IOS (cannot save). To solve this, you 
 	need to change Dashboard authentication to Middleware authentication<br>
 	<br><hr>
 	<span class="h4">Change in Setting.js<br>
@@ -29,13 +36,15 @@ img {
 		<li>In .node-red/settings.js comment out &quot;httpNodeAuth&quot; to remove 
 	basic authentication<br>
 		</li>
-		<li>Uncomment &quot;ui&quot;, change to:<br>
-		<br>
+		<li>Uncomment &quot;ui&quot;, change to:<br><br>
+<div class="card">
+<div class="card-body">
 	ui: { <br>
 	&nbsp;&nbsp;&nbsp; path: &quot;ui&quot;,<br>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; middleware: require(&quot;./dashboard-auth.js&quot;)<br>
-	&nbsp;&nbsp;&nbsp; },<br>
-		</li>
+	&nbsp;&nbsp;&nbsp; },</div>		
+</div>
+		
 	</ul>
 	<hr>
 	<br>
@@ -47,6 +56,8 @@ img {
 	same folder). </li>
 	<li>Open file, change username and password to what you want.</li>
 	</ul>
+		<p>
+		<img alt="" src="images/middleware1.jpg" width="397" class="style1" ></p>
 	<p></p>
 	<b>
 	Credit to 
