@@ -1,0 +1,67 @@
+﻿<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+<script src="https://linhtranvu.github.io/voice-app/images/button.js" ></script>
+
+<style>
+img {
+  width: 100%;  height: auto; max-width: 600px
+}</style>
+</head>
+<body>
+<div class="alert alert-primary" role="alert"> <a href="index.htm" class="btn btn-primary">Back to Help home</a> 
+	Sending to HTTP server
+</div>
+<div class="card" style="left: 0px; top: 0px">
+  <div class="card-body">
+    <span class="h4">Speak and send message to HTTP Server<br>
+	<br>
+	</span>
+	<ul>
+	<li>After speaking, text data will be sent to your server through HTTP. </li>
+</ul>
+	<p><img alt="" src="images/voice1.jpg" width="600px"  ></p>
+	<ul>
+	<li>To do this, first you need go to Setting, choose HTTP POST protocol to 
+	setup your server</li>
+</ul>
+	<p>
+	<img alt="" src="images/voice2.jpg" width="600px" ></p>
+	<ul>
+	<li>Name of Server: Anything you want</li>
+	<li>Voice custom URL: URL for posting voice command to, must support POST. 
+	Data will be sent as
+	<ul>
+		<li>{textData: &#39;your command&#39;}</li>
+	</ul>
+	</li>
+	<li>Username and Password for Basic Authentication: In case you use basic 
+	authentication, put it here</li>
+	<li>Custom Post Header: If you use any method of authorization with header, 
+	just put here in json format with double quote, for example:<ul>
+		<li>{&quot;Authorization&quot;: &quot;Bearer&nbsp; xjkfkdjfdjffdf&quot;}</li>
+	</ul>
+	</li>
+	<li>Custom Post Body: If you use are authorization with body, just put here 
+	in json format with double, for example:<ul>
+		<li>{&quot;username&quot;:&quot;alex&quot;,&quot;password&quot;:&quot;mycustompassword&quot;}</li>
+	</ul>
+	</li>
+</ul>
+  </div>
+</div>
+
+<script>
+
+if (window!=window.top) {
+ /* I'm in a frame! */ 
+ $('.btn-back').hide()
+}
+
+</script>
+
+</body>
