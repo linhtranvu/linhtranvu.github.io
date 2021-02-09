@@ -7,9 +7,7 @@ var currentSelectNodeObject = null;
 var isLayoutOpen = false;
 var enableGridMove = false;
 var globalDashboardNode = "";
-var editor_host = "https://"; // Production server
-// editor_host = "http://192.168.1.100/"; // Dev sever setting Home
-// var editor_host = "http://10.212.20.67/"; // Dev sever setting Company
+
 
 var checkExistContainer = setInterval(function () {
 
@@ -291,6 +289,8 @@ function loadDashboardIframe(interval) {
           $(".grid-stack").each(function () {
             grid_column = $(this).attr("grid-column");
             let groupId = $(this).attr("node-id");
+
+            //iframe.find(find("ui-card-panel[node-id*='" + groupId + "']")).find('')
 
             iframe.find("ui-card-panel").parent().append(/*html*/ `
                   <div class="div-card-panel" node-id="${groupId}" style="border:1px solid red">
