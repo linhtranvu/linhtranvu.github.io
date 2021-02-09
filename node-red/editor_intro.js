@@ -1,7 +1,8 @@
 
 $("#btn-editor-container").html(
-  `<button id="btn-editor-intro" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="editorIntro()" ><b>EDITOR</b></button>`
+  `<button id="btn-editor-intro" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="editorIntro()" ><b>Editor Intro</b></button>`
 );
+
 
 function editorIntro() {
   Swal.fire({

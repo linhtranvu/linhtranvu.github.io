@@ -9,7 +9,7 @@ var enableGridMove = false;
 var globalDashboardNode = "";
 
 $("#btn-editor-container").html(
-  `<button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" ><b>EDITOR</b></button>`
+  `<button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" >EDITOR</button>`
 );
 
 jQuery.fn.outerHTML = function (s) {
@@ -33,10 +33,10 @@ $("html").append(myAdminHtml);
 function addIframeHtml() {
   if ($(".editor-mode").is(":visible")) {
     $(".editor-mode").hide();
-    $("#btn-editor").html("Hide")
+    $("#btn-editor").html("Editor")
   } else {
     $(".editor-mode").show();
-    $("#btn-editor").html("Editor");
+    $("#btn-editor").html("Admin");
   }
 
   if ($(".no-editor").is(":visible")) {
