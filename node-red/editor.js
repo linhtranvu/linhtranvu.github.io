@@ -7,10 +7,35 @@ var currentSelectNodeObject = null;
 var isLayoutOpen = false;
 var enableGridMove = false;
 var globalDashboardNode = "";
+var editor_host = "https://"; // Production server
+// editor_host = "http://192.168.1.100/"; // Dev sever setting Home
+// var editor_host = "http://10.212.20.67/"; // Dev sever setting Company
 
-$("#btn-editor-container").html(
-  `<button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" >EDITOR</button>`
-);
+var checkExistContainer = setInterval(function () {
+
+  var element_container = document.getElementById("btn-editor-container");
+  if (typeof element_container != "undefined" && element_container != null) {
+
+    clearInterval(checkExistContainer);
+    $("#btn-editor-container").html(
+      `<button id="btn-editor" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;"  onclick="addIframeHtml()" >EDITOR</button>`
+    );    
+  }    
+
+}, 1000); // check every 500ms
+
+
+  var element = document.getElementById("btn-editor-container");
+
+  if (typeof element != "undefined" && element != null) {
+    //If already login
+    // var checkExist = setInterval(function () {
+    //   //IF DASHBOARD FOUND, INJECT EDITOR
+    //   loadDashboardIframe(2000);
+    // }, 500); // check every 500ms
+  } 
+
+
 
 jQuery.fn.outerHTML = function (s) {
   return s
@@ -170,7 +195,7 @@ function loadCss() {
     .append(
       $("<script />").attr(
         "src",
-        "http://localhost/linhtranvu.github.io/node-red/editor/add-node.js"
+        editor_host + "linhtranvu.github.io/node-red/editor/add-node.js"
       )
     );
 }
@@ -192,7 +217,6 @@ function loadDashboardIframe(interval) {
   }
 
   var checkExist = setInterval(function () {
-    console.log(111);
 
     var attr = iframe.find("md-card").attr("style");
     //DASHBOARD UI FOUND
