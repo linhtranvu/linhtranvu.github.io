@@ -7,6 +7,8 @@ var currentSelectNodeObject = null;
 var isLayoutOpen = false;
 var enableGridMove = false;
 var globalDashboardNode = "";
+var editorNodeTypeList = [];
+var myChart = []
 
 
 var checkExistContainer = setInterval(function () {
@@ -23,18 +25,6 @@ var checkExistContainer = setInterval(function () {
 }, 1000); // check every 500ms
 
 
-  var element = document.getElementById("btn-editor-container");
-
-  if (typeof element != "undefined" && element != null) {
-    //If already login
-    // var checkExist = setInterval(function () {
-    //   //IF DASHBOARD FOUND, INJECT EDITOR
-    //   loadDashboardIframe(2000);
-    // }, 500); // check every 500ms
-  } 
-
-
-
 jQuery.fn.outerHTML = function (s) {
   return s
     ? this.before(s).remove()
@@ -47,7 +37,7 @@ myAdminHtml = /*html*/ `
   <div class="editor-mode controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 520;display:none ">
       <button onclick="editDashboardNode()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i> Node</button>   
     <!--<button onclick="addNewNode()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;">Add Node</button> -->          
-    <button onclick="toggleGridMove()"  class="btn-enable-grid ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-arrows-alt"></i> <span>Disabled!</span></button> 
+    <button onclick="toggleGridMove()"  class="btn-enable-grid ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-arrows-alt"></i> <span></span></button> 
     <button onclick="edit_theme()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><i class="fa fa-cog"></i></button>
   </div>`;
 
@@ -110,6 +100,7 @@ function addIframeHtml() {
 
 //Login
 function loginDashboardIframe() {
+  editorNodeTypeList = []; //Reset node array type
   var element = document.getElementById("nr-dashboard");
 
   if (typeof element != "undefined" && element != null) {
@@ -248,33 +239,6 @@ function loadDashboardIframe(interval) {
         <!-- <button class="btn-tab btn-edit-layout btn-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;border: 1px solid" onclick='saveLayout(true)' node-id='${tabId}' >Column</button>  -->
         `);
 
-      //Change Button to DIV to prevent click action
-
-      iframe.find("ui-card-panel").each(function () {
-        if (!$(this).hasClass("new-editor-group")) {
-          $(this)
-            .find("button")
-            .each(function () {
-              let node_id = $(this).closest("md-card").attr("node-id");
-              // let btn_style = $(this).attr('style')
-              $(this)
-                .parent()
-                .append(
-                  `<div class='md-button' style='${$(this).attr(
-                    "style"
-                  )}' node-id=${node_id}></div>`
-                );
-              $(this)
-                .children()
-                .appendTo($(this).parent().find(`div[node-id='${node_id}']`));
-              $(this).remove();
-            });
-        }
-      });
-
-      //Processing md-card
-
-      // iframe.find("md-card").each(function () {
 
       var grid_column = "";
 
@@ -310,8 +274,8 @@ function loadDashboardIframe(interval) {
 
           // Loop through card-panel and md-card to processing
           iframe.find("ui-card-panel").each(function () {
-            let currentNodeId = $(this).attr("node-id");
-            console.log(currentNodeId);
+            let currentGroupNodeId = $(this).attr("node-id");
+            // console.log(currentGroupNodeId);
 
             if (!$(this).hasClass("new-editor-group")) {
               //Process group title
@@ -321,7 +285,7 @@ function loadDashboardIframe(interval) {
                 .appendTo(
                   $(this)
                     .parent()
-                    .find(".div-card-panel[node-id='" + currentNodeId + "']")
+                    .find(".div-card-panel[node-id='" + currentGroupNodeId + "']")
                     .find(".div-group-title")
                 );
 
@@ -329,6 +293,7 @@ function loadDashboardIframe(interval) {
               $(this)
                 .find("md-card")
                 .each(function () {
+                  var currentNodeId = $(this).attr("node-id");
                   if (
                     $(this).children().length == 0 ||
                     $(this).hasClass("nr-dashboard-spacer")
@@ -360,7 +325,7 @@ function loadDashboardIframe(interval) {
                     "data-gs-x",
                     parseInt($(this).css("left"), 10) / blockX
                   );
-                  console.log($(this).attr("node-id") + ':x:'+ parseInt($(this).css("left"), 10) / blockX)
+                  // console.log($(this).attr("node-id") + ':x:'+ parseInt($(this).css("left"), 10) / blockX)
                   $(this).attr(
                     "data-gs-y",
                     parseInt($(this).css("top"), 10) / blockY
@@ -374,7 +339,7 @@ function loadDashboardIframe(interval) {
 
                   //Attach md-card to gridstack
                   $(this).appendTo(
-                    iframe.find(".grid-stack[node-id='" + currentNodeId + "']")
+                    iframe.find(".grid-stack[node-id='" + currentGroupNodeId + "']")
                   );
 
                   $(this).append(
@@ -387,6 +352,21 @@ function loadDashboardIframe(interval) {
                       currentSelectNode = this.closest("md-card");
                       prepareClickOnNodeDashboard();
                     }); //End handle click on UI node
+
+                  // Process UI of md-card to Editor Mode, more simple and elegant
+
+                  if (typeof currentNodeId !== "undefined") {
+                    let currentNode = RED.search.search(currentNodeId)[0].node;
+                    // console.log(currentNode);
+                    eval(currentNode.type).load(currentNode);
+
+                    if (editorNodeTypeList.indexOf(currentNode.type) === -1) {
+                      editorNodeTypeList.push(currentNode.type);
+                      // console.log(editorNodeTypeList);
+                    }
+                  }
+
+
                 }); //end loop each md-card
             }
           }); //end loop each panel
@@ -440,13 +420,13 @@ function toggleGridMove() {
   if (enableGridMove == true) {
     iframe.find(".grid-stack").each(function () {
       $(this).data("gridstack").disable();
-      $(".btn-enable-grid").find("span").text("Disable!");
+      $(".btn-enable-grid").find("span").text("");
     });
     enableGridMove = false;
   } else {
     iframe.find(".grid-stack").each(function () {
       $(this).data("gridstack").enable();
-      $(".btn-enable-grid").find("span").text("Enable");
+      $(".btn-enable-grid").find("span").text("OFF");
     });
     enableGridMove = true;
   }
@@ -1166,20 +1146,6 @@ function setEditPanelLayout() {
   }, 500); // check every 500ms
 }
 
-$.getScript(
-  editor_host + "linhtranvu.github.io/node-red/editor/nodeList.js",
-  function () {
-    for (i = 0; i < nodeList.length; i++) {
-      $.getScript(
-        editor_host +
-          "linhtranvu.github.io/node-red/editor/nodes/" +
-          nodeList[i] +
-          ".js"
-      );
-    }
-  }
-);
-
 function addNode(groupId) {
   if ($("#editor-node-list").length == 0) {
     // Create Node list for choosing
@@ -1224,7 +1190,8 @@ function addNode(groupId) {
       $("#red-ui-clipboard-dialog-ok").prop("disabled", false);
       $("#red-ui-clipboard-dialog-ok").click();
       $(".add-node-layout").hide();
-      newNodeId = RED.view.selection().nodes[0].id; //node.id
+      newNode = RED.view.selection().nodes[0]; //node.id
+      newNodeId = newNode.id; //node.id
       console.log(newNodeId);
       var grid = iframe
         .find(".grid-stack[node-id='" + groupId + "']")
@@ -1233,7 +1200,15 @@ function addNode(groupId) {
       // Add HTML code to Dashboard
 
       html_code = eval(type).createHTML(newNodeId);
-      grid.addWidget(html_code, 1, 1, 3, 1, true);
+      widget_size = eval(type).size();
+      console.log(widget_size)
+      if(widget_size.width > 0){
+        grid.addWidget(html_code, 1, 1, widget_size.width, widget_size.height, true);        
+      }else{
+        grid.addWidget(html_code, 1, 1, 3, 1, true);
+      }
+
+      eval(type).load(newNode) // Process new Node if neccessary  
 
       iframe
         .find("md-card[node-id='" + newNodeId + "']")

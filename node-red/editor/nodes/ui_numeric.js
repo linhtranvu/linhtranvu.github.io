@@ -76,12 +76,22 @@ var ui_numeric = {
         $(node).find(".label").text($("#node-input-label").val());
       } else {
         $(node).prepend(
-          `<p class="label ng-binding" ng-bind-html="me.item.getLabel()">${$("#node-input-label").val()}</p>`
+          `<p class="label ng-binding" ng-bind-html="me.item.getLabel()">${$(
+            "#node-input-label"
+          ).val()}</p>`
         );
       }
     } else {
       $(node).find(".label").addClass("ng-hide");
     }
   },
+  size: function () {
+    return {
+      width: 3,
+      height: 1,
+    };
+  },
+  load: function (node) {},
+  loadAll: function (node) {},
 };//End JS Object
 

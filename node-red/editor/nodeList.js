@@ -14,5 +14,5 @@ var nodeList = [
 //   "ui_audio",
 //   "ui_toast",
   "ui_template",
-//   "ui_wordlmap"
+  "ui_worldmap",
 ];

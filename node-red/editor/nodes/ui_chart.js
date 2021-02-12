@@ -51,9 +51,15 @@ var ui_chart = {
           `;
   },
   edit: function (node) {
-
     // $(node).find(".label").text($("#node-input-title").val());
-
   },
+  size: function () {
+    return {
+      width: 4,
+      height: 4,
+    };
+  },
+  load: function (node) {},
+  loadAll: function (node) {},
 };//End JS Object
 

@@ -41,9 +41,15 @@ var ui_text = {
           `;
   },
   edit: function (node) {
-
     $(node).find(".label").text($("#node-input-label").val());
-
   },
+  size: function () {
+    return {
+      width: 3,
+      height: 1,
+    };
+  },
+  load: function (node) {},
+  loadAll: function (node) {},
 };//End JS Object
 

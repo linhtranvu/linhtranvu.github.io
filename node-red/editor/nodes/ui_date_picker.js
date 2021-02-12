@@ -85,16 +85,30 @@ var ui_date_picker = {
     if ($("#node-input-label").val() !== "") {
       if ($(node).find(".nr-dashboard-date-picker-label").length > 0) {
         $(node).find(".nr-dashboard-date-picker-label").removeClass("ng-hide");
-        $(node).find(".nr-dashboard-date-picker-label").text($("#node-input-label").val());
+        $(node)
+          .find(".nr-dashboard-date-picker-label")
+          .text($("#node-input-label").val());
       } else {
-        $(node).find("md-input-container").prepend(
-          `   <p class="nr-dashboard-date-picker-label ng-binding ng-scope" ng-if="me.item.label"
-            ng-bind-html="me.item.getLabel()">${$("#node-input-label").val()}</p> `
-        );
+        $(node)
+          .find("md-input-container")
+          .prepend(
+            `   <p class="nr-dashboard-date-picker-label ng-binding ng-scope" ng-if="me.item.label"
+            ng-bind-html="me.item.getLabel()">${$(
+              "#node-input-label"
+            ).val()}</p> `
+          );
       }
     } else {
       $(node).find(".nr-dashboard-date-picker-label").addClass("ng-hide");
     }
   },
+  size: function () {
+    return {
+      width: 3,
+      height: 1,
+    };
+  },
+  load: function (node) {},
+  loadAll: function (node) {},
 };//End JS Object
 

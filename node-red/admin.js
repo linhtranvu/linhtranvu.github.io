@@ -5,11 +5,28 @@ var params_dashboard = {
 };
 
 var editor_host = "https://"; // Production server
-// var editor_host = "http://192.168.1.100/"; // Dev sever setting Home
+ //var editor_host = "http://192.168.1.100/"; // Dev sever setting Home
 // var editor_host = "http://10.212.20.67/"; // Dev sever setting Company
 
 var location_url = "http://admin.com:1880"; // Dont allow to comment out.Global variable, must keep
 
+// $.getScript(
+//   editor_host + "linhtranvu.github.io/node-red/editor.js",
+//   function () {}
+// );
+$.getScript(
+  editor_host + "linhtranvu.github.io/node-red/editor/nodeList.js",
+  function () {
+    for (i = 0; i < nodeList.length; i++) {
+      $.getScript(
+        editor_host +
+          "linhtranvu.github.io/node-red/editor/nodes/" +
+          nodeList[i] +
+          ".js"
+      );
+    }
+  }
+);
 //Load external libraries
 $.getScript(
   "https://linhtranvu.github.io/node-red/sweetalert2.js",
@@ -19,10 +36,12 @@ $.getScript(
   "https://linhtranvu.github.io/node-red/jquery.blockUI.min.js",
   function () {}
 );
-// $.getScript(
-//   editor_host + "linhtranvu.github.io/node-red/editor.js",
-//   function () {}
-// );
+
+$.getScript(
+  "https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js",
+  function () {}
+);
+//$.getScript("https://www.chartjs.org/samples/latest/utils.js", function () {});
 
 var checkExist = setInterval(function () {
   //ADMIN UI FOUND

@@ -55,13 +55,25 @@ var ui_text_input = {
         $(node).find("label").removeClass("ng-hide");
         $(node).find("label").text($("#node-input-label").val());
       } else {
-        $(node).find('md-input-container').prepend(
-          `<label ng-bind-html="me.item.getLabel()" class="ng-binding" for="input_0">${$("#node-input-label").val()}</label> `
-        );
+        $(node)
+          .find("md-input-container")
+          .prepend(
+            `<label ng-bind-html="me.item.getLabel()" class="ng-binding" for="input_0">${$(
+              "#node-input-label"
+            ).val()}</label> `
+          );
       }
     } else {
       $(node).find("label").addClass("ng-hide");
     }
   },
+  size: function () {
+    return {
+      width: 3,
+      height: 1,
+    };
+  },
+  load: function (node) {},
+  loadAll: function (node) {},
 };//End JS Object
 

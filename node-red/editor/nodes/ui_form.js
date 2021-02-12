@@ -65,10 +65,23 @@ var ui_form = {
   // Label          $("#node-input-label").val()
 
   edit: function (node) {
-
-    $(node).find("form").html($(".node-input-option-container-row > div").html());
-
-
-  },//end function edit
+    $(node)
+      .find("form")
+      .html($(".node-input-option-container-row > div").html());
+  }, //end function edit
+  size: function () {
+    return {
+      width: 4,
+      height: 4,
+    };
+  },
+  load: function (node) {
+    iframe
+      .find("md-card[node-id*='" + node.id + "']")
+      .prepend(
+        `<img style='width:100%;height:100%;opacity: 0;position:absolute' class='grid-stack-item-content'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/worldmap.jpg">`
+      );    
+  },
+  loadAll: function (node) {},
 };//End JS Object
 

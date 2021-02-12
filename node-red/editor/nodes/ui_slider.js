@@ -80,5 +80,13 @@ var ui_slider = {
       $(node).find(".label").addClass("ng-hide");
     }
   },
+  size: function () {
+    return {
+      width: 3,
+      height: 1,
+    };
+  },
+  load: function (node) {},
+  loadAll: function (node) {},
 };//End JS Object
 

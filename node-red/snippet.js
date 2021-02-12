@@ -16,12 +16,22 @@ var checkExist = setInterval(function () {
     RED.actions.invoke("core:toggle-sidebar");
   }		
 		
-var grid = iframe.find(".grid-stack[node-id='f6c209df.8c14c']").data("gridstack");
+var grid = iframe.find(".grid-stack[node-id='a6bf4948.17197']").data("gridstack");
 grid.addWidget(html_code, 1, 1, 3, 1, true);
 iframe.find("md-card[node-id='" + newNodeId + "']").click(function () {
   currentSelectNode = this;
   prepareClickOnNodeDashboard();
 });   
+
+//Grid resize stop
+var grid = iframe.find(".grid-stack[node-id='a6bf4948.17197']").data("gridstack");
+
+grid.on('resizestop', function(event, el) {
+  let width = parseInt(el.getAttribute('gs-w')) || 0;
+  console.log(width)
+  // or all values...
+  // let node: GridStackNode = el.gridstackNode; // {x, y, width, height, id, ....}
+});
 
 //Up and down
 RED.editor.editConfig("", groupNode.type, groupNode.id);
@@ -62,3 +72,44 @@ $(gridID+'.grid-stack').css("background-size", 100/columnNumber + (widget size +
  sortItems($('.nr-db-sb-tab-list > li:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > ol:nth-child(1) > li > .red-ui-editableList-item-content'))         
 
 
+  currentSelectNodeObject = RED.search.search(
+    $(currentSelectNode).attr("node-id")
+  )[0].node;
+  RED.editor.edit(currentSelectNodeObject);
+
+    currentSelectNodeObject = RED.search.search('182e1d16.4a00bb')[0].node;
+    currentSelectNodeObject.type
+
+  RED.editor.edit(currentSelectNodeObject);
+eval(type).createHTML(newNodeId);
+  182e1d16.4a00bb
+
+     iframe
+      .find("md-card[node-id*='" + node.id + "']") 
+
+
+      ////////////////////
+
+
+
+
+      iframe.find("md-card[node-id*='182e1d16.4a00bb']").find('.grid-stack-item-content').remove()
+      iframe.find("md-card[node-id*='182e1d16.4a00bb']").prepend(`
+      <canvas class='grid-stack-item-content' id='canvas-182e1d16.4a00bb'>
+       
+      </canvas>`);
+      var myiframe = document.getElementById("iframe_dashboard");
+       var ctx =  myiframe.contentWindow.document.getElementById('canvas-182e1d16.4a00bb').getContext('2d');
+        myDoughnut = new Chart(ctx, config);
+
+
+myChart['182e1d16.4a00bb'].data.datasets[0].backgroundColor[1] = '#ff0000'; 
+myChart['182e1d16.4a00bb'].update();
+
+      myDoughnut.updateDataset({
+            data: [60, 60, 60],
+            backgroundColor: ['#ff0000', '#00ff00', '#0000ff'],
+            label: "Dataset 1",
+                 
+}) 
+          

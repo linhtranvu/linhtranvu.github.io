@@ -20,8 +20,8 @@ var ui_button = {
         </div>
 
     `,
-  createNode: function(groupId){
-    return `[{"id":"dd3e69f1.3d3b28","type":"ui_button","z":"a2415835.d93fb8","name":"","group":"${groupId}","order":7,"width":0,"height":0,"passthru":false,"label":"button","tooltip":"","color":"","bgcolor":"","icon":"","payload":"","payloadType":"str","topic":"","x":220,"y":80,"wires":[[]]}]`
+  createNode: function (groupId) {
+    return `[{"id":"dd3e69f1.3d3b28","type":"ui_button","z":"a2415835.d93fb8","name":"","group":"${groupId}","order":7,"width":0,"height":0,"passthru":false,"label":"button","tooltip":"","color":"","bgcolor":"","icon":"","payload":"","payloadType":"str","topic":"","x":220,"y":80,"wires":[[]]}]`;
   },
   createHTML: function (newNodeId) {
     return /*html*/ `
@@ -41,7 +41,6 @@ var ui_button = {
           `;
   },
   edit: function (node) {
-
     $(node).find("span").text($("#node-input-label").val());
     $(node)
       .find(".md-button")
@@ -61,8 +60,57 @@ var ui_button = {
     } else {
       $(node).find("ui-icon").addClass("ng-hide");
     }
-
   },
+  size: function () {
+    return {
+      width: 3,
+      height: 1,
+    };
+  },
+  load: function (node) {
+    iframe
+      .find("md-card[node-id*='" + node.id + "']")
+      .find("button")
+      .each(function () {
+        let node_id = $(this).closest("md-card").attr("node-id");
+        // let btn_style = $(this).attr('style')
+        $(this)
+          .parent()
+          .append(
+            `<div class='md-button grid-stack-item-content' style='${$(
+              this
+            ).attr("style")}' node-id=${node_id}></div>`
+          );
+        $(this)
+          .children()
+          .appendTo($(this).parent().find(`div[node-id='${node_id}']`));
+        $(this).remove();
+      });
+  },
+  loadAll: function (node) {
+    //Change layout of md-card to more suitable
 
+    iframe.find("ui-card-panel").each(function () {
+      if (!$(this).hasClass("new-editor-group")) {
+        $(this)
+          .find("button")
+          .each(function () {
+            let node_id = $(this).closest("md-card").attr("node-id");
+            // let btn_style = $(this).attr('style')
+            $(this)
+              .parent()
+              .append(
+                `<div class='md-button grid-stack-item-content' style='${$(this).attr(
+                  "style"
+                )}' node-id=${node_id}></div>`
+              );
+            $(this)
+              .children()
+              .appendTo($(this).parent().find(`div[node-id='${node_id}']`));
+            $(this).remove();
+          });
+      }
+    });
+  },
 };//End JS Object
 
