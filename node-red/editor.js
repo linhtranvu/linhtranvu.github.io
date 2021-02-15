@@ -73,7 +73,7 @@ function addIframeHtml() {
   } else {
     Swal.fire(
       "WYSIWYG Editor for Dashboard",
-      "Dashboard 2.24.1 (released on 27 Nov) required. Default node of dashboard supported. If you need a custom node supported, drop me email. To start, select a tab and press Edit"
+      "Dashboard 2.24.1 (released on 27 Nov) required. Support default node, worldmap, time-scheduler. If you need a custom node supported, drop me email. To start, select a tab and press Edit"
     );
     // alert(params_dashboard.url);
       var nrdashUrl =
@@ -356,17 +356,21 @@ function loadDashboardIframe(interval) {
                   // Process UI of md-card to Editor Mode, more simple and elegant
 
                   if (typeof currentNodeId !== "undefined") {
-                    let currentNode = RED.search.search(currentNodeId)[0].node;
-                    // console.log(currentNode);
-                    eval(currentNode.type).load(currentNode);
+                    // console.log(currentNodeId);
+                    let currentNodes = RED.search.search(currentNodeId);
+                    if(currentNodes.length > 0){
+                      let currentNode = currentNodes[0].node;
 
-                    if (editorNodeTypeList.indexOf(currentNode.type) === -1) {
-                      editorNodeTypeList.push(currentNode.type);
-                      // console.log(editorNodeTypeList);
+                      if (nodeList.includes(currentNode.type)) {
+                        eval(currentNode.type).load(currentNode);
+                      }
+
+                      if (editorNodeTypeList.indexOf(currentNode.type) === -1) {
+                        editorNodeTypeList.push(currentNode.type);
+                        // console.log(editorNodeTypeList);
+                      }
                     }
                   }
-
-
                 }); //end loop each md-card
             }
           }); //end loop each panel
