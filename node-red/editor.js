@@ -882,8 +882,10 @@ function editDashboardNode() {
     }
 
     // Format HTML on Dashboard After save
-
-    eval(currentSelectNodeObject.type).edit(currentSelectNode);
+    if (nodeList.includes("currentSelectNodeObject.type")){
+      eval(currentSelectNodeObject.type).edit(currentSelectNode);
+    }
+      
 
     $("#node-dialog-ok").click(); //Actual save
   });
