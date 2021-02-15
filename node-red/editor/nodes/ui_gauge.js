@@ -38,70 +38,28 @@ var ui_gauge = {
     style="margin: 0px; border: 3px solid green;"
 >
 </md-card>
-
-var myNode = {
-  id: newNodeId
-}
-
-ui_gauge.load(myNode)
-
-
           `;
   },
   edit: function (node) {
     let nodeId = $(node).attr("node-id");
 
-    myChart[nodeId].data.datasets[0].backgroundColor[0] = $(
-      "#node-input-color1"
-    ).css("background-color");
-    myChart[nodeId].data.datasets[0].backgroundColor[1] = $(
-      "#node-input-color2"
-    ).css("background-color");
-    myChart[nodeId].data.datasets[0].backgroundColor[2] = $(
-      "#node-input-color3"
-    ).css("background-color");
-    myChart[nodeId].options.title.text = $("#node-input-title").val();
-    if ($("#node-input-title").val() === "") {
-      myChart[nodeId].options.title.display = false;
-    } else {
-      myChart[nodeId].options.title.display = true;
-    }
-    switch ($("#node-input-gtype").val()) {
-      case "gage":
-        console.log("gage");
-        myChart[nodeId].options.circumference = Math.PI;
-        myChart[nodeId].options.rotation = -Math.PI;
-        break;
-      case "donut":
-        myChart[nodeId].options.circumference = 2 * Math.PI;
-        myChart[nodeId].options.rotation = -Math.PI / 2;
-        break;
-      case "compass":
-        myChart[nodeId].options.circumference = 2 * Math.PI;
-        myChart[nodeId].options.rotation = -Math.PI / 2;
-        myChart[nodeId].data.datasets[0].backgroundColor[1] = $(
-          "#node-input-color1"
-        ).css("background-color");
-        myChart[nodeId].data.datasets[0].backgroundColor[2] = $(
-          "#node-input-color1"
-        ).css("background-color");
-
-        break;
-      case "wave":
-        myChart[nodeId].options.circumference = 2 * Math.PI;
-        myChart[nodeId].options.rotation = -Math.PI / 2;
-        myChart[nodeId].data.datasets[0].backgroundColor[1] = $(
-          "#node-input-color1"
-        ).css("background-color");
-        myChart[nodeId].data.datasets[0].backgroundColor[2] = $(
-          "#node-input-color1"
-        ).css("background-color");
-        break;
-      default:
-      // code block
-    }
-
-    myChart[nodeId].update();
+    let currentNodeData = {
+      gtype: $("#node-input-gtype").val(),
+      colors: [
+        $("#node-input-color1").css("background-color"),
+        $("#node-input-color2").css("background-color"),
+        $("#node-input-color3").css("background-color"),
+      ],
+      title: $("#node-input-title").val(),      
+    };
+    let config = this.loadConfig(currentNodeData)
+    myChart[nodeId].destroy()
+    var myiframe = document.getElementById("iframe_dashboard");
+    var ctx = myiframe.contentWindow.document
+      .getElementById(`canvas-${nodeId}`)
+      .getContext("2d");
+    myChart[nodeId] = new Chart(ctx, config);
+    
   },
   size: function () {
     return {
@@ -110,77 +68,18 @@ ui_gauge.load(myNode)
     };
   },
   load: function (node) {
-    let circumference = "";
-    let rotation = "";
-    let color2 = node.colors[1];
-    let color3 = node.colors[2];
 
-    if (node.gtype == "gage") {
-      circumference = Math.PI;
-      rotation = -Math.PI;
-    }
-    if (node.gtype == "donut") {
-      circumference = 2 * Math.PI;
-      rotation = -Math.PI / 2;
-    }
-    if (node.gtype == "compass") {
-      circumference = 2 * Math.PI;
-      rotation = -Math.PI / 2;
-      color2 = node.colors[0];
-      color3 = node.colors[0];
-    }
-    if (node.gtype == "wave") {
-      circumference = 2 * Math.PI;
-      rotation = -Math.PI / 2;
-      color2 = node.colors[0];
-      color3 = node.colors[0];
-    }
-
-    if (node.title == "") {
-      var titleDisplay = false;
-    } else {
-      var titleDisplay = true;
-    }
-
-    var config = {
-      type: "doughnut",
-      data: {
-        datasets: [
-          {
-            data: [60, 60, 60],
-            backgroundColor: [node.colors[0], color2, color3],
-            label: "Dataset 1",
-          },
-        ],
-        labels: ["Red", "Orange", "Yellow"],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        circumference: circumference,
-        rotation: rotation,
-        legend: {
-          display: false,
-          position: "top",
-        },
-        title: {
-          display: titleDisplay,
-          text: node.title,
-        },
-        animation: {
-          animateScale: false,
-          animateRotate: false,
-        },
-      },
-    };
-
+    var config = this.loadConfig(node)
     iframe
       .find(`md-card[node-id*='${node.id}']`)
       .find(".grid-stack-item-content")
       .remove();
-    iframe.find(`md-card[node-id*='${node.id}']`).prepend(`
-      <canvas class='grid-stack-item-content' id='canvas-${node.id}'>        
-      </canvas>
+    iframe.find(`md-card[node-id*='${node.id}']`).prepend(/*html*/ `
+      <!-- <div class='grid-stack-item-content chart-container' style='postion:relative'> -->
+        <img class='grid-stack-item-content' style='width:100%;height:100%;opacity: 0;position:absolute'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg" />
+        <canvas  id='canvas-${node.id}'>        
+        </canvas>
+      <!-- </div> -->
     `);
     var myiframe = document.getElementById("iframe_dashboard");
     var ctx = myiframe.contentWindow.document
@@ -191,8 +90,126 @@ ui_gauge.load(myNode)
       .find(`md-card[node-id*='${node.id}']`)
       .css("postion", "relative")
       .addClass("chart-container");
-    // iframe.find(`canvas[id*='canvas-${node.id}']`).removeAttr("style");
+    iframe.find(`canvas[id*='canvas-${node.id}']`).removeAttr("style");
   },
   loadAll: function (node) {},
+  loadConfig: function(node) {
+    var config
+
+    if (node.title == "") {
+      var titleDisplay = false;
+    } else {
+      var titleDisplay = true;
+    }    
+
+    if (node.gtype == "gage") {
+
+      config = {
+        type: "doughnut",
+        data: {
+          datasets: [
+            {
+              data: [60, 60, 60],
+              backgroundColor: [node.colors[0], node.colors[1], node.colors[2]],
+              label: "Dataset 1",
+            },
+          ],
+          labels: ["Red", "Orange", "Yellow"],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          circumference: Math.PI,
+          rotation: -Math.PI,
+          legend: {
+            display: false,
+            position: "top",
+          },
+          title: {
+            display: titleDisplay,
+            text: node.title,
+          },
+          animation: {
+            animateScale: false,
+            animateRotate: false,
+          },
+        },
+      };
+
+    }
+    if (node.gtype == "donut") {
+
+      config = {
+        type: "doughnut",
+        data: {
+          datasets: [
+            {
+              data: [60, 60, 60],
+              backgroundColor: [node.colors[0], node.colors[1], node.colors[2]],
+              label: "Dataset 1",
+            },
+          ],
+          labels: ["Red", "Orange", "Yellow"],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          circumference: 2 * Math.PI,
+          rotation: -Math.PI / 2,
+          legend: {
+            display: false,
+            position: "top",
+          },
+          title: {
+            display: titleDisplay,
+            text: node.title,
+          },
+          animation: {
+            animateScale: false,
+            animateRotate: false,
+          },
+        },
+      };      
+    }
+    if (node.gtype == "compass" || node.gtype == "wave") {
+      config = {
+        type: "doughnut",
+        data: {
+          datasets: [
+            {
+              data: [100],
+              backgroundColor:
+                globalDashboardNode.theme.themeState["base-color"]["value"],
+              label: "Dataset 1",
+              borderWidth: 0,
+              weight: 0.1,
+            },
+          ],
+          labels: ["Red"],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          circumference: 2 * Math.PI,
+          rotation: -Math.PI / 2,
+          legend: {
+            display: false,
+            position: "top",
+          },
+          title: {
+            display: titleDisplay,
+            text: node.title,
+          },
+          animation: {
+            animateScale: false,
+            animateRotate: false,
+          },
+        },
+      };
+    }
+ 
+    return config;
+  }
+  
 };//End JS Object
 

@@ -157,7 +157,7 @@ function loadCss() {
     .append(
       $('<link rel="stylesheet" type="text/css" />').attr(
         "href",
-        "https://linhtranvu.github.io/node-red/editor/gridstack.min.css"
+        editor_host + "linhtranvu.github.io/node-red/editor/gridstack.min.css"
       )
     );
   $("#iframe_dashboard")
@@ -166,7 +166,7 @@ function loadCss() {
     .append(
       $('<link rel="stylesheet" type="text/css" />').attr(
         "href",
-        "https://linhtranvu.github.io/node-red/editor/gridstack-extra.min.css"
+        editor_host + "linhtranvu.github.io/node-red/editor/gridstack-extra.min.css"
       )
     );
   $("#iframe_dashboard")
@@ -175,7 +175,7 @@ function loadCss() {
     .append(
       $('<link rel="stylesheet" type="text/css" />').attr(
         "href",
-        "https://linhtranvu.github.io/node-red/editor/gridstack.css"
+        editor_host + "linhtranvu.github.io/node-red/editor/gridstack.css"
       )
     );
   $("#iframe_dashboard")
@@ -343,7 +343,7 @@ function loadDashboardIframe(interval) {
                   );
 
                   $(this).append(
-                    `<div class="ui-button btn-editor ui-widget ui-corner-all md-card-ui-select"><i class="fa fa-hand-pointer-o"></i></div>`
+                    `<div class="ui-button btn-editor ui-widget ui-corner-all md-card-ui-select"><i class="fa fa-hand-pointer-o" style='background-color:white'></i></div>`
                   );
 
                   $(this)
@@ -1213,7 +1213,7 @@ function addNode(groupId) {
       iframe
         .find("md-card[node-id='" + newNodeId + "']")
         .append(
-          `<div class="ui-button btn-editor ui-widget ui-corner-all md-card-ui-select"><i class="fa fa-hand-pointer-o"></i></div>`
+          `<div class="ui-button btn-editor ui-widget ui-corner-all md-card-ui-select"><i class="fa fa-hand-pointer-o" style='background-color:white'></i></div>`
         );
 
       iframe

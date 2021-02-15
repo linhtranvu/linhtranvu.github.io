@@ -44,15 +44,15 @@ var ui_template = {
   },
   size: function () {
     return {
-      width: 3,
-      height: 1,
+      width: 4,
+      height: 4,
     };
   },
   load: function (node) {
     iframe
       .find("md-card[node-id*='" + node.id + "']")
       .prepend(
-        `<img style='width:100%;height:100%;opacity: 0;position:absolute' class='grid-stack-item-content'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/worldmap.jpg">`
+        `<img style='width:100%;height:100%;opacity: 0;position:absolute;z-index:5' class='grid-stack-item-content'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg">`
       );    
   },
   loadAll: function (node) {},

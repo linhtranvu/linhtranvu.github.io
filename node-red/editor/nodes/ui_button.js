@@ -90,27 +90,32 @@ var ui_button = {
   loadAll: function (node) {
     //Change layout of md-card to more suitable
 
-    iframe.find("ui-card-panel").each(function () {
-      if (!$(this).hasClass("new-editor-group")) {
-        $(this)
-          .find("button")
-          .each(function () {
-            let node_id = $(this).closest("md-card").attr("node-id");
-            // let btn_style = $(this).attr('style')
-            $(this)
-              .parent()
-              .append(
-                `<div class='md-button grid-stack-item-content' style='${$(this).attr(
-                  "style"
-                )}' node-id=${node_id}></div>`
-              );
-            $(this)
-              .children()
-              .appendTo($(this).parent().find(`div[node-id='${node_id}']`));
-            $(this).remove();
-          });
-      }
-    });
+    // iframe.find("ui-card-panel").each(function () {
+    //   if (!$(this).hasClass("new-editor-group")) {
+    //     $(this)
+    //       .find("button")
+    //       .each(function () {
+    //         let node_id = $(this).closest("md-card").attr("node-id");
+    //         // let btn_style = $(this).attr('style')
+    //         $(this)
+    //           .parent()
+    //           .append(
+    //             `<div class='md-button grid-stack-item-content' style='${$(this).attr(
+    //               "style"
+    //             )}' node-id=${node_id}></div>`
+    //           );
+    //         $(this)
+    //           .children()
+    //           .appendTo($(this).parent().find(`div[node-id='${node_id}']`));
+    //         $(this).remove();
+    //       });
+    //   }
+    // });
+    iframe
+      .find("md-card[node-id*='" + node.id + "']")
+      .prepend(
+        `<img style='width:100%;height:100%;opacity: 0;position:absolute;z-index:5' class='grid-stack-item-content'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg">`
+      );      
   },
 };//End JS Object
 

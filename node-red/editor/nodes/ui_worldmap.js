@@ -54,7 +54,7 @@ var ui_worldmap = {
       .find("md-card[node-id*='" + node.id + "']")
       .find(".grid-stack-item-content")
       .prepend(
-        `<img style='width:100%;height:100%;opacity: 0;position:absolute'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/worldmap.jpg">`
+        `<img class='grid-stack-item-content' style='width:100%;height:100%;opacity: 0;position:absolute'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg">`
       );
 
   },
