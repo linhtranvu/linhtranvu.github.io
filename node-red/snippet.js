@@ -28,7 +28,7 @@ var grid = iframe.find(".grid-stack[node-id='a6bf4948.17197']").data("gridstack"
 
 grid.on('resizestop', function(event, el) {
   let width = parseInt(el.getAttribute('gs-w')) || 0;
-  console.log(width)
+  console.log(width)u
   // or all values...
   // let node: GridStackNode = el.gridstackNode; // {x, y, width, height, id, ....}
 });
@@ -77,7 +77,7 @@ $(gridID+'.grid-stack').css("background-size", 100/columnNumber + (widget size +
   )[0].node;
   RED.editor.edit(currentSelectNodeObject);
 
-    currentSelectNodeObject = RED.search.search('182e1d16.4a00bb')[0].node;
+    currentSelectNodeObject = RED.search.search('a353dba9.0637')[0].node;
     currentSelectNodeObject.type
 
   RED.editor.edit(currentSelectNodeObject);

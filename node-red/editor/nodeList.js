@@ -11,8 +11,9 @@ var nodeList = [
   "ui_text",
   "ui_gauge",
   "ui_chart",
-//   "ui_audio",
-//   "ui_toast",
+  //   "ui_audio",
+  //   "ui_toast",
   "ui_template",
   "ui_worldmap",
+  "ui_unsupport",
 ];

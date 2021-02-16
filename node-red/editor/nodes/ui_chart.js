@@ -92,7 +92,7 @@ var ui_chart = {
 
     iframe
       .find(`md-card[node-id*='${node.id}']`)
-      .find(".grid-stack-item-content")
+      .find(".grid-stack-item-children")
       .remove();
     iframe.find(`md-card[node-id*='${node.id}']`).prepend(/*html*/ `
       <!-- <div class='grid-stack-item-content chart-container' style='postion:relative'> -->

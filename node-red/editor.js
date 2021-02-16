@@ -305,9 +305,9 @@ function loadDashboardIframe(interval) {
                   $(this).addClass("grid-stack-item");
                   $(this)
                     .children()
-                    .addClass("grid-stack-item-content")
+                    .addClass("grid-stack-item-children")
                     .css("inset", 0);
-                  $(this).find("input").attr("disabled", "disabled");
+                  // $(this).find("input").attr("disabled", "disabled");
 
                   //Calculate Width and Height
                   let ui_size = $(this).attr("ui-card-size").split("x");
@@ -924,6 +924,8 @@ function editDashboardNode() {
     // Format HTML on Dashboard After save
     if (nodeList.includes(currentSelectNodeObject.type)){
       eval(currentSelectNodeObject.type).edit(currentSelectNode);
+    }else{
+      ui_unsupport.edit(currentSelectNode);
     }
       
 
@@ -1203,10 +1205,10 @@ function addNode(groupId) {
         <b> X </b>
       </button>
       <div class="add-node-layout" style='width:100%;height:100%;position:fixed;left:0;top:0;z-index:530;background-color:white' >`;
-
-    for (i = 0; i < nodeList.length; i++) {
-      html += eval(nodeList[i]).node;
-    }
+      html += $("#red-ui-palette-dashboard").outerHTML();
+    // for (i = 0; i < nodeList.length; i++) {
+    //   html += eval(nodeList[i]).node;
+    // }
 
     html += "</div>";
 
@@ -1220,15 +1222,19 @@ function addNode(groupId) {
 
     // Add new node
 
-    $(".btn-add-node").click(function () {
-      type = $(this).attr("type");
-
+    // $(".btn-add-node").click(function () {
+    $(".add-node-layout .red-ui-palette-node").click(function () {
+      type = $(this).attr("data-palette-type");
       // Import Node to workspace
-
       RED.actions.invoke("core:show-import-dialog");
-
-      // import_code = eval(nodeList[0]).createNode(groupId);
-      import_code = eval(type).createNode(groupId);
+      
+      if(nodeList.includes(type)){
+        import_code = eval(type).createNode(groupId);
+      }else{
+        Swal.fire('','This node not fully supported, resize and move only. Email me if you want supported')
+        import_code = ui_unsupport.createNode(groupId,type);
+      }
+      
 
       $("#red-ui-clipboard-dialog-import-text").val(import_code);
       $("#red-ui-clipboard-dialog-ok").removeClass(
@@ -1245,17 +1251,36 @@ function addNode(groupId) {
         .data("gridstack");
 
       // Add HTML code to Dashboard
-
-      html_code = eval(type).createHTML(newNodeId);
-      widget_size = eval(type).size();
-      console.log(widget_size)
-      if(widget_size.width > 0){
-        grid.addWidget(html_code, 1, 1, widget_size.width, widget_size.height, true);        
+      if(nodeList.includes(type)){
+         html_code = eval(type).createHTML(newNodeId);
+         widget_size = eval(type).size();
       }else{
+        
+        html_code = ui_unsupport.createHTML(newNodeId,$(this).find(".red-ui-palette-label").text());
+        widget_size = ui_unsupport.size();
+      }
+     
+      
+      // console.log(widget_size);
+      if (widget_size.width > 0) {
+        grid.addWidget(
+          html_code,
+          1,
+          1,
+          widget_size.width,
+          widget_size.height,
+          true
+        );
+      } else {
         grid.addWidget(html_code, 1, 1, 3, 1, true);
       }
 
-      eval(type).load(newNode) // Process new Node if neccessary  
+      if (nodeList.includes(type)) {
+        eval(type).load(newNode); // Process new Node if neccessary
+      } else {
+        ui_unsupport.load(newNode); // Process new Node if neccessary
+      }      
+      
 
       iframe
         .find("md-card[node-id='" + newNodeId + "']")

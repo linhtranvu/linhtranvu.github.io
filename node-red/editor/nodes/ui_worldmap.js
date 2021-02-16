@@ -52,10 +52,9 @@ var ui_worldmap = {
   load: function (node) {
     iframe
       .find("md-card[node-id*='" + node.id + "']")
-      .find(".grid-stack-item-content")
       .prepend(
-        `<img class='grid-stack-item-content' style='width:100%;height:100%;opacity: 0;position:absolute'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg">`
-      );
+        `<img style='width:100%;height:100%;opacity: 0;position:absolute;z-index:5' class='grid-stack-item-content'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg">`
+      );  
 
   },
   loadAll: function (node) {},

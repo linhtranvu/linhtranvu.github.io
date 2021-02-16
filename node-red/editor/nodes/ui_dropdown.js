@@ -68,7 +68,13 @@ var ui_dropdown = {
       height: 1,
     };
   },
-  load: function (node) {},
+  load: function (
+    iframe
+      .find("md-card[node-id*='" + node.id + "']")
+      .prepend(
+        `<img style='width:100%;height:100%;opacity: 0;position:absolute;z-index:5' class='grid-stack-item-content'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg">`
+      );     
+  ) {},
   loadAll: function (node) {},
 };//End JS Object
 
