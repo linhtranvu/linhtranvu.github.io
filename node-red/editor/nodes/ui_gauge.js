@@ -78,7 +78,7 @@ var ui_gauge = {
     iframe.find(`md-card[node-id*='${node.id}']`).prepend(/*html*/ `
       <!-- <div class='grid-stack-item-content chart-container' style='postion:relative'> -->
         <img class='grid-stack-item-content' style='width:100%;height:100%;opacity: 0;position:absolute'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg" />
-        <canvas  id='canvas-${node.id}'>        
+        <canvas   id='canvas-${node.id}'>        
         </canvas>
       <!-- </div> -->
     `);
@@ -91,7 +91,7 @@ var ui_gauge = {
       .find(`md-card[node-id*='${node.id}']`)
       .css("postion", "relative")
       .addClass("chart-container");
-    iframe.find(`canvas[id*='canvas-${node.id}']`).removeAttr("style");
+    // iframe.find(`canvas[id*='canvas-${node.id}']`).removeAttr("style");
   },
   loadAll: function (node) {},
   loadConfig: function(node) {
@@ -119,7 +119,8 @@ var ui_gauge = {
         },
         options: {
           responsive: true,
-          maintainAspectRatio: true,
+          cutoutPercentage: 60,
+          maintainAspectRatio: false,
           circumference: Math.PI,
           rotation: -Math.PI,
           legend: {
@@ -154,8 +155,9 @@ var ui_gauge = {
         },
         options: {
           responsive: true,
-          maintainAspectRatio: true,
+          maintainAspectRatio: false,
           circumference: 2 * Math.PI,
+          cutoutPercentage: 60,
           rotation: -Math.PI / 2,
           legend: {
             display: false,
@@ -183,14 +185,15 @@ var ui_gauge = {
                 globalDashboardNode.theme.themeState["base-color"]["value"],
               label: "Dataset 1",
               borderWidth: 0,
-              weight: 0.1,
+              // weight: 0.1,
             },
           ],
           labels: ["Red"],
         },
         options: {
           responsive: true,
-          maintainAspectRatio: true,
+          cutoutPercentage: 90,
+          maintainAspectRatio: false,
           circumference: 2 * Math.PI,
           rotation: -Math.PI / 2,
           legend: {
