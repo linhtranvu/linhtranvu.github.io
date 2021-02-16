@@ -21,7 +21,7 @@ var ui_dropdown = {
 
     `,
   createNode: function (groupId) {
-    return `[{"id":"bc12e4e3.b01db8","type":"ui_dropdown","z":"a7b82102.9b8d38","name":"","label":"Dropdown","tooltip":"","place":"Select option","group":"${groupId}","order":7,"width":"6","height":"1","passthru":true,"multiple":false,"options":[{"label":"","value":"","type":"str"}],"payload":"","topic":"","x":90,"y":280,"wires":[[]]}]`;
+    return `[{"id":"${Math.random().toString(36).substr(2, 15)}","type":"ui_dropdown","z":"a7b82102.9b8d38","name":"","label":"Dropdown","tooltip":"","place":"Select option","group":"${groupId}","order":7,"width":"6","height":"1","passthru":true,"multiple":false,"options":[{"label":"","value":"","type":"str"}],"payload":"","topic":"","x":90,"y":280,"wires":[[]]}]`;
   },
   createHTML: function (newNodeId) {
     return /*html*/ `

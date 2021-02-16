@@ -21,7 +21,7 @@ var ui_button = {
 
     `,
   createNode: function (groupId) {
-    return `[{"id":"dd3e69f1.3d3b28","type":"ui_button","z":"a2415835.d93fb8","name":"","group":"${groupId}","order":7,"width":0,"height":0,"passthru":false,"label":"button","tooltip":"","color":"","bgcolor":"","icon":"","payload":"","payloadType":"str","topic":"","x":220,"y":80,"wires":[[]]}]`;
+    return `[{"id":"${Math.random().toString(36).substr(2, 15)}","type":"ui_button","z":"a2415835.d93fb8","name":"","group":"${groupId}","order":7,"width":0,"height":0,"passthru":false,"label":"button","tooltip":"","color":"","bgcolor":"","icon":"","payload":"","payloadType":"str","topic":"","x":220,"y":80,"wires":[[]]}]`;
   },
   createHTML: function (newNodeId) {
     return /*html*/ `

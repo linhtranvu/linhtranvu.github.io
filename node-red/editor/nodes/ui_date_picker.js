@@ -22,7 +22,7 @@ var ui_date_picker = {
     `,
   //        ${groupId}
   createNode: function (groupId) {
-    return `[{"id":"da3fd1af.9534f","type":"ui_date_picker","z":"a7b82102.9b8d38","name":"","label":"date","group":"${groupId}","order":23,"width":"4","height":1,"passthru":true,"topic":"","x":100,"y":580,"wires":[[]]}]`;
+    return `[{"id":"${Math.random().toString(36).substr(2, 15)}","type":"ui_date_picker","z":"a7b82102.9b8d38","name":"","label":"date","group":"${groupId}","order":23,"width":"4","height":1,"passthru":true,"topic":"","x":100,"y":580,"wires":[[]]}]`;
   },
 
   // CLASS:     grid-stack-item    grid-stack-item-content

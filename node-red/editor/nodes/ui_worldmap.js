@@ -22,7 +22,7 @@ var ui_worldmap = {
     `,
   //        ${groupId}
   createNode: function (groupId) {
-    return `[{"id":"6009be53.4556d","type":"ui_worldmap","z":"a7b82102.9b8d38","group":"${groupId}","order":4,"width":4,"height":5,"name":"","lat":"","lon":"","zoom":"","layer":"","cluster":"","maxage":"","usermenu":"hide","layers":"hide","panit":"false","panlock":"false","zoomlock":"false","hiderightclick":"true","coords":"none","showgrid":"false","path":"/worldmap","x":500,"y":180,"wires":[]}]`;
+    return `[{"id":"${Math.random().toString(36).substr(2, 15)}","type":"ui_worldmap","z":"a7b82102.9b8d38","group":"${groupId}","order":4,"width":4,"height":5,"name":"","lat":"","lon":"","zoom":"","layer":"","cluster":"","maxage":"","usermenu":"hide","layers":"hide","panit":"false","panlock":"false","zoomlock":"false","hiderightclick":"true","coords":"none","showgrid":"false","path":"/worldmap","x":500,"y":180,"wires":[]}]`;
   },
 
   // CLASS:     grid-stack-item    grid-stack-item-content

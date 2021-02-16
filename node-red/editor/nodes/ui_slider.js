@@ -22,7 +22,7 @@ var ui_slider = {
     `,
   //        ${groupId}
   createNode: function (groupId) {
-    return `[{"id":"cb246b6e.dbee78","type":"ui_slider","z":"a7b82102.9b8d38","name":"","label":"slider","tooltip":"","group":"${groupId}","order":5,"width":"4","height":1,"passthru":true,"outs":"all","topic":"","min":0,"max":10,"step":1,"x":80,"y":400,"wires":[[]]}]`;
+    return `[{"id":"${Math.random().toString(36).substr(2, 15)}","type":"ui_slider","z":"a7b82102.9b8d38","name":"","label":"slider","tooltip":"","group":"${groupId}","order":5,"width":"4","height":1,"passthru":true,"outs":"all","topic":"","min":0,"max":10,"step":1,"x":80,"y":400,"wires":[[]]}]`;
   },
 
   // CLASS:     grid-stack-item    grid-stack-item-content

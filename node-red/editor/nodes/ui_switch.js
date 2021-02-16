@@ -22,7 +22,7 @@ var ui_switch = {
     `,
   // ${groupId}
   createNode: function (groupId) {
-    return `[{"id":"a2be0998.f7b3f","type":"ui_switch","z":"a7b82102.9b8d38","name":"","label":"switch","tooltip":"","group":"${groupId}","order":1,"width":"3","height":1,"passthru":true,"decouple":"false","topic":"","style":"","onvalue":"true","onvalueType":"bool","onicon":"","oncolor":"","offvalue":"false","offvalueType":"bool","officon":"","offcolor":"","x":80,"y":340,"wires":[[]]}]`;
+    return `[{"id":"${Math.random().toString(36).substr(2, 15)}","type":"ui_switch","z":"a7b82102.9b8d38","name":"","label":"switch","tooltip":"","group":"${groupId}","order":1,"width":"3","height":1,"passthru":true,"decouple":"false","topic":"","style":"","onvalue":"true","onvalueType":"bool","onicon":"","oncolor":"","offvalue":"false","offvalueType":"bool","officon":"","offcolor":"","x":80,"y":340,"wires":[[]]}]`;
   },
 
   // CLASS:     grid-stack-item    grid-stack-item-content

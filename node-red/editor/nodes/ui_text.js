@@ -22,7 +22,7 @@ var ui_text = {
     `,
   //        ${groupId}
   createNode: function (groupId) {
-    return `[{"id":"f43d6c55.a2e4d","type":"ui_text","z":"a7b82102.9b8d38","group":"${groupId}","order":30,"width":0,"height":0,"name":"","label":"text","format":"{{msg.payload}}","layout":"row-spread","x":360,"y":460,"wires":[]}]`;
+    return `[{"id":"${Math.random().toString(36).substr(2, 15)}","type":"ui_text","z":"a7b82102.9b8d38","group":"${groupId}","order":30,"width":0,"height":0,"name":"","label":"text","format":"{{msg.payload}}","layout":"row-spread","x":360,"y":460,"wires":[]}]`;
   },
 
   // CLASS:     grid-stack-item    grid-stack-item-content

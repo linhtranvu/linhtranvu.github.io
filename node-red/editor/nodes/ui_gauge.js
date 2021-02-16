@@ -22,7 +22,7 @@ var ui_gauge = {
     `,
   //        ${groupId}
   createNode: function (groupId) {
-    return `[{"id":"3bf71c55.2380dc","type":"ui_gauge","z":"a7b82102.9b8d38","name":"","group":"${groupId}","order":20,"width":0,"height":0,"gtype":"gage","title":"gauge","label":"units","format":"{{value}}","min":0,"max":10,"colors":["#00b500","#e6e600","#ca3838"],"seg1":"","seg2":"","x":90,"y":380,"wires":[]}]`;
+    return `[{"id":"${Math.random().toString(36).substr(2, 15)}","type":"ui_gauge","z":"a7b82102.9b8d38","name":"","group":"${groupId}","order":20,"width":0,"height":0,"gtype":"gage","title":"gauge","label":"units","format":"{{value}}","min":0,"max":10,"colors":["#00b500","#e6e600","#ca3838"],"seg1":"","seg2":"","x":90,"y":380,"wires":[]}]`;
   },
 
   // CLASS:     grid-stack-item    grid-stack-item-content
@@ -41,6 +41,7 @@ var ui_gauge = {
           `;
   },
   edit: function (node) {
+    console.log(node)
     let nodeId = $(node).attr("node-id");
 
     let currentNodeData = {

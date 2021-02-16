@@ -22,7 +22,7 @@ var ui_form = {
     `,
   //        ${groupId}
   createNode: function (groupId) {
-    return `[{"id":"603f8df7.466f8c","type":"ui_form","z":"a7b82102.9b8d38","name":"","label":"","group":"${groupId}","order":29,"width":0,"height":0,"options":[{"label":"","value":"","type":"text","required":true,"rows":null}],"formValue":{"":""},"payload":"","submit":"submit","cancel":"cancel","topic":"","x":300,"y":520,"wires":[[]]}]`;
+    return `[{"id":"${Math.random().toString(36).substr(2, 15)}","type":"ui_form","z":"a7b82102.9b8d38","name":"","label":"","group":"${groupId}","order":29,"width":0,"height":0,"options":[{"label":"","value":"","type":"text","required":true,"rows":null}],"formValue":{"":""},"payload":"","submit":"submit","cancel":"cancel","topic":"","x":300,"y":520,"wires":[[]]}]`;
   },
 
   // CLASS:     grid-stack-item md-card-grid    grid-stack-item-content

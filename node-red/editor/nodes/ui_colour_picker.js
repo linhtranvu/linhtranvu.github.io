@@ -22,7 +22,7 @@ var ui_colour_picker = {
     `,
   //        ${groupId}
   createNode: function (groupId) {
-    return `[{"id":"3bf71c55.2380dc","type":"ui_colour_picker","z":"a7b82102.9b8d38","name":"","label":"Color","group":"${groupId}","format":"hex","outformat":"string","showSwatch":true,"showPicker":false,"showValue":false,"showHue":false,"showAlpha":false,"showLightness":true,"square":"false","dynOutput":"false","order":24,"width":"4","height":1,"passthru":true,"topic":"","x":100,"y":640,"wires":[[]]}]`;
+    return `[{"id":"${Math.random().toString(36).substr(2, 15)}","type":"ui_colour_picker","z":"a7b82102.9b8d38","name":"","label":"Color","group":"${groupId}","format":"hex","outformat":"string","showSwatch":true,"showPicker":false,"showValue":false,"showHue":false,"showAlpha":false,"showLightness":true,"square":"false","dynOutput":"false","order":24,"width":"4","height":1,"passthru":true,"topic":"","x":100,"y":640,"wires":[[]]}]`;
   },
 
   // CLASS:     grid-stack-item md-card-grid        grid-stack-item-content
