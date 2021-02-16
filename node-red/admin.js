@@ -56,7 +56,8 @@ var checkExist = setInterval(function () {
     $("#red-ui-header-button-user").parent().hide();
     $("#red-ui-header-button-deploy-icon").hide();
     $(".red-ui-header-logo").hide();
-    $("#red-ui-notifications").css("z-index", "1300");
+    $("#red-ui-notifications")
+      .css({ 'z-index':'1300' });
 
     cssHtml = `<style>
         .ui-dialog .ui-dialog-titlebar {
@@ -126,11 +127,18 @@ var checkExist = setInterval(function () {
           <button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color:red;position: fixed;top: 0px; right: 0px;display:none;z-index:1020;font-size:15px"  onclick="apphome()" ><i class="fa fa-power-off"></i>&nbsp;&nbsp;QUIT ADMIN</button>
           <div class="mobile_context_app controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 160px; left: 10px;z-index: 1020;display:none ">
             <!--<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_mqtt()" >MQTT</button>-->
-            <button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;border-radius:5px"  onclick="mobile_location_guide()" >
+            <button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #42a5f5 !important;border-radius:5px"  onclick="mobile_location_guide()" >
                 <i style='font-size:45px' class="fa fa-map-marker"></i><br><br>
-                <b>LOCATION</b>
+                <b>Location</b>
             </button>
-            <!--<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;border-radius:5px"  onclick="mobile_voice()" >VOICE</button>-->
+            <button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #8bc34a !important;border-radius:5px"  onclick="createPushFlow()" >
+                <i style='font-size:45px' class="fa fa-bell"></i><br><br>
+                <b>Push Flow</b>
+            </button>
+            <button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #0097a7 !important;border-radius:5px"  onclick="createVoiceFlow()" >
+                <i style='font-size:45px' class="fa fa-microphone"></i><br><br>
+                <b>Voice Flow</b>
+            </button>                             
           </div>`;
 
     $("html").append(contextAppHtml);
@@ -173,14 +181,49 @@ function apphome() {
 
 //FUNCTION LIST FOR ADMIN
 
+function createVoiceFlow() {
+  $(".mobile_context_app").hide();
+  RED.actions.invoke("core:show-import-dialog");
+  $("#red-ui-clipboard-dialog-import-text").val(`
+
+
+[{"id":"208f3317.9fc2ac","type":"http in","z":"a7b82102.9b8d38","name":"POST Voice","url":"/voice_command","method":"post","upload":false,"swaggerDoc":"","x":150,"y":1100,"wires":[["9395d5e5.62f258","88db2302.7825c8"]]},{"id":"9395d5e5.62f258","type":"debug","z":"a7b82102.9b8d38","name":"Debug Voice","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":370,"y":1120,"wires":[]},{"id":"88db2302.7825c8","type":"http response","z":"a7b82102.9b8d38","name":"","statusCode":"","headers":{"content-type":"text/html"},"x":310,"y":1020,"wires":[]}]
+
+
+  `);
+  $("#red-ui-clipboard-dialog-ok").removeClass(
+    "ui-button-disabled ui-button-disabled ui-state-disabled"
+  );
+  $("#red-ui-clipboard-dialog-ok").prop("disabled", false);
+  $("#red-ui-clipboard-dialog-ok").click();
+  
+}
+
+function createPushFlow() {
+  $(".mobile_context_app").hide();
+
+  RED.actions.invoke("core:show-import-dialog");
+  $("#red-ui-clipboard-dialog-import-text").val(`
+
+ [{"id":"8bb52021.c8f95","type":"function","z":"a7b82102.9b8d38","name":"","func":" msg.headers = {\\n 'Authorization': 'key=AAAAZpLq_Bo:APA91bFMOTvQo1GyATp2_y5FEE1CNY4SJdWWGm_ZZpgVTBJGgcM-D0ZjBB5RWJm8hvfAkvL3b_-F8SoR_q8G66zuyiB0h11x4-PsuLHo1hTuCcbXKfC2AxrVUDw_l5JKIticSz23_jSP',\\n 'Content-Type': 'application/json'\\n }\\n \\n msg.payload = \\n {\\n 'to' : 'YOUR DEVICE TOKEN',\\n 'notification' : {\\n 'body' : 'Body of Your Notification',\\n 'title': 'Title of Your Notification'\\n },\\n 'data': {\\n 'notification_foreground': 'true'\\n }\\n}\\n\\nreturn msg","outputs":1,"noerr":0,"initialize":"","finalize":"","x":160,"y":260,"wires":[["543f2f3b.6ba0a"]]},{"id":"543f2f3b.6ba0a","type":"http request","z":"a7b82102.9b8d38","name":"","method":"POST","ret":"txt","paytoqs":"ignore","url":"https://fcm.googleapis.com/fcm/send","tls":"","persist":false,"proxy":"","authType":"","x":310,"y":340,"wires":[["d7a83959.bdf5b8"]]},{"id":"d7a83959.bdf5b8","type":"debug","z":"a7b82102.9b8d38","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"true","targetType":"full","statusVal":"","statusType":"auto","x":470,"y":320,"wires":[]}]   
+
+  `);
+  $("#red-ui-clipboard-dialog-ok").removeClass(
+    "ui-button-disabled ui-button-disabled ui-state-disabled"
+  );
+  $("#red-ui-clipboard-dialog-ok").prop("disabled", false);
+  $("#red-ui-clipboard-dialog-ok").click();
+}
+
 function mobile_location_guide() {
+  $(".mobile_context_app").hide();
   $("#dialog").dialog({
     width: 0.95 * screen.width,
     height: screen.height - 200,
   });
   $(".btn-create-location, #dialog_content").show();
   $("#dialog_content_test_loc").hide();
-  $(".mobile_context_app").toggle();
+  
 }
 
 function mobile_create_location_node() {

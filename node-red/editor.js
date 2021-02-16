@@ -73,7 +73,7 @@ function addIframeHtml() {
   } else {
     Swal.fire(
       "WYSIWYG Editor for Dashboard",
-      "Dashboard 2.24.1 (released on 27 Nov) required. Support default node, worldmap, time-scheduler. If you need a custom node supported, drop me email. To start, select a tab and press Edit"
+      "Dashboard 2.24.1 above (27 Nov 2020) required. Support default node, worldmap. If you need a custom node supported, drop me email. To start, select a Tab and press Edit"
     );
     // alert(params_dashboard.url);
       var nrdashUrl =
@@ -215,6 +215,7 @@ function loadDashboardIframe(interval) {
       attr !== false
     ) {
       clearInterval(checkExist);
+      clearInterval(checkNoTab);
       loadCss();
       // Create change tab button
       iframe
@@ -418,6 +419,45 @@ function loadDashboardIframe(interval) {
       }, 500); // check every 500ms
     } //end if dashboard found
   }, 500); // check every 500ms
+
+  var checkNoTab = setInterval(function(){
+    if (iframe.find(".node-red-ui--notabs").length > 0 ){
+      clearInterval(checkExist);
+      clearInterval(checkNoTab);
+      Swal.fire(
+        "No UI",
+        "No UI found, create a default workspace. Accept deploy and Edit again"
+      );
+      //   $(".nr-db-sb-list-button-group > a:nth-child(3)").click();
+      //   setTimeout(function () {
+      //     var noTab_TabId = $('.nr-db-sb-tab-list li').last().find('.nr-db-sb-list-header-button-group').attr('id')
+      //     $('.nr-db-sb-tab-list li').last().find('.nr-db-sb-tab-add-group-button').click()
+      //     setTimeout(function () {
+      //       var noTab_GroupId = $(".nr-db-sb-tab-list li").last().find('.nr-db-sb-list-header-button-group').attr('id')
+      //     },500)
+
+      // }, 500);
+
+      RED.actions.invoke("core:show-import-dialog");
+      $("#red-ui-clipboard-dialog-import-text").val(`
+
+        [{"id":"43bc6447.1b17d4","type":"ui_button","z":"2cc48a6d.a2ff26","name":"","group":"2bdcc764.24f779","order":0,"width":0,"height":0,"passthru":false,"label":"button","tooltip":"","color":"","bgcolor":"","icon":"","payload":"","payloadType":"str","topic":"topic","topicType":"msg","x":100,"y":140,"wires":[[]]},{"id":"2bdcc764.24f779","type":"ui_group","name":"Group 1","tab":"da97a8ee.720bg","order":1,"disp":true,"width":6},{"id":"da97a8ee.720bg","type":"ui_tab","name":"Tab 4","icon":"dashboard","order":4}]
+
+      `);
+      $("#red-ui-clipboard-dialog-ok").removeClass(
+        "ui-button-disabled ui-button-disabled ui-state-disabled"
+      );
+      $("#red-ui-clipboard-dialog-ok").prop("disabled", false);
+      $("#red-ui-clipboard-dialog-ok").click();
+      RED.nodes.dirty(true);
+      RED.view.redraw();      
+      setTimeout(function () {
+        $("#red-ui-header-button-deploy").click();
+      },500)
+      
+    }
+
+  },500) //end check No Tab interval
 }
 
 function toggleGridMove() {
@@ -882,7 +922,7 @@ function editDashboardNode() {
     }
 
     // Format HTML on Dashboard After save
-    if (nodeList.includes("currentSelectNodeObject.type")){
+    if (nodeList.includes(currentSelectNodeObject.type)){
       eval(currentSelectNodeObject.type).edit(currentSelectNode);
     }
       
@@ -1029,7 +1069,7 @@ function edit_theme() {
   $(".nr-db-sb-list-button-group > a:nth-child(3)").show(); // Add tab button
   $(".nr-db-sb-list-button-group > a:nth-child(4)").show(); // Add link button
   $("#red-ui-sidebar-content").prepend(
-    `<div id='edit-theme-info' style="color:red;padding:10px">Change group order,add tab or do any changes here required 'Save', or Editor will not work correctly</div>`
+    `<div id='edit-theme-info' style="color:red;padding:10px">Any here required 'Save'</div>`
   );
 
   checkExistGroupButton = setInterval(function () {
@@ -1046,6 +1086,7 @@ function edit_theme() {
 function restoreThemeUI() {
   clearInterval(checkExistGroupButton);
   //Value above must be restore
+  $(".nr-db-sb-list-header-button-group").show();
   $("#red-ui-sidebar").find(".fa-pencil,.fa-plus").parent().show();
   $("#red-ui-sidebar").css("z-index", "10");
   $(".red-ui-tab-link-buttons").show();
@@ -1287,12 +1328,17 @@ function addTabButton(tabId) {
     .find("#nr-dashboard-toolbar")
     .find("h1")
     .each(function () {
-      if ($(this).is(":visible")) {
+      if (
+        typeof $(this).attr("node-id") !== typeof undefined &&
+        ($(this).attr("node-id") !== false) !== "" &&
+        $(this).is(":visible")
+      ) {
         $(this).html(/*html*/ `
           <span id='tab-label'>${$(this).text()}</span>
           <button onclick="parent.editTab('${tabId}')" class="btn-toolbar-tab btn-editor ui-button ui-widget ui-corner-all" style="background-color: #21ba45;"><i class="fa fa-edit"></i></button>          
           <button onclick="parent.addGroup('${tabId}')" class="btn-toolbar-tab btn-editor ui-button ui-widget ui-corner-all" style="background-color: #21ba45;"><i class="fa fa-plus"></i> Group</button>`);
       }
+
     });
 }
 
