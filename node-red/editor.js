@@ -437,20 +437,15 @@ function loadDashboardIframe(interval) {
         "No UI",
         "No UI found, create a default workspace. Accept deploy and Edit again"
       );
-      //   $(".nr-db-sb-list-button-group > a:nth-child(3)").click();
-      //   setTimeout(function () {
-      //     var noTab_TabId = $('.nr-db-sb-tab-list li').last().find('.nr-db-sb-list-header-button-group').attr('id')
-      //     $('.nr-db-sb-tab-list li').last().find('.nr-db-sb-tab-add-group-button').click()
-      //     setTimeout(function () {
-      //       var noTab_GroupId = $(".nr-db-sb-tab-list li").last().find('.nr-db-sb-list-header-button-group').attr('id')
-      //     },500)
 
-      // }, 500);
+      var noTab_nodeId = Math.random().toString(36).substr(2, 15)
+      var noTab_GroupId = Math.random().toString(36).substr(2, 15);
+      var noTab_TabId = Math.random().toString(36).substr(2, 15);
 
       RED.actions.invoke("core:show-import-dialog");
       $("#red-ui-clipboard-dialog-import-text").val(`
 
-        [{"id":"43bc6447.1b17d4","type":"ui_button","z":"2cc48a6d.a2ff26","name":"","group":"2bdcc764.24f779","order":0,"width":0,"height":0,"passthru":false,"label":"button","tooltip":"","color":"","bgcolor":"","icon":"","payload":"","payloadType":"str","topic":"topic","topicType":"msg","x":100,"y":140,"wires":[[]]},{"id":"2bdcc764.24f779","type":"ui_group","name":"Group 1","tab":"da97a8ee.720bg","order":1,"disp":true,"width":6},{"id":"da97a8ee.720bg","type":"ui_tab","name":"Tab 4","icon":"dashboard","order":4}]
+        [{"id":"${noTab_nodeId}","type":"ui_button","z":"2cc48a6d.a2ff26","name":"","group":"${noTab_GroupId}","order":0,"width":0,"height":0,"passthru":false,"label":"button","tooltip":"","color":"","bgcolor":"","icon":"","payload":"","payloadType":"str","topic":"topic","topicType":"msg","x":100,"y":140,"wires":[[]]},{"id":"${noTab_GroupId}","type":"ui_group","name":"Group 1","tab":"${noTab_TabId}","order":1,"disp":true,"width":6},{"id":"da97a8ee.720bg","type":"ui_tab","name":"Tab 4","icon":"dashboard","order":4}]
 
       `);
       $("#red-ui-clipboard-dialog-ok").removeClass(
