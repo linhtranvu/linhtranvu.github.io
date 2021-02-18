@@ -4,6 +4,7 @@ var params_dashboard = {
   password: "123456",
 };
 
+
 var editor_host = "https://"; // Production server
 //  var editor_host = "http://localhost/"; // Dev sever setting Home
 // var editor_host = "http://10.212.20.67/"; // Dev sever setting Company

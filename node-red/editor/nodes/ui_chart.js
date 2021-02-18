@@ -106,10 +106,24 @@ var ui_chart = {
       .getElementById(`canvas-${node.id}`)
       .getContext("2d");
     myChart[node.id] = new Chart(ctx, config);
-    // iframe
-    //   .find(`md-card[node-id*='${node.id}']`)
-    //   .css("postion", "relative")
-    //   .addClass("chart-container");
+    iframe
+      .find(`md-card[node-id*='${node.id}']`)
+      .css("postion", "relative")
+      .addClass("chart-container");
+
+    var resizeChart = new ResizeObserver(function () {
+      myChart[node.id] = new Chart(ctx, config);
+      iframe
+        .find(`md-card[node-id*='${node.id}']`)
+        .css("postion", "relative")
+        .addClass("chart-container");
+    });
+
+    resizeChart.observe(
+      document
+        .getElementById("iframe_dashboard")
+        .contentWindow.document.querySelector(`md-card[node-id="${node.id}"]`)
+    );      
     // iframe.find(`canvas[id*='canvas-${node.id}']`).removeAttr("style");
   },
   loadAll: function (node) {},

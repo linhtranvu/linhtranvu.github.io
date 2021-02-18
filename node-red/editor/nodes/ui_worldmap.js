@@ -47,16 +47,30 @@ var ui_worldmap = {
     };
   },
   edit: function (node) {
+
+    var node = {
+      lon: $("#node-input-lon").val(),
+      lat: $("#node-input-lat").val(),
+      id: currentSelectNodeObject.id
+    };
+
+    this.load(node)
+
     //$(node).find(".label").text($("#node-input-label").val());
   },
   load: function (node) {
-    iframe
-      .find("md-card[node-id*='" + node.id + "']")
-      .prepend(
-        `<img style='width:100%;height:100%;opacity: 0;position:absolute;z-index:5' class='grid-stack-item-content'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg">`
-      );  
+    iframe.find("md-card[node-id*='" + node.id + "']").children().not('.md-card-ui-select').remove()
+    iframe.find("md-card[node-id*='" + node.id + "']").prepend(
+      `
+        <img style='width:100%;height:100%;opacity: 0;position:absolute;z-index:15' class='grid-stack-item-content'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg">
+
+<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=${node.lon-0.0511}%2C${node.lat-0.029249}%2C${parseInt(node.lon)+0.0511}%2C${parseInt(node.lat)+0.02932}&amp;layer=mapnik&amp;marker=${node.lat}%2C${node.lon}" style="border: 1px solid black"></iframe>
+
+        `
+    );  
 
   },
   loadAll: function (node) {},
 };//End JS Object
+
 

@@ -244,20 +244,28 @@ function loadDashboardIframe(interval) {
       var grid_column = "";
 
       // Loop through `ui-card-panel` to create grid div
-      var node_id = $(".btn-save-layout").attr("node-id");
-      $(`div[id="${node_id}"] .nr-db-sb-tab-edit-layout-button`).click(); //Open Layout Editor to get column number
+      var tabNode = RED.search.search($(".btn-save-layout").attr("node-id"))[0].node;
 
-      var checkExistLayoutEditor = setInterval(function () {
-        if ($(".grid-stack-item").length > 0) {
-          clearInterval(checkExistLayoutEditor);
-          // Loop through grid-stack in Layout Editor to create Group div, even with empty one
-          $(".grid-stack").each(function () {
-            grid_column = $(this).attr("grid-column");
-            let groupId = $(this).attr("node-id");
+      var nodesSet = RED.nodes.createCompleteNodeSet(false);
 
-            //iframe.find(find("ui-card-panel[node-id*='" + groupId + "']")).find('')
+      for (var cnt = 0; cnt < nodesSet.length; cnt++) {
+        if (nodesSet[cnt].type == "ui_group" && nodesSet[cnt].tab == tabNode.id) {
+          var group = {
+            id: nodesSet[cnt].id,
+            name: nodesSet[cnt].name,
+            type: nodesSet[cnt].type,
+            order: nodesSet[cnt].order,
+            width: nodesSet[cnt].width,
+            widgets: [],
+          };
+          // tabNode.groups.push(group);
 
-            iframe.find("ui-card-panel").parent().append(/*html*/ `
+          grid_column = nodesSet[cnt].width;
+          let groupId = nodesSet[cnt].id;
+
+          //iframe.find(find("ui-card-panel[node-id*='" + groupId + "']")).find('')
+
+          iframe.find("ui-card-panel").parent().append(/*html*/ `
                   <div class="div-card-panel" node-id="${groupId}" style="border:1px solid red">
                       <div class='div-group-title' style='font-size:larger'></div>
                       <div>
@@ -271,152 +279,153 @@ function loadDashboardIframe(interval) {
                       </div>
                   </div>
                 `);
-          });
+        }
+      }
 
-          // Loop through card-panel and md-card to processing
-          iframe.find("ui-card-panel").each(function () {
-            let currentGroupNodeId = $(this).attr("node-id");
-            // console.log(currentGroupNodeId);
+        // Loop through card-panel and md-card to processing
+        iframe.find("ui-card-panel").each(function () {
+          let currentGroupNodeId = $(this).attr("node-id");
+          // console.log(currentGroupNodeId);
 
-            if (!$(this).hasClass("new-editor-group")) {
-              //Process group title
-              $(this).find(".nr-dashboard-cardtitle").removeAttr("style");
-              $(this)
-                .find(".nr-dashboard-cardtitle")
-                .appendTo(
-                  $(this)
-                    .parent()
-                    .find(".div-card-panel[node-id='" + currentGroupNodeId + "']")
-                    .find(".div-group-title")
+          if (!$(this).hasClass("new-editor-group")) {
+            //Process group title
+            $(this).find(".nr-dashboard-cardtitle").removeAttr("style");
+            $(this)
+              .find(".nr-dashboard-cardtitle")
+              .appendTo(
+                $(this)
+                  .parent()
+                  .find(".div-card-panel[node-id='" + currentGroupNodeId + "']")
+                  .find(".div-group-title")
+              );
+
+            //Processing md-card object
+            $(this)
+              .find("md-card")
+              .each(function () {
+                var currentNodeId = $(this).attr("node-id");
+                if (
+                  $(this).children().length == 0 ||
+                  $(this).hasClass("nr-dashboard-spacer")
+                ) {
+                  $(this).remove(); //Remove empty md-card
+                }
+
+                $(this).addClass("grid-stack-item");
+                $(this)
+                  .children()
+                  .addClass("grid-stack-item-children")
+                  .css("inset", 0);
+                // $(this).find("input").attr("disabled", "disabled");
+
+                //Calculate Width and Height
+                let ui_size = $(this).attr("ui-card-size").split("x");
+                $(this).attr("data-gs-width", ui_size[0]);
+                $(this).attr("data-gs-height", ui_size[1]);
+
+                //Calculate X and Y
+                var blockX =
+                  globalDashboardNode.site.sizes.sx +
+                  globalDashboardNode.site.sizes.cx;
+                var blockY =
+                  globalDashboardNode.site.sizes.sy +
+                  globalDashboardNode.site.sizes.cy;
+
+                $(this).attr(
+                  "data-gs-x",
+                  parseInt($(this).css("left"), 10) / blockX
+                );
+                // console.log($(this).attr("node-id") + ':x:'+ parseInt($(this).css("left"), 10) / blockX)
+                $(this).attr(
+                  "data-gs-y",
+                  parseInt($(this).css("top"), 10) / blockY
                 );
 
-              //Processing md-card object
-              $(this)
-                .find("md-card")
-                .each(function () {
-                  var currentNodeId = $(this).attr("node-id");
-                  if (
-                    $(this).children().length == 0 ||
-                    $(this).hasClass("nr-dashboard-spacer")
-                  ) {
-                    $(this).remove(); //Remove empty md-card
-                  }
+                //Remove style and border
+                $(this).removeAttr("style").css({
+                  margin: "0px",
+                  border: "3px solid green",
+                });
 
-                  $(this).addClass("grid-stack-item");
-                  $(this)
-                    .children()
-                    .addClass("grid-stack-item-children")
-                    .css("inset", 0);
-                  // $(this).find("input").attr("disabled", "disabled");
+                //Attach md-card to gridstack
+                $(this).appendTo(
+                  iframe.find(
+                    ".grid-stack[node-id='" + currentGroupNodeId + "']"
+                  )
+                );
 
-                  //Calculate Width and Height
-                  let ui_size = $(this).attr("ui-card-size").split("x");
-                  $(this).attr("data-gs-width", ui_size[0]);
-                  $(this).attr("data-gs-height", ui_size[1]);
+                $(this).append(
+                  `<div class="ui-button btn-editor ui-widget ui-corner-all md-card-ui-select"><i class="fa fa-hand-pointer-o" style='background-color:white'></i></div>`
+                );
 
-                  //Calculate X and Y
-                  var blockX =
-                    globalDashboardNode.site.sizes.sx +
-                    globalDashboardNode.site.sizes.cx; 
-                  var blockY =
-                    globalDashboardNode.site.sizes.sy +
-                    globalDashboardNode.site.sizes.cy; 
+                $(this)
+                  .find(".md-card-ui-select")
+                  .click(function () {
+                    currentSelectNode = this.closest("md-card");
+                    prepareClickOnNodeDashboard();
+                  }); //End handle click on UI node
 
-                  $(this).attr(
-                    "data-gs-x",
-                    parseInt($(this).css("left"), 10) / blockX
-                  );
-                  // console.log($(this).attr("node-id") + ':x:'+ parseInt($(this).css("left"), 10) / blockX)
-                  $(this).attr(
-                    "data-gs-y",
-                    parseInt($(this).css("top"), 10) / blockY
-                  );
+                // Process UI of md-card to Editor Mode, more simple and elegant
 
-                  //Remove style and border
-                  $(this).removeAttr("style").css({
-                    margin: "0px",
-                    border: "3px solid green",
-                  });
+                if (typeof currentNodeId !== "undefined") {
+                  // console.log(currentNodeId);
+                  let currentNodes = RED.search.search(currentNodeId);
+                  if (currentNodes.length > 0) {
+                    let currentNode = currentNodes[0].node;
 
-                  //Attach md-card to gridstack
-                  $(this).appendTo(
-                    iframe.find(".grid-stack[node-id='" + currentGroupNodeId + "']")
-                  );
+                    if (nodeList.includes(currentNode.type)) {
+                      eval(currentNode.type).load(currentNode);
+                    } else {
+                      ui_unsupport.load(currentNode);
+                    }
 
-                  $(this).append(
-                    `<div class="ui-button btn-editor ui-widget ui-corner-all md-card-ui-select"><i class="fa fa-hand-pointer-o" style='background-color:white'></i></div>`
-                  );
-
-                  $(this)
-                    .find(".md-card-ui-select")
-                    .click(function () {
-                      currentSelectNode = this.closest("md-card");
-                      prepareClickOnNodeDashboard();
-                    }); //End handle click on UI node
-
-                  // Process UI of md-card to Editor Mode, more simple and elegant
-
-                  if (typeof currentNodeId !== "undefined") {
-                    // console.log(currentNodeId);
-                    let currentNodes = RED.search.search(currentNodeId);
-                    if(currentNodes.length > 0){
-                      let currentNode = currentNodes[0].node;
-
-                      if (nodeList.includes(currentNode.type)) {
-                        eval(currentNode.type).load(currentNode);
-                      }
-
-                      if (editorNodeTypeList.indexOf(currentNode.type) === -1) {
-                        editorNodeTypeList.push(currentNode.type);
-                        // console.log(editorNodeTypeList);
-                      }
+                    if (editorNodeTypeList.indexOf(currentNode.type) === -1) {
+                      editorNodeTypeList.push(currentNode.type);
+                      // console.log(editorNodeTypeList);
                     }
                   }
-                }); //end loop each md-card
+                }
+              }); //end loop each md-card
+          }
+        }); //end loop each panel
+
+        iframe.find(".nr-dashboard-cardcontainer").remove();
+        iframe.find("ui-card-panel").remove();
+
+        // Apply Grid stack
+        setTimeout(() => {
+          iframe.find(".nr-dashboard-spacer").remove();
+
+          iframe.find(".grid-stack").each(function () {
+            if (!$(this).hasClass("new-editor-group")) {
+              $(this).gridstack({
+                cellHeight:
+                  globalDashboardNode.site.sizes.sy +
+                  globalDashboardNode.site.sizes.cy -
+                  7, //-7 = (3 top border + 3 bottom border + 1 space between widget)
+                verticalMargin: 1,
+                float: true,
+                alwaysShowResizeHandle: true,
+                disableOneColumnMode: true,
+                column: $(this).attr("column"),
+                enableMove: false,
+                enableResize: false,
+                // acceptWidgets: true,
+                // column: 6,
+              });
+              $(this).data("gridstack").disable();
             }
-          }); //end loop each panel
+          });
+        }, 300);
 
-          iframe.find(".nr-dashboard-cardcontainer").remove();
-          iframe.find("ui-card-panel").remove();
+        //FINISH GRID STACK INITIALIZE
+        iframe
+          .find(".masonry-container")
+          .removeClass("masonry-container")
+          .addClass("tab-content nr-dashboard-layout-row")
+          .css("min-height", "100px"); //Make whole layout responsive
+        // iframe.find("body").css('height', '130%') //Increase height to fix all content
 
-          // Apply Grid stack
-          setTimeout(() => {
-            $(".red-ui-tray").find("#node-dialog-cancel").click(); //Close background Layout Editor
-            iframe.find(".nr-dashboard-spacer").remove();
-
-            iframe.find(".grid-stack").each(function () {
-              if (!$(this).hasClass("new-editor-group")) {
-                $(this).gridstack({
-                  cellHeight: globalDashboardNode.site.sizes.sy + globalDashboardNode.site.sizes.cy - 7, //-7 = (3 top border + 3 bottom border + 1 space between widget)
-                  verticalMargin: 1,
-                  float: true,
-                  alwaysShowResizeHandle: true,
-                  disableOneColumnMode: true,
-                  column: $(this).attr("column"),
-                  enableMove: false,
-                  enableResize: false,
-                  // acceptWidgets: true,
-                  // column: 6,
-                });
-                $(this).data("gridstack").disable();
-              }
-            });
-          }, 300);
-
-          // grid = $("#iframe_dashboard")
-          //   .contents()
-          //   .find(".grid-stack")
-          //   .data("gridstack");
-
-          //FINISH GRID STACK INITIALIZE
-          iframe
-            .find(".masonry-container")
-            .removeClass("masonry-container")
-            .addClass("tab-content nr-dashboard-layout-row")
-            .css("min-height", "100px"); //Make whole layout responsive
-          // iframe.find("body").css('height', '130%') //Increase height to fix all content
-        } //end check if layout editor open existed
-      }, 500); // check every 500ms
     } //end if dashboard found
   }, 500); // check every 500ms
 

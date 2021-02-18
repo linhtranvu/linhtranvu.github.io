@@ -70,6 +70,10 @@ var ui_gauge = {
   },
   load: function (node) {
 
+    // ResizeObserver.unobserve(document.getElementById(
+    //   "iframe_dashboard").contentWindow.document
+    //     .querySelectorAll(`md-card[node-id="${node.id}"]`))
+    var node = node
     var config = this.loadConfig(node)
     iframe
       .find(`md-card[node-id*='${node.id}']`)
@@ -78,7 +82,7 @@ var ui_gauge = {
     iframe.find(`md-card[node-id*='${node.id}']`).prepend(/*html*/ `
       <!-- <div class='grid-stack-item-content chart-container' style='postion:relative'> -->
         <img class='grid-stack-item-content' style='width:100%;height:100%;opacity: 0;position:absolute'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg" />
-        <canvas   id='canvas-${node.id}'>        
+        <canvas width='600px' height='600px' id='canvas-${node.id}'>        
         </canvas>
       <!-- </div> -->
     `);
@@ -86,12 +90,35 @@ var ui_gauge = {
     var ctx = myiframe.contentWindow.document
       .getElementById(`canvas-${node.id}`)
       .getContext("2d");
+
+    this.createChart(node, ctx, config);
+    var resizeChart = new ResizeObserver(
+      function(){
+      myChart[node.id] = new Chart(ctx, config);
+      iframe
+        .find(`md-card[node-id*='${node.id}']`)
+        .css("postion", "relative")
+        .addClass("chart-container");
+      }
+    )
+
+    resizeChart.observe(
+      document
+        .getElementById("iframe_dashboard")
+        .contentWindow.document.querySelector(
+          `md-card[node-id="${node.id}"]`
+        )
+    );    
+
+
+    // iframe.find(`canvas[id*='canvas-${node.id}']`).removeAttr("style");
+  },
+  createChart: function(node, ctx, config){
     myChart[node.id] = new Chart(ctx, config);
     iframe
       .find(`md-card[node-id*='${node.id}']`)
       .css("postion", "relative")
-      .addClass("chart-container");
-    // iframe.find(`canvas[id*='canvas-${node.id}']`).removeAttr("style");
+      .addClass("chart-container")
   },
   loadAll: function (node) {},
   loadConfig: function(node) {

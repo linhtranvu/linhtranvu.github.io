@@ -40,6 +40,7 @@ var ui_unsupport = {
           `;
   },
   edit: function (node) {
+    console.log(node);
     // $(node).find(".grid-stack-item-content").html('<b>'+$("#node-input-name").val()+'</b>');
   },
   size: function () {
@@ -49,11 +50,12 @@ var ui_unsupport = {
     };
   },
   load: function (node) {
-    // iframe
-    //   .find("md-card[node-id*='" + node.id + "']")
-    //   .prepend(
-    //     `<img style='width:100%;height:100%;opacity: 0;position:absolute;z-index:5' class='grid-stack-item-content'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg">`
-    //   );    
+    console.log(node)
+    iframe
+      .find("md-card[node-id*='" + node.id + "']")
+      .prepend(
+        `<img style='width:100%;height:100%;opacity: 0;position:absolute;z-index:5' class='grid-stack-item-content'  src="${editor_host}linhtranvu.github.io/node-red/editor/images/blank.jpg">`
+      );    
   },
   loadAll: function (node) {},
 };//End JS Object
