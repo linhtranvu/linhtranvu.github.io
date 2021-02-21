@@ -71,6 +71,12 @@ $(gridID+'.grid-stack').css("background-size", 100/columnNumber + (widget size +
 //Sort Item after changing group order
  sortItems($('.nr-db-sb-tab-list > li:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > ol:nth-child(1) > li > .red-ui-editableList-item-content'))         
 
+RED.view.select('208f3317.9fc2ac')
+RED.view.selection()
+RED.view.selection().nodes[0]
+RED.view.reveal('208f3317.9fc2ac')
+
+red-ui-search-result-node-id
 
   currentSelectNodeObject = RED.search.search(
     $(currentSelectNode).attr("node-id")

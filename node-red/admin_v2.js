@@ -1,14 +1,14 @@
 var params_dashboard = {
-  url: "http://localhost:1880/ui",
+  url: "http://admin.com:1880/ui",
   username: "user",
   password: "123456",
 };
 
 
 var editor_host = "https://"; // Production server
-//  var editor_host = "http://localhost/"; // Dev sever setting Home
-// var editor_host = "http://10.212.20.67/"; // Dev sever setting Company
-
+editor_host = "http://localhost/"; // Dev sever setting Home
+editor_host = "http://192.168.1.100/"; // Dev home device setting Home
+// editor_host = "http://10.212.20.67/"; // Dev sever setting Company 
 var location_url = "http://admin.com:1880"; // Dont allow to comment out.Global variable, must keep
 
 // $.getScript(
@@ -16,12 +16,12 @@ var location_url = "http://admin.com:1880"; // Dont allow to comment out.Global 
 //   function () {}
 // );
 $.getScript(
-  editor_host + "linhtranvu.github.io/node-red/editor/nodeList.js",
+  editor_host + "linhtranvu.github.io/node-red/editor_v2/nodeList.js",
   function () {
     for (i = 0; i < nodeList.length; i++) {
       $.getScript(
         editor_host +
-          "linhtranvu.github.io/node-red/editor/nodes/" +
+          "linhtranvu.github.io/node-red/editor_v2/nodes/" +
           nodeList[i] +
           ".js"
       );
@@ -39,13 +39,17 @@ $.getScript(
 );
 
 $.getScript(
-  editor_host + "linhtranvu.github.io/node-red/editor/Chart.min.js",
+  editor_host + "linhtranvu.github.io/node-red/editor_v2/Chart.min.js",
   function () {}
 );
 $.getScript(
-  editor_host + "linhtranvu.github.io/node-red/editor/utils.js",
+  editor_host + "linhtranvu.github.io/node-red/editor_v2/utils.js",
   function () {}
 );
+
+
+
+
 
 var checkExist = setInterval(function () {
   //ADMIN UI FOUND
@@ -53,6 +57,13 @@ var checkExist = setInterval(function () {
     // swal("1111");
 
     //Process CSS to get a Clean UI for Mobile
+
+    $("head").append(
+    $('<link rel="stylesheet" type="text/css" />').attr(
+        "href",
+        editor_host + "linhtranvu.github.io/node-red/editor_v2/app.min.css"
+    )
+    );     
 
     $("#red-ui-header-button-user").parent().hide();
     $("#red-ui-header-button-deploy-icon").hide();
@@ -81,16 +92,16 @@ var checkExist = setInterval(function () {
 
     //Sidebar button
     $("#red-ui-palette").append(
-      /*html*/ `<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;top:calc(50% - 26px);position:absolute;left:calc(100%);z-index:90  "><b> + <br> + </b></button>`
+      /*html*/ `<button id="btn-mobile-nodelist" onclick="mobile_nodelist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;top:calc(50% - 26px);position:absolute;left:calc(100%);z-index:2 "><b> + <br> + </b></button>`
     );
 
     //Admin home button
     myAdminHtml = /*html*/ `
-      <button onclick="mobile_admin_home()" class="md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 9999; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>`;
+      <button onclick="mobile_admin_home()" class="no-editor md-raised md-button md-ink-ripple" type="button" aria-label="button" style="color:white; background-color: orange; z-index: 500; padding: 10px;border-radius: 50%; position: fixed;bottom: 10px;right: 0;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg></button>`;
 
     //Bottom menu normal
     myAdminHtml += /*html*/ `
-      <div class="no-editor controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 1000; ">
+      <div class="no-editor controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index: 500; ">
         <button id="btn-mobile-edit" onclick="mobile_edit()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i> Edit</button>   
         <button id="btn-mobile-righlist" onclick="mobile_righlist()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;">Info</button>           
         <button onclick="mobile_search_node()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-search"></i></button>
@@ -101,20 +112,20 @@ var checkExist = setInterval(function () {
 
     //Top menu
     myAdminHtml = /*html*/ `js_admin
-      <div class="top-menu controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 0px; left: 0px;z-index: 505; ">
-        <button onclick="mobile_more()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><b>MORE</b></button>
+      <div class="top-menu controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 0px; left: 0px;z-index: 2; ">
+        <button onclick="mobile_more()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;">MORE</button>
         <button onclick="mobile_undo()"  class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;  "><i class="fa fa-undo"></i></button>
         <button class="no-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;"  onclick="mobile_redo()" ><i class="fa fa-repeat"></i></button>
         <span id="btn-editor-container"></span>
-        <button id="btn-editor-reload" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="loadDashboardIframe()" >Edit</button>
-        <button class="editor-mode  ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="document.getElementById('iframe_dashboard').contentWindow.location.reload()" >F5</button>
+        <!--<button id="btn-editor-reload" class="editor-mode ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="loadDashboardIframe()" >Edit</button>
+        <button class="editor-mode  ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;display:none"  onclick="document.getElementById('iframe_dashboard').contentWindow.location.reload()" >F5</button>-->
 
       </div>`;
     $("html").append(myAdminHtml);
 
     //More menu
     myAdminHtml = /*html*/ `
-      <div class="mobile-more-menu controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 40px; left: 0px;z-index: 1000;display:none ">
+      <div class="mobile-more-menu controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 40px; left: 0px;z-index: 2;display:none ">
         <button id="btn-mobile-delete" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: red;margin-right:25px;border-radius:5px""  onclick="mobile_delete()" ><i class="fa fa-trash" style="font-size:30px"></i></button>
         <button id="btn-mobile-cut" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_cut()" ><i class="fa fa-cut" style="font-size:30px"></i></button>
         <button id="btn-mobile-copy" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #1976d2;;border-radius:5px"  onclick="mobile_copy()" ><i class="fa fa-copy" style="font-size:30px"></i></button>
@@ -124,7 +135,7 @@ var checkExist = setInterval(function () {
 
     //Admin context app menu
     contextAppHtml = /*html*/ `
-          <div class="mobile_context_app" style="background-color: black;position: fixed;top: 0px; left: 0px;width:3000px;height:5000px;display:none;z-index:1010;opacity: 0.8; "></div>
+          <div class="mobile_context_app" style="background-color: black;position: fixed;top: 0px; left: 0px;width:3000px;height:5000px;display:none;z-index:2;opacity: 0.8; "></div>
           <button id=" btn-mobile-delete" class="mobile_context_app ui-button ui-widget ui-corner-all" style="color:white;background-color:red;position: fixed;top: 0px; right: 0px;display:none;z-index:1020;font-size:15px"  onclick="apphome()" ><i class="fa fa-power-off"></i>&nbsp;&nbsp;QUIT ADMIN</button>
           <div class="mobile_context_app controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;top: 160px; left: 10px;z-index: 1020;display:none ">
             <!--<button class="ui-button ui-widget ui-corner-all" style="color:white;background-color: orange;border-radius:5px"  onclick="mobile_mqtt()" >MQTT</button>-->
