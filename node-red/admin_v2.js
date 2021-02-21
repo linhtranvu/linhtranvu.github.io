@@ -6,8 +6,8 @@ var params_dashboard = {
 
 
 var editor_host = "https://"; // Production server
-editor_host = "http://localhost/"; // Dev sever setting Home
-editor_host = "http://192.168.1.100/"; // Dev home device setting Home
+// editor_host = "http://localhost/"; // Dev sever setting Home
+// editor_host = "http://192.168.1.100/"; // Dev home device setting Home
 // editor_host = "http://10.212.20.67/"; // Dev sever setting Company 
 var location_url = "http://admin.com:1880"; // Dont allow to comment out.Global variable, must keep
 
