@@ -1,8 +1,8 @@
 jsonp_callback({
-  newest_version: "1.0.8",
+  newest_version: "1.1.0",
   newest_info:
-    "NEW:Phone screen button, More stable voice command ... Current features: WYSIWYG Editor, Push, Location tracking, Siri voice command, Phone screen button, ZeroTier, MQTT Client",
-  script_version: "0.8.5",
-  script_info: "Fully support chart, better move scale",
+    "BIG Update: New version of WYSIWYG Editor, 3x faster, more compability (no dashboard render so IOS could save without changing authentication). Tks for your support and we believe you our new WYSIWYG Editor will satisfy your needs",
+  script_version: "1.0.0",
+  script_info: "New version of WYSIWYG Editor",
 });
 
