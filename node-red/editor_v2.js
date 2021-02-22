@@ -148,18 +148,20 @@ function initTab(tabId){
           <button class="btn-tab btn-save-layout btn-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #0094ce;border: 1px solid" onclick='openTab()' node-id='${tabNode.id}' ><i class="fa fa-folder-open"></i></button>
           <button class="btn-tab btn-save-layout btn-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #0094ce;border: 1px solid" onclick='saveTheme()' node-id='${tabNode.id}' ><i class="fa fa-save"></i></button>
           <button class="btn-tab btn-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #0094ce;border: 1px solid" onclick='expandWindow()' node-id='${tabNode.id}' >Expand</button>
+          <button onclick="editTheme()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #8bc34a; " ><i class="fa fa-cog"></i></button>
+          <button onclick="editorHelp()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #0097a7; " ><i class="fa fa-question-circle"></i></button>
+
           <button class="btn-tab btn-editor ui-button ui-widget ui-corner-all" style="color:white;background-color: #0094ce;border: 1px solid;position:fixed;right:0px" onclick='toggleDashboarEditor()' node-id='${tabNode.id}' ><i class="fa fa-window-minimize"></i></button>          
 
         </div>
         <div id="iframe_dashboard"  style="top: 40px;left: 0;height:calc(100vh - 40px);overflow:auto"></div>
 
-        <div class="editor-mode controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px; right: 70px;z-index:500">
+        <div class="editor-mode controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix" style="position: fixed;bottom: 20px;right:0px;z-index:500">
             <button onclick="editDashboardNode()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #21ba45;"><i class="fa fa-edit"></i> Node</button>   
             <button onclick="revealDashboardNode()"  class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #0094ce;"><i class="fa fa-search"></i> </button>   
 
           <!--<button onclick="addNewNode()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #31ccec;">Add Node</button> -->          
           <button onclick="toggleGridMove()"  class="btn-enable-grid ui-button ui-widget ui-corner-all" style="color:white;background-color: #9c27b0;"><i class="fa fa-arrows-alt"></i> <span></span></button> 
-          <button onclick="editTheme()" class="ui-button ui-widget ui-corner-all" style="color:white;background-color: #d81b60; " ><i class="fa fa-cog"></i></button>
         </div>
 
       `;
@@ -1051,7 +1053,7 @@ function saveLayout(isEditColumn = false) {
   var checkExist = setInterval(function () {
     if ($(".ui-spinner-input").length > 0) {
       clearInterval(checkExist);
-      $(".red-ui-tray").css("z-index", 10);
+      $(".red-ui-tray").css("z-index", 2);
 
       var mdcardList = iframe.find("md-card");
       for(i=0;i<mdcardList.length;i++){
@@ -1166,8 +1168,8 @@ function saveTheme() {
   }).then((result) => {
     /* Read more about isConfirmed, isDenied below */
     if (result.isConfirmed) {
-      clearInterval(checkExistGroupButton); //important for editTheme
-      restoreThemeUI();
+      // clearInterval(checkExistGroupButton); //important for editTheme
+      // restoreThemeUI();
       isLayoutOpen = true;
       saveLayout(false); // var: editColumn:true,false
       //deployAndReload(false); // var: Reload:true,false
@@ -1377,6 +1379,46 @@ function addGroup(tabId) {
     });
   }, 200);
 }
+
+
+function editorHelp(){
+
+  Swal.fire({
+    // title: "<strong>HTML <u>example</u></strong>",
+    // icon: "info",
+    html: `
+    <style>
+    .swal2-content-custom {
+        padding: 0px;
+    }  
+    .swal2-popup-custom {
+        padding: 0px;
+    }    
+    </style>  
+      <iframe
+        style="border:none;"
+        src="https://linhtranvu.github.io/node-red/editor-intro.htm"
+        width="100%"
+        height='${screen.height} - 200'
+      ></iframe>      
+      `,
+    showCloseButton: true,
+    showConfirmButton: false,
+    // showCancelButton: true,
+    focusConfirm: false,
+    // confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+    // confirmButtonAriaLabel: "Thumbs up, great!",
+    // cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+    // cancelButtonAriaLabel: "Thumbs down",
+    grow: "fullscreen",
+    customClass: {
+      content: "swal2-content-custom",
+      popup: "swal2-popup-custom",
+    },
+  });  
+
+}
+
 
 
 
