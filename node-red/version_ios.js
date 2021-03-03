@@ -1,7 +1,7 @@
 jsonp_callback({
-  newest_version: "1.1.0",
+  newest_version: "1.1.2",
   newest_info:
-    "BIG Update: New version of WYSIWYG Editor, 3x faster, more compability (no dashboard render so IOS could save without changing authentication). Tks for your support and we believe you our new WYSIWYG Editor will satisfy your needs",
+    "A thank-you-gift for your support: App now ship with a Desktop version of WYSIWYG Dashboard Editor. Download desktop application and input license key from app",
   script_version: "1.0.0",
   script_info: "New version of WYSIWYG Editor",
 });
